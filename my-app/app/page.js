@@ -6,7 +6,7 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import WhyBestChoice from "@/components/WhyBestChoice";
 import Testimonials from "@/components/Testimonials";
-import ContactForm from "@/components/ContactForm";
+
 import FloatingHalfImage from "@/components/FloatingHalfImage";
 import DomeGallery from "@/components/DomeGallery";
 import Header from '@/Components/Header';
@@ -65,9 +65,9 @@ export default function Home() {
         />
       </section>
 
-      <ContactForm />
-<Testimonials />
-=======
+      
+
+
       <Testimonials />
       
 
