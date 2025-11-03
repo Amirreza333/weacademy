@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -8,6 +9,12 @@ import Testimonials from "@/components/Testimonials";
 import ContactForm from "@/components/ContactForm";
 import FloatingHalfImage from "@/components/FloatingHalfImage";
 import DomeGallery from "@/components/DomeGallery";
+import Header from '@/Components/Header';
+import Footer from '@/Components/Footer'
+
+
+
+
 
 const galleryImages = [
   { src: "/images/Amosingle.jpg" , alt: "تصویر ۱" },
@@ -20,15 +27,21 @@ const galleryImages = [
   { src: "/images/Khale3.jpg", alt: "تصویر ۸" },
 ];
 
+
+
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden">
+
+      <Header/>
+
       <FloatingHalfImage />
 
       <Hero />
 
       <About />
       <WhyBestChoice />
+
 
       <section className="relative w-full h-screen bg-gradient-to-b from-[#0a0a1f] to-[#0f0f2e] overflow-hidden">
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center">
@@ -54,6 +67,12 @@ export default function Home() {
 
       <ContactForm />
 <Testimonials />
+=======
+      <Testimonials />
+      
+
+     <Footer/>
+
     </main>
   );
 }
