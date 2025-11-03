@@ -54,7 +54,7 @@ export default function Footer() {
             <h4 className="text-2xl font-semibold text-[#dbb91e] py-2">
               دسترسی سریع
             </h4>
-            <nav className="space-y-2 px-[20] md:px-[31] text-center">
+            <nav className="space-y-2 px-[20] md:px-[20] text-center">
               {quickLinks.map((item) => (
                 <Link
                   key={item.href}
