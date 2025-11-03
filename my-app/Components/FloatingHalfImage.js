@@ -29,7 +29,10 @@ export default function FloatingDualIcons() {
         }}
       >
         <div
-          className="w-full h-full rounded-full shadow-lg border-2 border-white/30 overflow-hidden"
+          // className="w-full h-full rounded-full shadow-lg border-2 border-white/30 overflow-hidden"
+          // style={{ clipPath: "circle(50% at 50% 50%)" }}
+
+          className="w-full h-full rounded-full shadow-lg border-2 /30 overflow-hidden"
           style={{ clipPath: "circle(50% at 50% 50%)" }}
         >
           <Image
@@ -58,6 +61,9 @@ export default function FloatingDualIcons() {
         <div
           className="w-full h-full rounded-full shadow-lg border-2 border-white/30 overflow-hidden"
           style={{ clipPath: "circle(50% at 50% 50%)" }}
+
+          // className="w-full h-full rounded-full shadow-lg border-2 /30 overflow-hidden"
+          // style={{ clipPath: 'circle(50% at 50% 50%)' }}
         >
           <Image
             src="/images/illustration-man2.png"

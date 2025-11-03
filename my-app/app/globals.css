@@ -46,3 +46,41 @@ body {
   font-weight: 700;
   font-display: swap;
 }
+/* ریست کامل برای Next.js */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root,
+#__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+
+
+.dome-gallery {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.dome-gallery canvas {
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3)); 
+}
+
+
+@media (max-width: 768px) {
+  .dome-gallery {
+    height: 70vh;
+  }
+}

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
-import Aboutus from '@/Components/Aboutus'
+// import Aboutus from '@/Components/Aboutus'
 
 
 function Header() {
