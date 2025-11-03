@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { FaChalkboardTeacher, FaUserGraduate, FaCheck } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
-import ScrollReveal from "@/public/Animation/ScrollReveal";
 
-export default function About() {
+export default function Aboutus() {
   return (
     <section className="bg-black  py-16 px-4 md:py-24" id="about">
       <div className="max-w-7xl  mx-auto">
@@ -23,7 +22,7 @@ export default function About() {
             />
           </div>
 
-          <div className="order-1 md:order-2 space-y-6 text-right">
+          <div className=" space-y-6 text-right">
             <div dir="ltr" className="space-y-6">
               <div className="flex items-center justify-end gap-3">
                 <FaChalkboardTeacher className="text-[#dbb91e] text-xl" />
@@ -50,23 +49,11 @@ export default function About() {
               </div>
             </div>
 
-            <ScrollReveal
-              className="text-lg md:text-xl font-medium text-gray-300 mt-9 leading-loose"
-              baseOpacity={0}
-              enableBlur={true}
-              baseRotation={5}
-              blurStrength={10}
-            >
-              وی آکادمی مرکز مشاوره و آموزش جامعی است که به آرایشگران کمک می‌کند
-              در فضای سالنی، فضای مجازی و فضای آموزشی قوی تر عمل کرده، بیشتر
-              دیده شوند و در نهایت درآمد خود را افزایش دهند. اگر شما هم صاحب کسب
-              و کار آرایشگری هستید و به دنبال رشد و توسعه ی شغل خود می باشید
-              قطعا به حضور افرادی کاردان و آموزش های تخصصی نیاز دارید، تمامی این
-              نیازها در بخش های مختلف وی آکادمی در بالاترین سطح ممکن پاسخگویی و
-              برطرف خواهد شد و شما میتوانید با همراهی و مشاوره گرفتن از افراد
-              متخصص و آموزش دیدن توسط مربیان کاردان در وی آکادمی به تمامی
-              اهدافتان تحقق ببخشید
-            </ScrollReveal>
+            <p className="text-lg md:text-xl font-medium text-gray-300 mt-9 leading-loose">
+              وی آکادمی مرکز مشاوره و آموزش جامعی است که به آرایشگران کمک می‌کند در فضای سالنی، فضای مجازی و فضای آموزشی قوی تر عمل کرده، بیشتر دیده شوند و در نهایت درآمد خود را افزایش دهند.
+
+اگر شما هم صاحب کسب و کار آرایشگری هستید و به دنبال رشد و توسعه ی شغل خود می باشید قطعا به حضور افرادی کاردان و آموزش های تخصصی نیاز دارید، تمامی این نیازها در بخش های مختلف وی آکادمی در بالاترین سطح ممکن پاسخگویی و برطرف خواهد شد و شما میتوانید با همراهی و مشاوره گرفتن از افراد متخصص و آموزش دیدن توسط مربیان کاردان در وی آکادمی به تمامی اهدافتان تحقق ببخشید
+            </p>
           </div>
         </div>
 
