@@ -1,33 +1,78 @@
-// app/page.tsx
-'use client';
+
+"use client";
+
+import Image from "next/image";
+import Hero from "@/components/Hero";
+import About from "@/components/About";
+import WhyBestChoice from "@/components/WhyBestChoice";
+import Testimonials from "@/components/Testimonials";
+import ContactForm from "@/components/ContactForm";
+import FloatingHalfImage from "@/components/FloatingHalfImage";
+import DomeGallery from "@/components/DomeGallery";
 import Header from '@/Components/Header';
 import Footer from '@/Components/Footer'
-import Image from 'next/image';
-import Hero from '@/Components/Hero';
-import About from '@/Components/About';
-import WhyBestChoice from '@/Components/WhyBestChoice';
-import Testimonials from '@/Components/Testimonials';
- 
-import FloatingHalfImage from '@/Components/FloatingHalfImage'; 
-import { useEffect, useRef, useState } from 'react';
+
+
+
+
+
+const galleryImages = [
+  { src: "/images/Amosingle.jpg" , alt: "تصویر ۱" },
+  { src: "/images/Couplepic2.jpg", alt: "تصویر ۲" },
+  { src: "/images/Grouppic.jpg", alt: "تصویر ۳" },
+  { src: "/images/Amosingle2.jpg", alt: "تصویر ۴" },
+  { src: "/images/Grouppic5.jpg", alt: "تصویر ۵" },
+  { src: "/images/Grouppic2.jpg", alt: "تصویر ۶" },
+  { src: "/images/Khale2.jpg", alt: "تصویر ۷" },
+  { src: "/images/Khale3.jpg", alt: "تصویر ۸" },
+];
+
+
 
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden">
+
       <Header/>
+
       <FloatingHalfImage />
 
-     
       <Hero />
+
       <About />
       <WhyBestChoice />
+
+
+      <section className="relative w-full h-screen bg-gradient-to-b from-[#0a0a1f] to-[#0f0f2e] overflow-hidden">
+        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">
+            گالری سه‌بعدی
+          </h2>
+          <p className="text-gray-300 text-sm md:text-base">
+            عکس‌ها رو بکشید و بزرگ کنید
+          </p>
+        </div>
+
+        <DomeGallery
+          images={galleryImages}
+          fit={0.40} 
+          segments={22} 
+          grayscale={false}
+          openedImageWidth="450px"
+          openedImageHeight="600px"
+          imageBorderRadius="32px"
+          openedImageBorderRadius="40px"
+        />
+      </section>
+
+      <ContactForm />
+<Testimonials />
+=======
       <Testimonials />
       
 
      <Footer/>
-      {/* <div className="h-screen bg-gradient-to-b from-purple-50 to-pink-50 flex items-center justify-center"> */}
-      
-      {/* </div> */}
+
     </main>
   );
 }

@@ -3,7 +3,7 @@ import { ArrowRight, Star, Users, Award } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative bg-gradient-to-br from-black to-[#000000] text-[#dbb91e] overflow-hidden">
+    <section className="relative  text-[#dbb91e] overflow-hidden">
      
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-20 left-20 w-72 h-72 bg-yellow-500 rounded-full blur-3xl animate-pulse"></div>

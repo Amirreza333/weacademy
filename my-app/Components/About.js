@@ -4,7 +4,7 @@ import { FaCircleInfo } from "react-icons/fa6";
 
 export default function About() {
   return (
-    <section className="bg-black  py-16 px-4 md:py-24" id="about">
+    <section className=" py-16 px-4 md:py-24" id="about">
       <div className="max-w-7xl  mx-auto">
         <h2 className="text-2xl text-[#dbb91e]  md:text-4xl font-bold text-center mb-16 leading-tight">
           درباره WeAcademy
