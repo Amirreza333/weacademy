@@ -52,7 +52,7 @@ export default function WhyBestChoice() {
   ];
 
   return (
-    <section className="py-20 px-4 bg-gradient-to-r from-black to-black">
+    <section className="py-20 px-4 ">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-[#dbb91e] mb-4">
