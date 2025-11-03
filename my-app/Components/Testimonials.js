@@ -83,7 +83,7 @@ export default function Testimonials() {
         </div>
 
         <div className="text-center mt-16">
-          <button className="bg-gradient-to-r from-[#dbb91e] to-[#aa8558] text-white px-10 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+          <button className="bg-gradient-to-r cursor-pointer from-[#dbb91e] to-[#aa8558] text-white px-10 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
             همین حالا نوبت بگیر و بپیوند!
           </button>
         </div>
