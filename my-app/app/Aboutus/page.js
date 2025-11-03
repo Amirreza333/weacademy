@@ -115,7 +115,7 @@ export default function Aboutus() {
         </div>
 
         <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full"></div>
-        <div>   
+        <div className="py-5">   
         <ScrollReveal
               className="text-lg md:text-xl font-medium text-gray-300 mt-9 leading-loose  "
               baseOpacity={0}
