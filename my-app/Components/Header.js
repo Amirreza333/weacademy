@@ -32,7 +32,7 @@ function Header() {
 
   return (
     <section dir='ltr' className="py-6 px-4 flex justify-center">
-      <header className="relative w-full  bg-[#dbb91e]/70 backdrop-blur-3xl rounded-2xl overflow-hidden py-4 border border-red-200">
+      <header className="relative w-full bg-[#0e121c] backdrop-blur-3xl rounded-2xl overflow-hidden py-4 border border-red-200">
         {/* پس‌زمینه تصویری (اختیاری) */}
         <div
           className="absolute inset-0 bg-[url('/img/mountains.jpg')] bg-cover bg-center opacity-10"
@@ -71,7 +71,7 @@ function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="px-5 py-2 text-blue-50 font-medium rounded-lg transition-all duration-200 hover:bg-[#dbb91e]/80 hover:text-black active:scale-95"
+                  className="px-5 py-2 text-blue-50 font-medium rounded-lg transition-all duration-200 hover:bg-gray-300/60 hover:text-black active:scale-95"
                 >
                   {item.label}
                 </Link>
@@ -89,7 +89,7 @@ function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="px-4 py-3 text-center text-blue-50 font-medium rounded-lg transition-all duration-200 hover:bg-[#dbb91e]/60 hover:text-black active:scale-95"
+                  className="px-4 py-3 text-center text-blue-50 font-medium rounded-lg transition-all duration-200 hover:bg-gray-300/60 hover:text-black active:scale-95"
                   onClick={() => setIsMenuOpen(false)} // بستن منو پس از کلیک
                 >
                   {item.label}
