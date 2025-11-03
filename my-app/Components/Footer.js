@@ -8,7 +8,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-gradient-to-br from-[#dbb91e] to-[#aa8558] text-amber-50 py-12 px-4 rounded-2xl border-2 border-amber-600 ">
+    <footer className=" bg-[#dbb91e]/70 backdrop-blur-3xl text-amber-50 py-12 px-4 rounded-2xl border-2 border-amber-600 ">
       <div className="container mx-auto max-w-6xl border-">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           {/* === بخش ارتباط با ما === */}

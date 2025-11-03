@@ -32,7 +32,7 @@ function Header() {
 
   return (
     <section dir='ltr' className="py-6 px-4 flex justify-center">
-      <header className="relative w-full  bg-gradient-to-b from-[#dbb91e] to-[#aa8558]/80  rounded-2xl overflow-hidden py-4 border border-red-200">
+      <header className="relative w-full  bg-[#dbb91e]/70 backdrop-blur-3xl rounded-2xl overflow-hidden py-4 border border-red-200">
         {/* پس‌زمینه تصویری (اختیاری) */}
         <div
           className="absolute inset-0 bg-[url('/img/mountains.jpg')] bg-cover bg-center opacity-10"
