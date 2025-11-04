@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from "next/image";
@@ -8,16 +7,12 @@ import WhyBestChoice from "@/components/WhyBestChoice";
 import Testimonials from "@/components/Testimonials";
 
 import FloatingHalfImage from "@/components/FloatingHalfImage";
-import DomeGallery from "@/components/DomeGallery";
-import Header from '@/Components/Header';
-import Footer from '@/Components/Footer'
-
-
-
-
+import DomeGallery1 from "@/components/DomeGallery";
+import Header from "@/Components/Header";
+import Footer from "@/Components/Footer";
 
 const galleryImages = [
-  { src: "/images/Amosingle.jpg" , alt: "تصویر ۱" },
+  { src: "/images/Amosingle.jpg", alt: "تصویر ۱" },
   { src: "/images/Couplepic2.jpg", alt: "تصویر ۲" },
   { src: "/images/Grouppic.jpg", alt: "تصویر ۳" },
   { src: "/images/Amosingle2.jpg", alt: "تصویر ۴" },
@@ -27,13 +22,10 @@ const galleryImages = [
   { src: "/images/Khale3.jpg", alt: "تصویر ۸" },
 ];
 
-
-
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden">
-
-      <Header/>
+      <Header />
 
       <FloatingHalfImage />
 
@@ -41,7 +33,6 @@ export default function Home() {
 
       <About />
       <WhyBestChoice />
-
 
       <section className="relative w-full h-screen bg-gradient-to-b from-[#0a0a1f] to-[#0f0f2e] overflow-hidden">
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center">
@@ -53,10 +44,10 @@ export default function Home() {
           </p>
         </div>
 
-        <DomeGallery
+        <DomeGallery1
           images={galleryImages}
-          fit={0.40} 
-          segments={22} 
+          fit={0.4}
+          segments={22}
           grayscale={false}
           openedImageWidth="450px"
           openedImageHeight="600px"
@@ -65,12 +56,9 @@ export default function Home() {
         />
       </section>
 
-
       <Testimonials />
-      
 
-     <Footer/>
-
+      <Footer />
     </main>
   );
 }
