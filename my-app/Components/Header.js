@@ -27,7 +27,7 @@ function Header() {
   const navItems = [
     { label: 'خانه', href: '/' },
     { label: 'درباره ما', href: '/Aboutus' },
-    { label: 'تماس با ما', href: '/contact' },
+    { label: 'تماس با ما', href: '/Contact' },
   ];
 
   return (
