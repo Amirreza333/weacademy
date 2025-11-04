@@ -5,11 +5,17 @@ import Hero from "@/components/Hero";
 import About from "@/components/About";
 import WhyBestChoice from "@/components/WhyBestChoice";
 import Testimonials from "@/components/Testimonials";
-
 import FloatingHalfImage from "@/components/FloatingHalfImage";
+<<<<<<< HEAD
 import DomeGallery1 from "@/components/DomeGallery";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
+=======
+import DomeGallery from "@/components/DomeGallery";
+import Header from "@/Components/Header";
+import Footer from "@/Components/Footer";
+
+>>>>>>> 7a75f4004c13246cbaaa9f95835350ca4a3cd0bd
 
 const galleryImages = [
   { src: "/images/Amosingle.jpg", alt: "تصویر ۱" },
@@ -46,13 +52,22 @@ export default function Home() {
 
         <DomeGallery1
           images={galleryImages}
+<<<<<<< HEAD
           fit={0.4}
           segments={22}
+=======
+          fit={0.45}
+          segments={28}
+>>>>>>> 7a75f4004c13246cbaaa9f95835350ca4a3cd0bd
           grayscale={false}
-          openedImageWidth="450px"
-          openedImageHeight="600px"
-          imageBorderRadius="32px"
-          openedImageBorderRadius="40px"
+          openedImageWidth="500px"
+          openedImageHeight="650px"
+          imageBorderRadius="20px"
+          openedImageBorderRadius="32px"
+          minRadius={500}
+          maxRadius={1200}
+          maxVerticalRotationDeg={80}
+          dragSensitivity={15}
         />
       </section>
 
