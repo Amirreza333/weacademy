@@ -66,7 +66,7 @@ export default function Dashboard() {
             { icon: Home, label: 'خانه', href: '/' },
             { icon: LayoutDashboard, label: 'داشبورد', active: true },
             { icon: Users, label: 'کاربران', href: '/DashboardContacts' },
-            { icon: ShoppingCart, label: 'سفارشات' },
+            { icon: ShoppingCart, label: 'سفارشات' , href: '/mahsolat' },
             { icon: DollarSign, label: 'مالی' },
             { icon: TrendingUp, label: 'تحلیل' },
           ].map((item, i) => {
