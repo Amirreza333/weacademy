@@ -70,6 +70,7 @@ export default function Aboutus() {
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#dbb91e] via-yellow-500 to-[#dbb91e] bg-clip-text text-transparent">
           درباره WeAcademy
         </h2>
+        
 
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="flex justify-center items-center">
@@ -114,8 +115,12 @@ export default function Aboutus() {
           </div>
         </div>
 
+
         <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full items-center"></div>
         <div>   
+
+        <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full"></div>
+        <div className="py-5">   
         <ScrollReveal
               className="text-lg md:text-3xl font-medium text-gray-300 mt-9 leading-loose  "
               baseOpacity={0}

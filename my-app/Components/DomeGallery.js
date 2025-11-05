@@ -1,4 +1,3 @@
-// components/DomeGallery.js
 'use client';
 
 import { useEffect, useMemo, useRef, useCallback } from 'react';
@@ -6,18 +5,17 @@ import { useGesture } from '@use-gesture/react';
 
 /* ==================== تنظیمات پیش‌فرض ==================== */
 const DEFAULTS = {
-  maxVerticalRotationDeg: 5,
-  dragSensitivity: 20,
+  maxVerticalRotationDeg: 80,
+  dragSensitivity: 15,
   enlargeTransitionMs: 300,
-  segments: 35,
+  segments: 28,
 };
 
 /* ==================== توابع کمکی ==================== */
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
-const normalizeAngle = d => ((d % 360) + 360) % 360;
 const wrapAngleSigned = deg => {
-  const a = (((deg + 180) % 360) + 360) % 360;
-  return a - 180;
+  const a = ((deg % 360) + 360) % 360;
+  return a > 180 ? a - 360 : a;
 };
 
 const getDataNumber = (el, name, fallback) => {
@@ -26,31 +24,54 @@ const getDataNumber = (el, name, fallback) => {
   return Number.isFinite(n) ? n : fallback;
 };
 
-/* ==================== ساخت آیتم‌ها ==================== */
+/* ==================== ساخت آیتم‌ها – کره کامل ==================== */
 function buildItems(pool, seg) {
-  const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
-  const evenYs = [-4, -2, 0, 2, 4];
-  const oddYs = [-3, -1, 1, 3, 5];
+  const items = [];
+  const segments = seg;
 
-  const coords = xCols.flatMap((x, c) => {
-    const ys = c % 2 === 0 ? evenYs : oddYs;
-    return ys.map(y => ({ x, y, sizeX: 3, sizeY: 3 }));
-  });
+  const phiStep = 180 / segments; // از -90 تا +90
+  const thetaStepBase = 360 / segments;
 
-  const totalSlots = coords.length;
-  if (pool.length === 0) return coords.map(c => ({ ...c, src: '', alt: '' }));
+  let index = 0;
 
+  for (let i = 0; i < segments; i++) {
+    const phi = -90 + i * phiStep + phiStep / 2;
+    const radius = Math.cos((phi * Math.PI) / 180);
+    const y = Math.sin((phi * Math.PI) / 180);
+
+    const colsInRow = Math.max(1, Math.round(segments * Math.abs(radius)));
+    const actualThetaStep = 360 / colsInRow;
+
+    for (let j = 0; j < colsInRow; j++) {
+      const theta = j * actualThetaStep;
+      items.push({
+        x: theta,           // زاویه افقی
+        y: phi,             // زاویه عمودی
+        sizeX: 1.2,
+        sizeY: 1.2,
+        theta,
+        phi,
+        src: '',
+        alt: '',
+      });
+      index++;
+    }
+  }
+
+  // پر کردن تصاویر
   const normalizedImages = pool.map(img => ({
     src: img.url || img.src || '',
     alt: img.alt || img.caption || '',
   }));
 
+  const totalSlots = items.length;
   const usedImages = Array.from({ length: totalSlots }, (_, i) =>
-    normalizedImages[i % normalizedImages.length]
+    normalizedImages[i % normalizedImages.length] || { src: '', alt: '' }
   );
 
+  // جلوگیری از تکرار متوالی
   for (let i = 1; i < usedImages.length; i++) {
-    if (usedImages[i].src === usedImages[i - 1].src) {
+    if (usedImages[i].src === usedImages[i - 1].src && usedImages.length > 2) {
       for (let j = i + 1; j < usedImages.length; j++) {
         if (usedImages[j].src !== usedImages[i].src) {
           [usedImages[i], usedImages[j]] = [usedImages[j], usedImages[i]];
@@ -60,28 +81,25 @@ function buildItems(pool, seg) {
     }
   }
 
-  return coords.map((c, i) => ({
-    ...c,
+  return items.map((item, i) => ({
+    ...item,
     src: usedImages[i].src,
     alt: usedImages[i].alt,
   }));
 }
 
 /* ==================== محاسبه چرخش پایه ==================== */
-function computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments) {
-  const unit = 360 / segments / 2;
-  const rotateY = unit * (offsetX + (sizeX - 1) / 2);
-  const rotateX = unit * (offsetY - (sizeY - 1) / 2);
-  return { rotateX, rotateY };
+function computeItemBaseRotation(offsetX, offsetY) {
+  return { rotateX: -offsetY, rotateY: offsetX };
 }
 
 /* ==================== کامپوننت اصلی ==================== */
 export default function DomeGallery({
   images = [],
-  fit = 0.5,
+  fit = 0.45,
   fitBasis = 'auto',
-  minRadius = 600,
-  maxRadius = Infinity,
+  minRadius = 500,
+  maxRadius = 1200,
   padFactor = 0.25,
   overlayBlurColor = '#060010',
   maxVerticalRotationDeg = DEFAULTS.maxVerticalRotationDeg,
@@ -89,11 +107,11 @@ export default function DomeGallery({
   enlargeTransitionMs = DEFAULTS.enlargeTransitionMs,
   segments = DEFAULTS.segments,
   dragDampening = 2,
-  openedImageWidth = '250px',
-  openedImageHeight = '350px',
-  imageBorderRadius = '30px',
-  openedImageBorderRadius = '30px',
-  grayscale = true,
+  openedImageWidth = '500px',
+  openedImageHeight = '650px',
+  imageBorderRadius = '20px',
+  openedImageBorderRadius = '32px',
+  grayscale = false,
 }) {
   const rootRef = useRef(null);
   const mainRef = useRef(null);
@@ -279,16 +297,12 @@ export default function DomeGallery({
     focusedElRef.current = el;
     el.dataset.focused = 'true';
 
-    const offsetX = getDataNumber(parent, 'offsetX', 0);
-    const offsetY = getDataNumber(parent, 'offsetY', 0);
-    const sizeX = getDataNumber(parent, 'sizeX', 2);
-    const sizeY = getDataNumber(parent, 'sizeY', 2);
-    const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments);
-    const parentY = normalizeAngle(parentRot.rotateY);
-    const globalY = normalizeAngle(rotationRef.current.y);
-    let rotY = -(parentY + globalY) % 360;
-    if (rotY < -180) rotY += 360;
-    const rotX = -parentRot.rotateX - rotationRef.current.x;
+    const theta = getDataNumber(parent, 'theta', 0);
+    const phi = getDataNumber(parent, 'phi', 0);
+    const parentRot = computeItemBaseRotation(theta, phi);
+    const globalY = rotationRef.current.y;
+    let rotY = wrapAngleSigned(-(theta + globalY));
+    const rotX = -phi - rotationRef.current.x;
 
     const refDiv = document.createElement('div');
     refDiv.className = 'absolute inset-0 opacity-0';
@@ -320,8 +334,10 @@ export default function DomeGallery({
 
     const img = document.createElement('img');
     img.src = parent.dataset.src || el.querySelector('img')?.src || '';
-    img.className = 'max-w-full max-h-full object-contain rounded-3xl';
+    img.className = 'max-w-full max-h-full object-contain';
     img.style.borderRadius = openedImageBorderRadius;
+    img.style.maxHeight = openedImageHeight;
+    img.style.maxWidth = openedImageWidth;
     overlay.appendChild(img);
     viewerRef.current.appendChild(overlay);
 
@@ -353,11 +369,10 @@ export default function DomeGallery({
     };
 
     overlay.onclick = close;
-    // اصلاح نهایی: بدون ! و با چک null
     if (scrimRef.current) {
       scrimRef.current.onclick = close;
     }
-  }, [enlargeTransitionMs, lockScroll, segments, unlockScroll, openedImageBorderRadius]);
+  }, [enlargeTransitionMs, lockScroll, unlockScroll, openedImageBorderRadius, openedImageWidth, openedImageHeight]);
 
   const onTileClick = useCallback((e) => {
     if (draggingRef.current || movedRef.current || performance.now() - lastDragEndAt.current < 80 || openingRef.current) return;
@@ -371,8 +386,6 @@ export default function DomeGallery({
       style={{
         '--radius': '600px',
         '--viewer-pad': '16px',
-        '--segments-x': segments,
-        '--segments-y': segments,
         '--overlay-blur-color': overlayBlurColor,
         '--tile-radius': imageBorderRadius,
         '--enlarge-radius': openedImageBorderRadius,
@@ -391,25 +404,21 @@ export default function DomeGallery({
           >
             {items.map((it, i) => (
               <div
-                key={`${it.x},${it.y},${i}`}
+                key={`${it.theta},${it.phi},${i}`}
                 className="absolute"
                 data-src={it.src}
-                data-offset-x={it.x}
-                data-offset-y={it.y}
-                data-size-x={it.sizeX}
-                data-size-y={it.sizeY}
+                data-theta={it.theta}
+                data-phi={it.phi}
                 style={{
                   left: '50%',
                   top: '50%',
-                  width: `calc(100% / var(--segments-x) * ${it.sizeX})`,
-                  height: `calc(100% / var(--segments-y) * ${it.sizeY})`,
-                  marginLeft: `calc(-100% / var(--segments-x) * ${it.sizeX} / 2)`,
-                  marginTop: `calc(-100% / var(--segments-y) * ${it.sizeY} / 2)`,
+                  width: `calc(100% / ${segments} * ${it.sizeX})`,
+                  height: `calc(100% / ${segments} * ${it.sizeY})`,
+                  marginLeft: `calc(-100% / ${segments} * ${it.sizeX} / 2)`,
+                  marginTop: `calc(-100% / ${segments} * ${it.sizeY} / 2)`,
                   transform: `
-                    translateX(calc(${it.x} * 100% / var(--segments-x)))
-                    translateY(calc(${it.y} * 100% / var(--segments-y)))
-                    rotateY(calc(${it.x} * 360deg / var(--segments-x) / 2))
-                    rotateX(calc(${it.y} * -360deg / var(--segments-y) / 2))
+                    rotateY(${it.theta}deg)
+                    rotateX(${it.phi}deg)
                     translateZ(var(--radius))
                   `,
                   transformStyle: 'preserve-3d',
