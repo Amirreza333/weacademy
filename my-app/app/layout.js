@@ -1,8 +1,16 @@
+
 'use client';
 
-import Beams from '../public/Animation/Beams.jsx';
+import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
 import './globals.css';
+
+
+const DynamicBeams = dynamic(
+  () => import('../public/Animation/Beams.jsx'),
+  { ssr: false }
+);
+
 
 const vazir = localFont({
   src: '../public/Fonts/Vazirmatn-Medium.ttf',
@@ -16,25 +24,11 @@ export default function RootLayout({ children }) {
     <html lang="fa" dir="rtl">
       <head />
       <body
-        className={vazir.className}
-        style={{
-          margin: 0,
-          padding: 0,
-          minHeight: '100vh',
-          position: 'relative',
-          overflowX: 'hidden',
-        }}
+        className={`${vazir.className} antialiased m-0 p-0 min-h-screen relative overflow-x-hidden`}
       >
       
-        <div
-          style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: -1,
-            pointerEvents: 'none',
-          }}
-        >
-          <Beams
+        <div className="fixed inset-0 -z-10 pointer-events-none">
+          <DynamicBeams
             beamWidth={2}
             beamHeight={15}
             beamNumber={12}
@@ -46,8 +40,8 @@ export default function RootLayout({ children }) {
           />
         </div>
 
-       
-        <main style={{ position: 'relative', zIndex: 1, minHeight: '100vh' }}>
+      
+        <main className="relative z-10 min-h-screen">
           {children}
         </main>
       </body>

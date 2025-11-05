@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useRef, useCallback } from 'react';
-import { useGesture } from '@use-gesture/react';
+import { useEffect, useMemo, useRef, useCallback } from "react";
+import { useGesture } from "@use-gesture/react";
 
 /* ==================== تنظیمات پیش‌فرض ==================== */
 const DEFAULTS = {
@@ -13,7 +13,7 @@ const DEFAULTS = {
 
 /* ==================== توابع کمکی ==================== */
 const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
-const wrapAngleSigned = deg => {
+const wrapAngleSigned = (deg) => {
   const a = ((deg % 360) + 360) % 360;
   return a > 180 ? a - 360 : a;
 };
@@ -45,28 +45,30 @@ function buildItems(pool, seg) {
     for (let j = 0; j < colsInRow; j++) {
       const theta = j * actualThetaStep;
       items.push({
-        x: theta,           // زاویه افقی
-        y: phi,             // زاویه عمودی
+        x: theta, // زاویه افقی
+        y: phi, // زاویه عمودی
         sizeX: 1.2,
         sizeY: 1.2,
         theta,
         phi,
-        src: '',
-        alt: '',
+        src: "",
+        alt: "",
       });
       index++;
     }
   }
 
   // پر کردن تصاویر
-  const normalizedImages = pool.map(img => ({
-    src: img.url || img.src || '',
-    alt: img.alt || img.caption || '',
+  const normalizedImages = pool.map((img) => ({
+    src: img.url || img.src || "",
+    alt: img.alt || img.caption || "",
   }));
 
   const totalSlots = items.length;
-  const usedImages = Array.from({ length: totalSlots }, (_, i) =>
-    normalizedImages[i % normalizedImages.length] || { src: '', alt: '' }
+  const usedImages = Array.from(
+    { length: totalSlots },
+    (_, i) =>
+      normalizedImages[i % normalizedImages.length] || { src: "", alt: "" }
   );
 
   // جلوگیری از تکرار متوالی
@@ -97,20 +99,20 @@ function computeItemBaseRotation(offsetX, offsetY) {
 export default function DomeGallery({
   images = [],
   fit = 0.45,
-  fitBasis = 'auto',
+  fitBasis = "auto",
   minRadius = 500,
   maxRadius = 1200,
   padFactor = 0.25,
-  overlayBlurColor = '#060010',
+  overlayBlurColor = "#060010",
   maxVerticalRotationDeg = DEFAULTS.maxVerticalRotationDeg,
   dragSensitivity = DEFAULTS.dragSensitivity,
   enlargeTransitionMs = DEFAULTS.enlargeTransitionMs,
   segments = DEFAULTS.segments,
   dragDampening = 2,
-  openedImageWidth = '500px',
-  openedImageHeight = '650px',
-  imageBorderRadius = '20px',
-  openedImageBorderRadius = '32px',
+  openedImageWidth = "500px",
+  openedImageHeight = "650px",
+  imageBorderRadius = "20px",
+  openedImageBorderRadius = "32px",
   grayscale = false,
 }) {
   const rootRef = useRef(null);
@@ -144,14 +146,14 @@ export default function DomeGallery({
   const lockScroll = useCallback(() => {
     if (scrollLockedRef.current) return;
     scrollLockedRef.current = true;
-    document.body.classList.add('overflow-hidden');
+    document.body.classList.add("overflow-hidden");
   }, []);
 
   const unlockScroll = useCallback(() => {
     if (!scrollLockedRef.current) return;
-    if (rootRef.current?.dataset.enlarging === 'true') return;
+    if (rootRef.current?.dataset.enlarging === "true") return;
     scrollLockedRef.current = false;
-    document.body.classList.remove('overflow-hidden');
+    document.body.classList.remove("overflow-hidden");
   }, []);
 
   const stopInertia = useCallback(() => {
@@ -161,36 +163,43 @@ export default function DomeGallery({
     }
   }, []);
 
-  const startInertia = useCallback((vx, vy) => {
-    const MAX_V = 1.4;
-    let vX = clamp(vx, -MAX_V, MAX_V) * 80;
-    let vY = clamp(vy, -MAX_V, MAX_V) * 80;
-    let frames = 0;
-    const d = clamp(dragDampening ?? 0.6, 0, 1);
-    const frictionMul = 0.94 + 0.055 * d;
-    const stopThreshold = 0.015 - 0.01 * d;
-    const maxFrames = Math.round(90 + 270 * d);
+  const startInertia = useCallback(
+    (vx, vy) => {
+      const MAX_V = 1.4;
+      let vX = clamp(vx, -MAX_V, MAX_V) * 80;
+      let vY = clamp(vy, -MAX_V, MAX_V) * 80;
+      let frames = 0;
+      const d = clamp(dragDampening ?? 0.6, 0, 1);
+      const frictionMul = 0.94 + 0.055 * d;
+      const stopThreshold = 0.015 - 0.01 * d;
+      const maxFrames = Math.round(90 + 270 * d);
 
-    const step = () => {
-      vX *= frictionMul;
-      vY *= frictionMul;
-      if (Math.abs(vX) < stopThreshold && Math.abs(vY) < stopThreshold) {
-        inertiaRAF.current = null;
-        return;
-      }
-      if (++frames > maxFrames) {
-        inertiaRAF.current = null;
-        return;
-      }
-      const nextX = clamp(rotationRef.current.x - vY / 200, -maxVerticalRotationDeg, maxVerticalRotationDeg);
-      const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
-      rotationRef.current = { x: nextX, y: nextY };
-      applyTransform(nextX, nextY);
+      const step = () => {
+        vX *= frictionMul;
+        vY *= frictionMul;
+        if (Math.abs(vX) < stopThreshold && Math.abs(vY) < stopThreshold) {
+          inertiaRAF.current = null;
+          return;
+        }
+        if (++frames > maxFrames) {
+          inertiaRAF.current = null;
+          return;
+        }
+        const nextX = clamp(
+          rotationRef.current.x - vY / 200,
+          -maxVerticalRotationDeg,
+          maxVerticalRotationDeg
+        );
+        const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
+        rotationRef.current = { x: nextX, y: nextY };
+        applyTransform(nextX, nextY);
+        inertiaRAF.current = requestAnimationFrame(step);
+      };
+      stopInertia();
       inertiaRAF.current = requestAnimationFrame(step);
-    };
-    stopInertia();
-    inertiaRAF.current = requestAnimationFrame(step);
-  }, [dragDampening, maxVerticalRotationDeg, stopInertia, applyTransform]);
+    },
+    [dragDampening, maxVerticalRotationDeg, stopInertia, applyTransform]
+  );
 
   useGesture(
     {
@@ -203,8 +212,20 @@ export default function DomeGallery({
         startRotRef.current = { ...rotationRef.current };
         startPosRef.current = { x: evt.clientX, y: evt.clientY };
       },
-      onDrag: ({ event, last, velocity = [0, 0], direction = [0, 0], movement }) => {
-        if (focusedElRef.current || !draggingRef.current || !startPosRef.current || !event) return;
+      onDrag: ({
+        event,
+        last,
+        velocity = [0, 0],
+        direction = [0, 0],
+        movement,
+      }) => {
+        if (
+          focusedElRef.current ||
+          !draggingRef.current ||
+          !startPosRef.current ||
+          !event
+        )
+          return;
         const evt = event;
         const dxTotal = evt.clientX - startPosRef.current.x;
         const dyTotal = evt.clientY - startPosRef.current.y;
@@ -213,10 +234,19 @@ export default function DomeGallery({
           movedRef.current = true;
         }
 
-        const nextX = clamp(startRotRef.current.x - dyTotal / dragSensitivity, -maxVerticalRotationDeg, maxVerticalRotationDeg);
-        const nextY = wrapAngleSigned(startRotRef.current.y + dxTotal / dragSensitivity);
+        const nextX = clamp(
+          startRotRef.current.x - dyTotal / dragSensitivity,
+          -maxVerticalRotationDeg,
+          maxVerticalRotationDeg
+        );
+        const nextY = wrapAngleSigned(
+          startRotRef.current.y + dxTotal / dragSensitivity
+        );
 
-        if (rotationRef.current.x !== nextX || rotationRef.current.y !== nextY) {
+        if (
+          rotationRef.current.x !== nextX ||
+          rotationRef.current.y !== nextY
+        ) {
           rotationRef.current = { x: nextX, y: nextY };
           applyTransform(nextX, nextY);
         }
@@ -228,13 +258,18 @@ export default function DomeGallery({
           let vx = vMagX * dirX;
           let vy = vMagY * dirY;
 
-          if (Math.abs(vx) < 0.001 && Math.abs(vy) < 0.001 && Array.isArray(movement)) {
+          if (
+            Math.abs(vx) < 0.001 &&
+            Math.abs(vy) < 0.001 &&
+            Array.isArray(movement)
+          ) {
             const [mx, my] = movement;
             vx = clamp((mx / dragSensitivity) * 0.02, -1.2, 1.2);
             vy = clamp((my / dragSensitivity) * 0.02, -1.2, 1.2);
           }
 
-          if (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005) startInertia(vx, vy);
+          if (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005)
+            startInertia(vx, vy);
           if (movedRef.current) lastDragEndAt.current = performance.now();
           movedRef.current = false;
         }
@@ -247,19 +282,30 @@ export default function DomeGallery({
     const root = rootRef.current;
     if (!root) return;
 
-    const ro = new ResizeObserver(entries => {
+    const ro = new ResizeObserver((entries) => {
       const cr = entries[0].contentRect;
-      const w = Math.max(1, cr.width), h = Math.max(1, cr.height);
-      const minDim = Math.min(w, h), maxDim = Math.max(w, h);
+      const w = Math.max(1, cr.width),
+        h = Math.max(1, cr.height);
+      const minDim = Math.min(w, h),
+        maxDim = Math.max(w, h);
       const aspect = w / h;
 
       let basis;
       switch (fitBasis) {
-        case 'min': basis = minDim; break;
-        case 'max': basis = maxDim; break;
-        case 'width': basis = w; break;
-        case 'height': basis = h; break;
-        default: basis = aspect >= 1.3 ? w : minDim;
+        case "min":
+          basis = minDim;
+          break;
+        case "max":
+          basis = maxDim;
+          break;
+        case "width":
+          basis = w;
+          break;
+        case "height":
+          basis = h;
+          break;
+        default:
+          basis = aspect >= 1.3 ? w : minDim;
       }
 
       let radius = basis * fit;
@@ -268,138 +314,188 @@ export default function DomeGallery({
       lockedRadiusRef.current = Math.round(radius);
 
       const viewerPad = Math.max(8, Math.round(minDim * padFactor));
-      root.style.setProperty('--radius', `${lockedRadiusRef.current}px`);
-      root.style.setProperty('--viewer-pad', `${viewerPad}px`);
-      root.style.setProperty('--overlay-blur-color', overlayBlurColor);
-      root.style.setProperty('--tile-radius', imageBorderRadius);
-      root.style.setProperty('--enlarge-radius', openedImageBorderRadius);
-      root.style.setProperty('--image-filter', grayscale ? 'grayscale(1)' : 'none');
+      root.style.setProperty("--radius", `${lockedRadiusRef.current}px`);
+      root.style.setProperty("--viewer-pad", `${viewerPad}px`);
+      root.style.setProperty("--overlay-blur-color", overlayBlurColor);
+      root.style.setProperty("--tile-radius", imageBorderRadius);
+      root.style.setProperty("--enlarge-radius", openedImageBorderRadius);
+      root.style.setProperty(
+        "--image-filter",
+        grayscale ? "grayscale(1)" : "none"
+      );
 
       applyTransform(rotationRef.current.x, rotationRef.current.y);
     });
 
     ro.observe(root);
     return () => ro.disconnect();
-  }, [fit, fitBasis, minRadius, maxRadius, padFactor, overlayBlurColor, grayscale, imageBorderRadius, openedImageBorderRadius, applyTransform]);
+  }, [
+    fit,
+    fitBasis,
+    minRadius,
+    maxRadius,
+    padFactor,
+    overlayBlurColor,
+    grayscale,
+    imageBorderRadius,
+    openedImageBorderRadius,
+    applyTransform,
+  ]);
 
-  const openItemFromElement = useCallback((el) => {
-    if (openingRef.current || !viewerRef.current || !frameRef.current || !mainRef.current) return;
-    openingRef.current = true;
-    lockScroll();
+  const openItemFromElement = useCallback(
+    (el) => {
+      if (
+        openingRef.current ||
+        !viewerRef.current ||
+        !frameRef.current ||
+        !mainRef.current
+      )
+        return;
+      openingRef.current = true;
+      lockScroll();
 
-    const parent = el.parentElement;
-    if (!parent) {
-      openingRef.current = false;
-      unlockScroll();
-      return;
-    }
-
-    focusedElRef.current = el;
-    el.dataset.focused = 'true';
-
-    const theta = getDataNumber(parent, 'theta', 0);
-    const phi = getDataNumber(parent, 'phi', 0);
-    const parentRot = computeItemBaseRotation(theta, phi);
-    const globalY = rotationRef.current.y;
-    let rotY = wrapAngleSigned(-(theta + globalY));
-    const rotX = -phi - rotationRef.current.x;
-
-    const refDiv = document.createElement('div');
-    refDiv.className = 'absolute inset-0 opacity-0';
-    refDiv.style.transform = `rotateX(${-parentRot.rotateX}deg) rotateY(${-parentRot.rotateY}deg)`;
-    parent.appendChild(refDiv);
-    void refDiv.offsetHeight;
-
-    const tileR = refDiv.getBoundingClientRect();
-    const mainR = mainRef.current.getBoundingClientRect();
-    const frameR = frameRef.current.getBoundingClientRect();
-
-    parent.removeChild(refDiv);
-
-    if (tileR.width <= 0) {
-      openingRef.current = false;
-      focusedElRef.current = null;
-      unlockScroll();
-      return;
-    }
-
-    el.style.visibility = 'hidden';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'absolute flex items-center justify-center opacity-0 transition-all duration-300 ease-in-out z-50';
-    overlay.style.left = `${frameR.left - mainR.left}px`;
-    overlay.style.top = `${frameR.top - mainR.top}px`;
-    overlay.style.width = `${frameR.width}px`;
-    overlay.style.height = `${frameR.height}px`;
-
-    const img = document.createElement('img');
-    img.src = parent.dataset.src || el.querySelector('img')?.src || '';
-    img.className = 'max-w-full max-h-full object-contain';
-    img.style.borderRadius = openedImageBorderRadius;
-    img.style.maxHeight = openedImageHeight;
-    img.style.maxWidth = openedImageWidth;
-    overlay.appendChild(img);
-    viewerRef.current.appendChild(overlay);
-
-    const tx0 = tileR.left - frameR.left;
-    const ty0 = tileR.top - frameR.top;
-    const sx0 = tileR.width / frameR.width;
-    const sy0 = tileR.height / frameR.height;
-
-    overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
-
-    requestAnimationFrame(() => {
-      overlay.style.opacity = '1';
-      overlay.style.transform = 'translate(0px, 0px) scale(1, 1)';
-      if (rootRef.current) rootRef.current.dataset.enlarging = 'true';
-    });
-
-    const close = () => {
-      overlay.style.opacity = '0';
-      overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
-      setTimeout(() => {
-        if (overlay.parentElement) viewerRef.current?.removeChild(overlay);
-        el.style.visibility = '';
-        delete el.dataset.focused;
-        focusedElRef.current = null;
+      const parent = el.parentElement;
+      if (!parent) {
         openingRef.current = false;
-        if (rootRef.current) rootRef.current.dataset.enlarging = 'false';
         unlockScroll();
-      }, enlargeTransitionMs);
-    };
+        return;
+      }
 
-    overlay.onclick = close;
-    if (scrimRef.current) {
-      scrimRef.current.onclick = close;
-    }
-  }, [enlargeTransitionMs, lockScroll, unlockScroll, openedImageBorderRadius, openedImageWidth, openedImageHeight]);
+      focusedElRef.current = el;
+      el.dataset.focused = "true";
 
-  const onTileClick = useCallback((e) => {
-    if (draggingRef.current || movedRef.current || performance.now() - lastDragEndAt.current < 80 || openingRef.current) return;
-    openItemFromElement(e.currentTarget);
-  }, [openItemFromElement]);
+      const theta = getDataNumber(parent, "theta", 0);
+      const phi = getDataNumber(parent, "phi", 0);
+      const parentRot = computeItemBaseRotation(theta, phi);
+      const globalY = rotationRef.current.y;
+      let rotY = wrapAngleSigned(-(theta + globalY));
+      const rotX = -phi - rotationRef.current.x;
+
+      const refDiv = document.createElement("div");
+      refDiv.className = "absolute inset-0 opacity-0";
+      refDiv.style.transform = `rotateX(${-parentRot.rotateX}deg) rotateY(${-parentRot.rotateY}deg)`;
+      parent.appendChild(refDiv);
+      void refDiv.offsetHeight;
+
+      const tileR = refDiv.getBoundingClientRect();
+      const mainR = mainRef.current.getBoundingClientRect();
+      const frameR = frameRef.current.getBoundingClientRect();
+
+      parent.removeChild(refDiv);
+
+      if (tileR.width <= 0) {
+        openingRef.current = false;
+        focusedElRef.current = null;
+        unlockScroll();
+        return;
+      }
+
+      el.style.visibility = "hidden";
+
+      const overlay = document.createElement("div");
+      overlay.className =
+        "absolute flex items-center justify-center opacity-0 transition-all duration-300 ease-in-out z-50";
+      overlay.style.left = `${frameR.left - mainR.left}px`;
+      overlay.style.top = `${frameR.top - mainR.top}px`;
+      overlay.style.width = `${frameR.width}px`;
+      overlay.style.height = `${frameR.height}px`;
+
+      const img = document.createElement("img");
+      img.src = parent.dataset.src || el.querySelector("img")?.src || "";
+      img.className = "max-w-full max-h-full object-contain";
+      img.style.borderRadius = openedImageBorderRadius;
+      img.style.maxHeight = openedImageHeight;
+      img.style.maxWidth = openedImageWidth;
+      overlay.appendChild(img);
+      viewerRef.current.appendChild(overlay);
+
+      const tx0 = tileR.left - frameR.left;
+      const ty0 = tileR.top - frameR.top;
+      const sx0 = tileR.width / frameR.width;
+      const sy0 = tileR.height / frameR.height;
+
+      overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
+
+      requestAnimationFrame(() => {
+        overlay.style.opacity = "1";
+        overlay.style.transform = "translate(0px, 0px) scale(1, 1)";
+        if (rootRef.current) rootRef.current.dataset.enlarging = "true";
+      });
+
+      const close = () => {
+        overlay.style.opacity = "0";
+        overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
+        setTimeout(() => {
+          if (overlay.parentElement) viewerRef.current?.removeChild(overlay);
+          el.style.visibility = "";
+          delete el.dataset.focused;
+          focusedElRef.current = null;
+          openingRef.current = false;
+          if (rootRef.current) rootRef.current.dataset.enlarging = "false";
+          unlockScroll();
+        }, enlargeTransitionMs);
+      };
+
+      overlay.onclick = close;
+      if (scrimRef.current) {
+        scrimRef.current.onclick = close;
+      }
+    },
+    [
+      enlargeTransitionMs,
+      lockScroll,
+      unlockScroll,
+      openedImageBorderRadius,
+      openedImageWidth,
+      openedImageHeight,
+    ]
+  );
+
+  const onTileClick = useCallback(
+    (e) => {
+      if (
+        draggingRef.current ||
+        movedRef.current ||
+        performance.now() - lastDragEndAt.current < 80 ||
+        openingRef.current
+      )
+        return;
+      openItemFromElement(e.currentTarget);
+    },
+    [openItemFromElement]
+  );
 
   return (
     <div
       ref={rootRef}
-      className="relative w-full h-full overflow-hidden bg-black select-none touch-none"
+      className="relative w-full h-full overflow-hidden select-none touch-none"
       style={{
-        '--radius': '600px',
-        '--viewer-pad': '16px',
-        '--overlay-blur-color': overlayBlurColor,
-        '--tile-radius': imageBorderRadius,
-        '--enlarge-radius': openedImageBorderRadius,
-        '--image-filter': grayscale ? 'grayscale(1)' : 'none',
+        "--radius": "600px",
+        "--viewer-pad": "16px",
+        "--overlay-blur-color": overlayBlurColor,
+        "--tile-radius": imageBorderRadius,
+        "--enlarge-radius": openedImageBorderRadius,
+        "--image-filter": grayscale ? "grayscale(1)" : "none",
+        
       }}
     >
-      <main ref={mainRef} className="w-full h-full" style={{ perspective: '1200px' }}>
-        <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d' }}>
+      <main
+        ref={mainRef}
+        className="w-full h-full"
+        style={{ perspective: "1200px" }}
+      >
+        <div
+          className="relative w-full h-full"
+          style={{ transformStyle: "preserve-3d" }}
+        >
           <div
             ref={sphereRef}
             className="absolute inset-0"
             style={{
-              transformStyle: 'preserve-3d',
-              transform: 'translateZ(calc(var(--radius) * -1)) rotateX(0deg) rotateY(0deg)',
+              transformStyle: "preserve-3d",
+              transform:
+                "translateZ(calc(var(--radius) * -1)) rotateX(0deg) rotateY(0deg)",
+           
             }}
           >
             {items.map((it, i) => (
@@ -410,8 +506,8 @@ export default function DomeGallery({
                 data-theta={it.theta}
                 data-phi={it.phi}
                 style={{
-                  left: '50%',
-                  top: '50%',
+                  left: "50%",
+                  top: "50%",
                   width: `calc(100% / ${segments} * ${it.sizeX})`,
                   height: `calc(100% / ${segments} * ${it.sizeY})`,
                   marginLeft: `calc(-100% / ${segments} * ${it.sizeX} / 2)`,
@@ -421,22 +517,25 @@ export default function DomeGallery({
                     rotateX(${it.phi}deg)
                     translateZ(var(--radius))
                   `,
-                  transformStyle: 'preserve-3d',
+                  transformStyle: "preserve-3d",
                 }}
               >
                 <div
                   className="relative w-full h-full cursor-pointer overflow-hidden rounded-[var(--tile-radius)] shadow-2xl transition-all duration-200 hover:scale-105 hover:shadow-3xl"
                   role="button"
                   tabIndex={0}
-                  aria-label={it.alt || 'باز کردن عکس'}
+                  aria-label={it.alt || "باز کردن عکس"}
                   onClick={onTileClick}
-                  style={{ transform: 'translateZ(1px)' }}
+                  style={{ transform: "translateZ(1px)" }}
                 >
                   <img
                     src={it.src}
                     alt={it.alt}
                     className="w-full h-full object-cover pointer-events-none"
-                    style={{ filter: 'var(--image-filter)', borderRadius: 'var(--tile-radius)' }}
+                    style={{
+                      filter: "var(--image-filter)",
+                      borderRadius: "var(--tile-radius)",
+                    }}
                     draggable={false}
                   />
                 </div>
@@ -446,15 +545,24 @@ export default function DomeGallery({
         </div>
 
         {/* افکت‌های پس‌زمینه */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/40 z-10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b  z-10" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-radial from-transparent to-[var(--overlay-blur-color)] opacity-40 z-20" />
-        <div className="pointer-events-none absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black to-transparent z-30" />
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-30" />
+        <div className="pointer-events-none absolute top-0 left-0 right-0 h-32  z-30" />
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-32  z-30" />
 
         {/* لایت‌باکس */}
-        <div ref={viewerRef} className="absolute inset-[var(--viewer-pad)] pointer-events-none z-50">
-          <div ref={scrimRef} className="absolute inset-0 bg-black/85 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto" />
-          <div ref={frameRef} className="absolute inset-0 rounded-2xl border-4 border-white/30 opacity-0 transition-opacity duration-300 pointer-events-none" />
+        <div
+          ref={viewerRef}
+          className="absolute inset-[var(--viewer-pad)] pointer-events-none z-50"
+        >
+          <div
+            ref={scrimRef}
+            className="absolute inset-0 backdrop-blur-sm opacity-0 transition-opacity duration-300 pointer-events-auto"
+          />
+          <div
+            ref={frameRef}
+            className="absolute inset-0 rounded-2xl border-4 border-white/30 opacity-0 transition-opacity duration-300 pointer-events-none"
+          />
         </div>
       </main>
     </div>

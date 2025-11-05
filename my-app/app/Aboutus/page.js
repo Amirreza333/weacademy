@@ -70,7 +70,7 @@ export default function Aboutus() {
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#dbb91e] via-yellow-500 to-[#dbb91e] bg-clip-text text-transparent">
           درباره WeAcademy
         </h2>
-        
+        </div>
 
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div className="flex justify-center items-center">
