@@ -1,24 +1,22 @@
-'use client';
+"use client";
 
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function FloatingDualIcons() {
   const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
 
   const rotateLeft = Math.sin(scrollY * 0.006) * 1.2;
   const rotateRight = Math.sin(scrollY * 0.006 + Math.PI) * 1.2;
 
   return (
     <div className="fixed inset-0 z-10 pointer-events-none overflow-hidden">
-    
       <div
         className="
           absolute top-1/2 
@@ -27,12 +25,15 @@ export default function FloatingDualIcons() {
           -translate-y-1/2
         "
         style={{
-          transform: `translateY(-50%) rotate(${rotateLeft}deg)`, 
+          transform: `translateY(-50%) rotate(${rotateLeft}deg)`,
         }}
       >
         <div
+          // className="w-full h-full rounded-full shadow-lg border-2 border-white/30 overflow-hidden"
+          // style={{ clipPath: "circle(50% at 50% 50%)" }}
+
           className="w-full h-full rounded-full shadow-lg border-2 /30 overflow-hidden"
-          style={{ clipPath: 'circle(50% at 50% 50%)' }}
+          style={{ clipPath: "circle(50% at 50% 50%)" }}
         >
           <Image
             src="/images/illustrationgirl2.png"
@@ -46,7 +47,6 @@ export default function FloatingDualIcons() {
         </div>
       </div>
 
-    
       <div
         className="
           absolute top-1/2 
@@ -55,12 +55,15 @@ export default function FloatingDualIcons() {
           -translate-y-1/2
         "
         style={{
-          transform: `translateY(-50%) rotate(${rotateRight}deg)`, 
+          transform: `translateY(-50%) rotate(${rotateRight}deg)`,
         }}
       >
         <div
-          className="w-full h-full rounded-full shadow-lg border-2 /30 overflow-hidden"
-          style={{ clipPath: 'circle(50% at 50% 50%)' }}
+          className="w-full h-full rounded-full shadow-lg border-2 border-white/30 overflow-hidden"
+          style={{ clipPath: "circle(50% at 50% 50%)" }}
+
+          // className="w-full h-full rounded-full shadow-lg border-2 /30 overflow-hidden"
+          // style={{ clipPath: 'circle(50% at 50% 50%)' }}
         >
           <Image
             src="/images/illustration-man2.png"

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
-
+// import Aboutus from '@/Components/Aboutus'
 
 
 function Header() {
@@ -26,7 +26,7 @@ function Header() {
 
   const navItems = [
     { label: 'خانه', href: '/' },
-    { label: 'درباره ما', href: '/about' },
+    { label: 'درباره ما', href: '/Aboutus' },
     { label: 'تماس با ما', href: '/contact' },
   ];
 
