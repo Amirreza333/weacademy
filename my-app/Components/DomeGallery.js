@@ -495,6 +495,7 @@ export default function DomeGallery({
               transformStyle: "preserve-3d",
               transform:
                 "translateZ(calc(var(--radius) * -1)) rotateX(0deg) rotateY(0deg)",
+           
             }}
           >
             {items.map((it, i) => (
