@@ -35,9 +35,7 @@ export default function Home() {
 
       <section className="relative w-full h-screen overflow-hidden">
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-[#dbb91e]">
-            گالری سه‌بعدی
-          </h2>
+       
           <p className="text-gray-300 text-sm md:text-base "></p>
         </div>
 
@@ -61,6 +59,9 @@ export default function Home() {
           dragSensitivity={15}
         />
       </section>
+      
+
+=======
 
       <Testimonials />
 
