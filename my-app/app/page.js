@@ -10,7 +10,6 @@ import DomeGallery from "@/components/DomeGallery";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 
-
 const galleryImages = [
   { src: "/images/Amosingle.jpg", alt: "تصویر ۱" },
   { src: "/images/Couplepic2.jpg", alt: "تصویر ۲" },
@@ -34,20 +33,18 @@ export default function Home() {
       <About />
       <WhyBestChoice />
 
-      <section className="relative w-full h-screen bg-gradient-to-b from-[#0a0a1f] to-[#0f0f2e] overflow-hidden">
+      <section className="relative w-full h-screen overflow-hidden">
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-2">
+          <h2 className="text-3xl md:text-5xl font-bold text-[#dbb91e]">
             گالری سه‌بعدی
           </h2>
-          <p className="text-gray-300 text-sm md:text-base">
-            عکس‌ها رو بکشید و بزرگ کنید
-          </p>
+          <p className="text-gray-300 text-sm md:text-base "></p>
         </div>
 
         <DomeGallery
           images={galleryImages}
-          fit={0.45}
-          segments={28}
+          fit={0.3}
+          segments={10}
           grayscale={false}
           openedImageWidth="500px"
           openedImageHeight="650px"
@@ -55,7 +52,7 @@ export default function Home() {
           openedImageBorderRadius="32px"
           minRadius={500}
           maxRadius={1200}
-          maxVerticalRotationDeg={80}
+          maxVerticalRotationDeg={50}
           dragSensitivity={15}
         />
       </section>
