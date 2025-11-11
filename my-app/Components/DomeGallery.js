@@ -4,12 +4,12 @@ import { useEffect, useRef, useMemo, useCallback } from "react";
 import { useGesture } from "@use-gesture/react";
 
 const CONFIG = {
-  segments: 40,
-  imageScale: 5,
-  minImageSize: 80,
-  maxVerticalRotationDeg: 75,
+  segments: 35,
+  imageScale: 1.5, // از 1.2 به 1.8 (کمی بزرگ‌تر، متعادل)
+  minImageSize: 45, // از 40 به 50
+  maxVerticalRotationDeg: 50,
   dragSensitivity: 10,
-  perspective: 1000,
+  perspective: 100,
   hoverScale: 1.15,
 };
 

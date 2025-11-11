@@ -13,12 +13,12 @@ import Footer from "@/Components/Footer";
 const galleryImages = [
   { src: "/images/Amosingle.webp", alt: "تصویر ۱" },
   { src: "/images/Couplepic2.webp", alt: "تصویر ۲" },
-  { src: "/images/Grouppic.webp", alt: "تصویر ۳" },
-  { src: "/images/Amosingle2.webp", alt: "تصویر ۴" },
+  { src: "/images/Grouppic5.webp", alt: "تصویر ۳" },
+  { src: "/images/Amosingle.webp", alt: "تصویر ۴" },
   { src: "/images/Grouppic5.webp", alt: "تصویر ۵" },
   { src: "/images/Grouppic2.webp", alt: "تصویر ۶" },
   { src: "/images/Khale2.webp", alt: "تصویر ۷" },
-  { src: "/images/Khale3.webp", alt: "تصویر ۸" },
+  { src: "/images/Khale_single.webp", alt: "تصویر ۸" },
 ];
 
 export default function Home() {
