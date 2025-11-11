@@ -3,7 +3,7 @@ import { FaCheck } from "react-icons/fa";
 import { FaChalkboardTeacher, FaUserGraduate,} from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
 import Stack from "../../public/Animation/Stack";
-import ScrollReveal from "@/public/Animation/ScrollReveal";
+// import ScrollReveal from "@/public/Animation/ScrollReveal";
 
 
 export default function Aboutus() {
@@ -121,14 +121,14 @@ export default function Aboutus() {
 
         <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full"></div>
         <div className="py-5">   
-        <ScrollReveal
+        {/* <ScrollReveal
               className="text-lg md:text-3xl font-medium text-gray-300 mt-9 leading-loose  "
               baseOpacity={0}
               enableBlur={true}
               baseRotation={5}
               blurStrength={10}
               
-            >
+            > */}
               وی آکادمی مرکز مشاوره و آموزش جامعی است که به آرایشگران کمک می‌کند
               در فضای سالنی، فضای مجازی و فضای آموزشی قوی تر عمل کرده، بیشتر
               دیده شوند و در نهایت درآمد خود را افزایش دهند. اگر شما هم صاحب کسب
@@ -138,7 +138,7 @@ export default function Aboutus() {
               برطرف خواهد شد و شما میتوانید با همراهی و مشاوره گرفتن از افراد
               متخصص و آموزش دیدن توسط مربیان کاردان در وی آکادمی به تمامی
               اهدافتان تحقق ببخشید
-            </ScrollReveal>
+            {/* </ScrollReveal> */}
           </div>
       </div>
     </section>

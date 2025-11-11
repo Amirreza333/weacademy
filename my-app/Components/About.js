@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { FaChalkboardTeacher, FaUserGraduate, FaCheck } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
-import ScrollReveal from "@/public/Animation/ScrollReveal";
 
 export default function About() {
   return (

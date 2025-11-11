@@ -64,7 +64,7 @@ export default function Hero() {
           <div className="relative">
             <div className="relative z-10">
               <Image
-                src="/logo.JPG" 
+                src="/images/Logo.webp" 
                 alt="اساتید WeAcademy"
                 width={600}
                 height={800}
