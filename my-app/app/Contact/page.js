@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import BubbleMenu from "../../public/Animation/BubbleMenu";
 import { motion, AnimatePresence } from "framer-motion";
 import { Home, Mail, MessageCircle, Send } from "lucide-react";
@@ -42,7 +42,7 @@ function Contact() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* منوی بابل */}
+ 
       <BubbleMenu
         logo={
           <motion.span
@@ -65,20 +65,20 @@ function Contact() {
         onToggle={(open) => setIsMenuOpen(open)}
       />
 
-      {/* فقط وقتی منو بسته است — TextType کاملاً حذف و دوباره ساخته میشه */}
+  
       <AnimatePresence mode="wait">
         {!isMenuOpen && (
           <motion.div
-            key="unique-text-type-key" // مهم: هر بار عوض میشه → force remount
+            key="unique-text-type-key"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
           >
-            <div className="text-center">
+            <div className="text-center md:hidden">
               <TextType
-                key="reset-typing-animation" // مهم: این باعث میشه انیمیشن از اول شروع بشه
+                key="reset-typing-animation"
                 text={[
                   "با ما در ارتباط باشید",
                   "از طریق ایمیل، اینستاگرام و...",
