@@ -1,9 +1,17 @@
 // Components/Testimonials.tsx
 "use client";
 
+import { useRouter } from 'next/navigation'; // اضافه شد
 import { MdFormatQuote, MdStar } from "react-icons/md";
 
 export default function Testimonials() {
+  const router = useRouter(); // تعریف شد
+
+  // دکمه: برو به صفحه لاگین (نه خروج!)
+  const handleBookNow = () => {
+    router.push('/auth/login');
+  };
+
   const testimonials = [
     {
       name: "سارا محمدی",
@@ -11,7 +19,7 @@ export default function Testimonials() {
       comment:
         "اولین بار بود که قبل از رنگ مو، پیش‌نمایش روی صورتم دیدم! نتیجه دقیقاً همون چیزی بود که می‌خواستم. عاشق WeAcademy شدم!",
       rating: 5,
-      beforeAfter: true, 
+      beforeAfter: true,
     },
     {
       name: "نازنین احمدی",
@@ -32,7 +40,7 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="py-20 px-4 ">
+    <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[#dbb91e] mb-4">
@@ -43,8 +51,7 @@ export default function Testimonials() {
             بپیوندید
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            هزاران مشتری راضی که هر روز با لبخند سالن ما رو ترک می‌کنن. نوبت
-            توئه!
+            هزاران مشتری راضی که هر روز با لبخند سالن ما رو ترک می‌کنن. نوبت توئه!
           </p>
         </div>
 
@@ -76,19 +83,20 @@ export default function Testimonials() {
                   <p className="text-sm text-gray-500">{item.role}</p>
                 </div>
               </div>
-
-              
             </div>
           ))}
         </div>
 
         <div className="text-center mt-16">
-          <button className="bg-gradient-to-r cursor-pointer from-[#dbb91e] to-[#aa8558] text-white px-10 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+          <button
+            onClick={handleBookNow} // درست شد
+            className="bg-gradient-to-r cursor-pointer from-[#dbb91e] to-[#aa8558] text-white px-10 py-4 rounded-full text-lg font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
             همین حالا نوبت بگیر و بپیوند!
           </button>
         </div>
       </div>
-       <div className="mt-45 h-1 bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full"></div>
+      <div className="mt-12 h-1 bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full"></div>
     </section>
   );
 }

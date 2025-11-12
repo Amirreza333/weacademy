@@ -1,14 +1,12 @@
-"use client";
-
-import Image from "next/image";
+// app/page.js
+import Header from "@/Components/Header";
+import Footer from "@/Components/Footer";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import WhyBestChoice from "@/components/WhyBestChoice";
 import Testimonials from "@/components/Testimonials";
 import FloatingHalfImage from "@/components/FloatingHalfImage";
 import DomeGallery1 from "@/components/DomeGallery";
-import Header from "@/Components/Header";
-import Footer from "@/Components/Footer";
 
 const galleryImages = [
   { src: "/images/Amosingle.webp", alt: "تصویر ۱" },
@@ -24,30 +22,21 @@ const galleryImages = [
 export default function Home() {
   return (
     <main className="relative overflow-x-hidden">
-      <Header />
-
+      <Header phone={null} /> {/* کاربر لاگین نکرده */}
       <FloatingHalfImage />
-
       <Hero />
-
       <About />
       <WhyBestChoice />
 
       <section className="relative w-full h-screen overflow-hidden">
         <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center">
-       
-          <p className="text-gray-300 text-sm md:text-base "></p>
+          <p className="text-gray-300 text-sm md:text-base"></p>
         </div>
 
         <DomeGallery1
           images={galleryImages}
-
-      
-      
-
           fit={0.3}
           segments={10}
-
           grayscale={false}
           openedImageWidth="500px"
           openedImageHeight="650px"
@@ -59,12 +48,8 @@ export default function Home() {
           dragSensitivity={15}
         />
       </section>
-      
-
-
 
       <Testimonials />
-
       <Footer />
     </main>
   );
