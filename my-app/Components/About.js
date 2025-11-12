@@ -13,7 +13,7 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-8 items-start">
           <div className="order-2 md:order-1">
             <Image
-              src="/Couple pic.JPG"
+              src="/images/Couplepic.webp"
               alt="WeAcademy"
               width={1200}
               height={800}
@@ -49,14 +49,8 @@ export default function About() {
               </div>
             </div>
 
-            <div
-              className="text-lg md:text-xl font-medium text-zinc-300 mt-9 leading-loose opacity-0 animate-fade-in"
-              style={{
-                animation: `fadeIn 1s ease-out forwards, blurIn 1s ease-out forwards`,
-                animationDelay: "0.3s",
-              }}
-            >
-              <h3>
+            <div>
+              <h3 className="text-white">
                 وی آکادمی مرکز مشاوره و آموزش جامعی است که به آرایشگران کمک
                 می‌کند در فضای سالنی، فضای مجازی و فضای آموزشی قوی تر عمل کرده،
                 بیشتر دیده شوند و در نهایت درآمد خود را افزایش دهند. اگر شما هم

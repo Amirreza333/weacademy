@@ -430,7 +430,7 @@ export default function DomeGallery({
   return (
     <div
       ref={rootRef}
-      className="relative w-full h-full overflow-hidden bg-gradient-to-b from-gray-900 to-black"
+      className="relative w-full h-full overflow-hidden"
       style={{
         perspective: `${CONFIG.perspective}px`,
         cursor: "grab",

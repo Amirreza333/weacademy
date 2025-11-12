@@ -1,10 +1,9 @@
 "use client";
 import { FaCheck } from "react-icons/fa";
-import { FaChalkboardTeacher, FaUserGraduate,} from "react-icons/fa";
+import { FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa";
 import { FaCircleInfo } from "react-icons/fa6";
 import Stack from "../../public/Animation/Stack";
 // import ScrollReveal from "@/public/Animation/ScrollReveal";
-
 
 export default function Aboutus() {
   const textCards = [
@@ -12,16 +11,14 @@ export default function Aboutus() {
       id: 1,
       title: "اساتید حرفه‌ای",
       desc: "سال‌ها تجربه در صنعت",
-      
     },
     {
       id: 2,
       title: "گواهی معتبر",
       desc: "بین‌المللی و رسمی",
-      
     },
-    { id: 3, title: "۵۰۰۰+ هنرجو", desc: "موفق و ستاره",  },
-    { id: 4, title: "WeAcademy", desc: "منتظر شماست", },
+    { id: 3, title: "۵۰۰۰+ هنرجو", desc: "موفق و ستاره" },
+    { id: 4, title: "WeAcademy", desc: "منتظر شماست" },
   ];
 
   const icons = {
@@ -58,7 +55,6 @@ export default function Aboutus() {
   <circle cx="130" cy="250" r="7" fill="#000000"/>
 </svg>`.trim();
 
- 
     return `data:image/svg+xml;base64,${btoa(
       unescape(encodeURIComponent(svg))
     )}`;
@@ -70,58 +66,55 @@ export default function Aboutus() {
         <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-[#dbb91e] via-yellow-500 to-[#dbb91e] bg-clip-text text-transparent">
           درباره WeAcademy
         </h2>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="flex justify-center items-center">
+          <Stack
+            randomRotation={true}
+            sensitivity={120}
+            sendToBackOnClick={true}
+            cardDimensions={{ width: 260, height: 320 }}
+            cardsData={textCards.map((card) => ({
+              id: card.id,
+              img: createSVG(card),
+            }))}
+          />
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="flex justify-center items-center">
-            <Stack
-              randomRotation={true}
-              sensitivity={120}
-              sendToBackOnClick={true}
-              cardDimensions={{ width: 260, height: 320 }}
-              cardsData={textCards.map((card) => ({
-                id: card.id,
-                img: createSVG(card),
-              }))}
-            />
-          </div>
+        <div className="space-y-6 text-right">
+          <div dir="ltr" className="space-y-6">
+            <div className="flex items-center justify-end gap-3">
+              <FaChalkboardTeacher className="text-[#dbb91e] text-xl" />
+              <span className="text-lg text-[#ffffff] font-medium">
+                اساتید حرفه‌ای و با تجربه
+              </span>
+              <FaCircleInfo className="text-[#dbb91e] text-xl" />
+            </div>
 
-          <div className="space-y-6 text-right">
-   <div dir="ltr" className="space-y-6">
-              <div className="flex items-center justify-end gap-3">
-                <FaChalkboardTeacher className="text-[#dbb91e] text-xl" />
-                <span className="text-lg text-[#ffffff] font-medium">
-                  اساتید حرفه‌ای و با تجربه
-                </span>
-                <FaCircleInfo className="text-[#dbb91e] text-xl" />
-              </div>
+            <div className="flex items-center justify-end gap-3">
+              <FaUserGraduate className="text-[#dbb91e] text-xl" />
+              <span className="text-lg text-[#ffffff] font-medium">
+                گواهی معتبر بین‌المللی
+              </span>
+              <FaCircleInfo className="text-[#dbb91e] text-xl" />
+            </div>
 
-              <div className="flex items-center justify-end gap-3">
-                <FaUserGraduate className="text-[#dbb91e] text-xl" />
-                <span className="text-lg text-[#ffffff] font-medium">
-                  گواهی معتبر بین‌المللی
-                </span>
-                <FaCircleInfo className="text-[#dbb91e] text-xl" />
-              </div>
-
-              <div className="flex items-center justify-end gap-3">
-                <FaCheck className="text-[#dbb91e] text-xl" />
-                <span className="text-lg text-[#ffffff] font-medium">
-                  بیش از ۵۰۰۰ هنرجوی موفق
-                </span>
-                <FaCircleInfo className="text-[#dbb91e] text-xl" />
-              </div>
+            <div className="flex items-center justify-end gap-3">
+              <FaCheck className="text-[#dbb91e] text-xl" />
+              <span className="text-lg text-[#ffffff] font-medium">
+                بیش از ۵۰۰۰ هنرجوی موفق
+              </span>
+              <FaCircleInfo className="text-[#dbb91e] text-xl" />
             </div>
           </div>
         </div>
+      </div>
 
-
-        <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full items-center"></div>
-        <div>   
-
-        <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full"></div>
-        <div className="py-5">   
-        {/* <ScrollReveal
+      <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full items-center"></div>
+      <div>
+        <div className="py-5">
+          {/* <ScrollReveal
               className="text-lg md:text-3xl font-medium text-gray-300 mt-9 leading-loose  "
               baseOpacity={0}
               enableBlur={true}
@@ -129,17 +122,17 @@ export default function Aboutus() {
               blurStrength={10}
               
             > */}
-              وی آکادمی مرکز مشاوره و آموزش جامعی است که به آرایشگران کمک می‌کند
-              در فضای سالنی، فضای مجازی و فضای آموزشی قوی تر عمل کرده، بیشتر
-              دیده شوند و در نهایت درآمد خود را افزایش دهند. اگر شما هم صاحب کسب
-              و کار آرایشگری هستید و به دنبال رشد و توسعه ی شغل خود می باشید
-              قطعا به حضور افرادی کاردان و آموزش های تخصصی نیاز دارید، تمامی این
-              نیازها در بخش های مختلف وی آکادمی در بالاترین سطح ممکن پاسخگویی و
-              برطرف خواهد شد و شما میتوانید با همراهی و مشاوره گرفتن از افراد
-              متخصص و آموزش دیدن توسط مربیان کاردان در وی آکادمی به تمامی
-              اهدافتان تحقق ببخشید
-            {/* </ScrollReveal> */}
-          </div>
+          وی آکادمی مرکز مشاوره و آموزش جامعی است که به آرایشگران کمک می‌کند در
+          فضای سالنی، فضای مجازی و فضای آموزشی قوی تر عمل کرده، بیشتر دیده شوند
+          و در نهایت درآمد خود را افزایش دهند. اگر شما هم صاحب کسب و کار
+          آرایشگری هستید و به دنبال رشد و توسعه ی شغل خود می باشید قطعا به حضور
+          افرادی کاردان و آموزش های تخصصی نیاز دارید، تمامی این نیازها در بخش
+          های مختلف وی آکادمی در بالاترین سطح ممکن پاسخگویی و برطرف خواهد شد و
+          شما میتوانید با همراهی و مشاوره گرفتن از افراد متخصص و آموزش دیدن توسط
+          مربیان کاردان در وی آکادمی به تمامی اهدافتان تحقق ببخشید
+          {/* </ScrollReveal> */}
+          <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent w-full"></div>
+        </div>
       </div>
     </section>
   );
