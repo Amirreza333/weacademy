@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useMemo, useCallback } from "react";
 import { useGesture } from "@use-gesture/react";
+import Image from "next/image";
 
 const CONFIG = {
   segments: 35,
-  imageScale: 1.5, // از 1.2 به 1.8 (کمی بزرگ‌تر، متعادل)
-  minImageSize: 45, // از 40 به 50
+  imageScale: 1.5,
+  minImageSize: 45,
   maxVerticalRotationDeg: 50,
   dragSensitivity: 10,
   perspective: 100,
@@ -407,6 +408,7 @@ export default function DomeGallery({
         openingRef.current
       )
         return;
+
       openItemFromElement(e.currentTarget);
     },
     [openItemFromElement]
@@ -478,15 +480,19 @@ export default function DomeGallery({
                   aria-label={it.alt || "باز کردن عکس"}
                   onClick={onTileClick}
                 >
-                  <img
+                  <Image
                     src={it.src}
                     alt={it.alt}
-                    className="w-full h-full object-cover pointer-events-none transition-transform duration-300 group-hover:scale-110"
+                    fill
+                    className="object-contain pointer-events-none transition-transform duration-300 group-hover:scale-110"
                     style={{
                       filter: "var(--image-filter)",
                       borderRadius: "var(--tile-radius)",
                     }}
-                    draggable={false}
+                    sizes="(max-width: 640px) 80px, (max-width: 1024px) 120px, 150px"
+                    priority
+                    quality={95}
+                    unoptimized={false}
                   />
                 </div>
               </div>
