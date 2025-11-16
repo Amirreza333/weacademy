@@ -13,7 +13,8 @@ import {
   X, 
   Bell, 
   Search, 
-  Home 
+  Home ,
+  List
 } from 'lucide-react';
 import { 
   LineChart, 
@@ -68,7 +69,8 @@ export default function Dashboard() {
             { icon: Users, label: 'کاربران', href: '/DashboardContacts' },
             
             { icon: DollarSign, label: 'مالی' , href: '/finance'},
-            { icon: TrendingUp, label: 'تحلیل' , href: '/analytics'},
+            { icon: TrendingUp, label: 'تحلیل', href: '/analytics' },
+            {icon: List , label: 'لیست آریشگران', href:'/BeautySalonFinder'}
           ].map((item, i) => {
             const Icon = item.icon;
             return item.href ? (
