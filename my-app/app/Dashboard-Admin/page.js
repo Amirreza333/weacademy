@@ -67,8 +67,8 @@ export default function Dashboard() {
             { icon: LayoutDashboard, label: 'داشبورد', active: true },
             { icon: Users, label: 'کاربران', href: '/DashboardContacts' },
             
-            { icon: DollarSign, label: 'مالی' },
-            { icon: TrendingUp, label: 'تحلیل' },
+            { icon: DollarSign, label: 'مالی' , href: '/finance'},
+            { icon: TrendingUp, label: 'تحلیل' , href: '/analytics'},
           ].map((item, i) => {
             const Icon = item.icon;
             return item.href ? (
