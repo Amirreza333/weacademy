@@ -70,7 +70,7 @@ export default function Dashboard() {
             
             { icon: DollarSign, label: 'مالی' , href: '/finance'},
             { icon: TrendingUp, label: 'تحلیل', href: '/analytics' },
-            {icon: List , label: 'لیست آریشگران', href:'/BeautySalonFinder'}
+            
           ].map((item, i) => {
             const Icon = item.icon;
             return item.href ? (
