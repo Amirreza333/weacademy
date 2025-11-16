@@ -1,29 +1,26 @@
 // app/auth/register-info/page.js
 'use client';
 import React from 'react';
-import { useState, useEffect } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterInfoPage() {
   const [name, setName] = useState('');
   const [family, setFamily] = useState('');
   const [address, setAddress] = useState('');
   const [nationalId, setNationalId] = useState('');
+  const [phone, setPhone] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const phone = searchParams.get('phone') || localStorage.getItem('temp_phone') || '';
-
-  useEffect(() => {
-    if (!phone) {
-      router.push('/auth/login');
-    }
-  }, [phone, router]);
 
   const handleSubmit = () => {
-    if (!name || !family || !address || !nationalId) {
+    if (!name || !family || !address || !nationalId || !phone) {
       alert('همه فیلدها الزامی است');
+      return;
+    }
+    if (!/^09[0-9]{9}$/.test(phone)) {
+      alert('شماره تلفن نامعتبر! مثلاً: 09123456789');
       return;
     }
     if (!/^\d{10}$/.test(nationalId)) {
@@ -33,19 +30,18 @@ export default function RegisterInfoPage() {
 
     setLoading(true);
     setTimeout(() => {
+      // ذخیره اطلاعات
       const userData = { name, family, address, nationalId, phone };
-      localStorage.setItem('user_profile', JSON.stringify(userData));
+      localStorage.setItem(`user_${phone}`, JSON.stringify(userData));
 
+      // ایجاد توکن
       const token = btoa(phone);
       document.cookie = `auth_token=${token}; path=/; max-age=${30*24*60*60}; Secure; SameSite=Strict`;
 
       alert(`ثبت‌نام کامل شد! خوش آمدید ${name} ${family}`);
-      localStorage.removeItem('temp_phone');
       router.push('/Dashboard');
     }, 1000);
   };
-
-  if (!phone) return null;
 
   return React.createElement(
     'div',
@@ -61,11 +57,11 @@ export default function RegisterInfoPage() {
 
       React.createElement('h1', {
         className: 'text-3xl font-bold text-center mb-3 text-[#dbb91e] drop-shadow-md'
-      }, 'تکمیل ثبت‌نام'),
+      }, 'ثبت‌نام آرایشگر'),
 
       React.createElement('p', {
         className: 'text-center text-gray-700 mb-8'
-      }, 'اطلاعات شخصی خود را وارد کنید'),
+      }, 'لطفاً اطلاعات خود را وارد کنید'),
 
       React.createElement(
         'div',
@@ -98,7 +94,22 @@ export default function RegisterInfoPage() {
           placeholder: 'کد ملی (۱۰ رقم)',
           className: 'w-full p-4 bg-white/60 border-2 border-[#dbb91e]/30 rounded-xl focus:outline-none focus:border-[#dbb91e] focus:ring-4 focus:ring-[#dbb91e]/20 transition-all',
           maxLength: '10'
-        })
+        }),
+        React.createElement(
+          'div',
+          { className: 'relative' },
+          React.createElement('input', {
+            type: 'text',
+            value: phone,
+            onChange: (e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11)),
+            placeholder: '09123456789',
+            className: 'w-full p-4 pr-12 text-lg text-center bg-white/60 border-2 border-[#dbb91e]/30 rounded-xl focus:outline-none focus:border-[#dbb91e] focus:ring-4 focus:ring-[#dbb91e]/20 transition-all',
+            maxLength: '11'
+          }),
+          React.createElement('span', {
+            className: 'absolute left-4 top-1/2 -translate-y-1/2 text-[#dbb91e] font-bold'
+          }, 'IR')
+        )
       ),
 
       React.createElement(
