@@ -1,8 +1,42 @@
 // app/auth/register-info/page.js
 'use client';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// رفع مشکل آیکون پیش‌فرض Leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
+function LocationMarker({ setPosition, setAddress }) {
+  const [position, setLocalPosition] = useState(null);
+
+  useMapEvents({
+    click(e) {
+      const { lat, lng } = e.latlng;
+      setLocalPosition([lat, lng]);
+      setPosition([lat, lng]);
+
+      // دریافت آدرس با API Nominatim (OpenStreetMap)
+      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&accept-language=fa`)
+        .then(res => res.json())
+        .then(data => {
+          const addr = data.display_name || 'آدرس نامشخص';
+          setAddress(addr);
+        })
+        .catch(() => setAddress('آدرس یافت نشد'));
+    },
+  });
+
+  return position === null ? null : React.createElement(Marker, { position });
+}
 
 export default function RegisterInfoPage() {
   const [name, setName] = useState('');
@@ -10,17 +44,23 @@ export default function RegisterInfoPage() {
   const [address, setAddress] = useState('');
   const [nationalId, setNationalId] = useState('');
   const [phone, setPhone] = useState('');
+  const [position, setPosition] = useState([39.6436, 47.0738]); // مرکز باکو (دمو)
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
+  useEffect(() => {
+    const tempPhone = localStorage.getItem('temp_phone');
+    if (tempPhone) {
+      setPhone(tempPhone);
+    } else {
+      router.push('/auth/login');
+    }
+  }, [router]);
+
   const handleSubmit = () => {
     if (!name || !family || !address || !nationalId || !phone) {
       alert('همه فیلدها الزامی است');
-      return;
-    }
-    if (!/^09[0-9]{9}$/.test(phone)) {
-      alert('شماره تلفن نامعتبر! مثلاً: 09123456789');
       return;
     }
     if (!/^\d{10}$/.test(nationalId)) {
@@ -30,100 +70,144 @@ export default function RegisterInfoPage() {
 
     setLoading(true);
     setTimeout(() => {
-      // ذخیره اطلاعات
-      const userData = { name, family, address, nationalId, phone };
+      const userData = { name, family, address, nationalId, phone, location: position };
       localStorage.setItem(`user_${phone}`, JSON.stringify(userData));
 
-      // ایجاد توکن
       const token = btoa(phone);
       document.cookie = `auth_token=${token}; path=/; max-age=${30*24*60*60}; Secure; SameSite=Strict`;
 
       alert(`ثبت‌نام کامل شد! خوش آمدید ${name} ${family}`);
+      localStorage.removeItem('temp_phone');
       router.push('/Dashboard');
     }, 1000);
   };
 
+  if (!phone) return null;
+
   return React.createElement(
     'div',
-    { className: 'min-h-screen flex items-center justify-center p-4' },
+    { className: 'min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-4' },
 
     React.createElement(
       'div',
-      { className: 'relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-10 w-full max-w-lg border border-white/30 overflow-hidden' },
+      { className: 'relative bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 w-full max-w-4xl border border-white/20 overflow-hidden' },
 
+      // نوار طلایی
       React.createElement('div', {
         className: 'absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-400 via-[#dbb91e] to-yellow-600 rounded-t-3xl'
       }),
 
+      // عنوان
       React.createElement('h1', {
-        className: 'text-3xl font-bold text-center mb-3 text-[#dbb91e] drop-shadow-md'
-      }, 'ثبت‌نام آرایشگر'),
+        className: 'text-4xl font-bold text-center mb-3 text-[#dbb91e] drop-shadow-2xl'
+      }, 'تکمیل ثبت‌نام '),
 
       React.createElement('p', {
-        className: 'text-center text-gray-700 mb-8'
-      }, 'لطفاً اطلاعات خود را وارد کنید'),
+        className: 'text-center text-white/80 mb-10 text-lg'
+      }, 'اطلاعات خود را وارد کنید و لوکیشن آرایشگاه را روی نقشه انتخاب کنید'),
 
+      // گریت دو ستونه
       React.createElement(
         'div',
-        { className: 'space-y-5' },
-        React.createElement('input', {
-          type: 'text',
-          value: name,
-          onChange: (e) => setName(e.target.value),
-          placeholder: 'نام',
-          className: 'w-full p-4 bg-white/60 border-2 border-[#dbb91e]/30 rounded-xl focus:outline-none focus:border-[#dbb91e] focus:ring-4 focus:ring-[#dbb91e]/20 transition-all'
-        }),
-        React.createElement('input', {
-          type: 'text',
-          value: family,
-          onChange: (e) => setFamily(e.target.value),
-          placeholder: 'نام خانوادگی',
-          className: 'w-full p-4 bg-white/60 border-2 border-[#dbb91e]/30 rounded-xl focus:outline-none focus:border-[#dbb91e] focus:ring-4 focus:ring-[#dbb91e]/20 transition-all'
-        }),
-        React.createElement('input', {
-          type: 'text',
-          value: address,
-          onChange: (e) => setAddress(e.target.value),
-          placeholder: 'آدرس آرایشگاه',
-          className: 'w-full p-4 bg-white/60 border-2 border-[#dbb91e]/30 rounded-xl focus:outline-none focus:border-[#dbb91e] focus:ring-4 focus:ring-[#dbb91e]/20 transition-all'
-        }),
-        React.createElement('input', {
-          type: 'text',
-          value: nationalId,
-          onChange: (e) => setNationalId(e.target.value.replace(/\D/g, '').slice(0, 10)),
-          placeholder: 'کد ملی (۱۰ رقم)',
-          className: 'w-full p-4 bg-white/60 border-2 border-[#dbb91e]/30 rounded-xl focus:outline-none focus:border-[#dbb91e] focus:ring-4 focus:ring-[#dbb91e]/20 transition-all',
-          maxLength: '10'
-        }),
+        { className: 'grid grid-cols-1 lg:grid-cols-2 gap-8' },
+
+        // ستون چپ: فرم
         React.createElement(
           'div',
-          { className: 'relative' },
+          { className: 'space-y-5' },
           React.createElement('input', {
             type: 'text',
-            value: phone,
-            onChange: (e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11)),
-            placeholder: '09123456789',
-            className: 'w-full p-4 pr-12 text-lg text-center bg-white/60 border-2 border-[#dbb91e]/30 rounded-xl focus:outline-none focus:border-[#dbb91e] focus:ring-4 focus:ring-[#dbb91e]/20 transition-all',
-            maxLength: '11'
+            value: name,
+            onChange: (e) => setName(e.target.value),
+            placeholder: 'نام',
+            className: 'w-full p-4 bg-white/10 border border-[#dbb91e]/40 rounded-xl text-white placeholder-white/50 focus:border-[#dbb91e] focus:outline-none focus:ring-2 focus:ring-[#dbb91e]/30 transition-all'
           }),
-          React.createElement('span', {
-            className: 'absolute left-4 top-1/2 -translate-y-1/2 text-[#dbb91e] font-bold'
-          }, 'IR')
+          React.createElement('input', {
+            type: 'text',
+            value: family,
+            onChange: (e) => setFamily(e.target.value),
+            placeholder: 'نام خانوادگی',
+            className: 'w-full p-4 bg-white/10 border border-[#dbb91e]/40 rounded-xl text-white placeholder-white/50 focus:border-[#dbb91e] focus:outline-none focus:ring-2 focus:ring-[#dbb91e]/30 transition-all'
+          }),
+          React.createElement('input', {
+            type: 'text',
+            value: nationalId,
+            onChange: (e) => setNationalId(e.target.value.replace(/\D/g, '').slice(0, 10)),
+            placeholder: 'کد ملی (۱۰ رقم)',
+            className: 'w-full p-4 bg-white/10 border border-[#dbb91e]/40 rounded-xl text-white placeholder-white/50 focus:border-[#dbb91e] focus:outline-none focus:ring-2 focus:ring-[#dbb91e]/30 transition-all',
+            maxLength: '10'
+          }),
+          React.createElement(
+            'div',
+            { className: 'p-4 bg-white/10 rounded-xl text-white/90 font-medium text-sm' },
+            'شماره: ', React.createElement('strong', null, phone)
+          ),
+          React.createElement('textarea', {
+            value: address,
+            onChange: (e) => setAddress(e.target.value),
+            placeholder: 'آدرس دقیق (از نقشه انتخاب کنید)',
+            rows: 3,
+            className: 'w-full p-4 bg-white/10 border border-[#dbb91e]/40 rounded-xl text-white placeholder-white/50 focus:border-[#dbb91e] focus:outline-none focus:ring-2 focus:ring-[#dbb91e]/30 transition-all resize-none'
+          })
+        ),
+
+        // ستون راست: نقشه
+        React.createElement(
+          'div',
+          { className: 'h-96 rounded-2xl overflow-hidden shadow-2xl border border-[#dbb91e]/30' },
+          React.createElement(MapContainer, {
+            center: position,
+            zoom: 15,
+            style: { height: '100%', width: '100%' },
+            scrollWheelZoom: true
+          },
+            React.createElement(TileLayer, {
+              url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              attribution: '&copy; OpenStreetMap'
+            }),
+            React.createElement(LocationMarker, { setPosition, setAddress })
+          )
         )
       ),
 
+      // دکمه ثبت‌نام
       React.createElement(
         'button',
         {
           onClick: handleSubmit,
-          disabled: loading,
-          className: 'mt-8 w-full bg-gradient-to-r from-[#dbb91e] to-yellow-500 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:from-black hover:to-gray-900 transform hover:scale-105 transition-all duration-300 disabled:opacity-70'
+          disabled: loading || !address,
+          className: 'mt-10 w-full bg-gradient-to-r from-[#dbb91e] to-yellow-500 text-black py-5 rounded-xl font-bold text-xl shadow-xl hover:from-yellow-500 hover:to-orange-500 transform hover:scale-105 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3'
         },
-        loading ? 'در حال ثبت...' : 'ثبت‌نام و ورود'
+        loading
+          ? React.createElement(
+              'span',
+              { className: 'flex items-center gap-3' },
+              React.createElement('svg', {
+                className: 'animate-spin h-6 w-6',
+                viewBox: '0 0 24 24'
+              }, React.createElement('circle', {
+                className: 'opacity-25',
+                cx: '12', cy: '12', r: '10',
+                stroke: 'currentColor', strokeWidth: '4', fill: 'none'
+              }), React.createElement('path', {
+                className: 'opacity-75', fill: 'currentColor',
+                d: 'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+              })),
+              'در حال ثبت...'
+            )
+          : React.createElement(
+              'span',
+              { className: 'flex items-center gap-3' },
+              'ثبت‌نام و ورود'
+            )
       ),
 
+      // افکت طلایی
       React.createElement('div', {
-        className: 'absolute bottom-0 left-1/2 -translate-x-1/2 w-40 h-20 bg-[#dbb91e]/20 blur-3xl rounded-full'
+        className: 'absolute -bottom-20 -left-20 w-64 h-64 bg-[#dbb91e]/20 rounded-full blur-3xl'
+      }),
+      React.createElement('div', {
+        className: 'absolute -top-20 -right-20 w-64 h-64 bg-yellow-500/20 rounded-full blur-3xl'
       })
     )
   );
