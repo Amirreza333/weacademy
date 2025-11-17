@@ -1,8 +1,9 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { useState, useEffect, useRef } from 'react';
+import Link from "next/link";
+import Image from "next/image";
+import { useState, useEffect, useRef } from "react";
+import { MessageCircle } from "lucide-react"; // آیکون چت
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,27 +15,35 @@ function Header() {
         setIsMenuOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const navItems = [
-    { label: 'خانه', href: '/' },
-    { label: 'درباره ما', href: '/Aboutus' },
-    { label: 'کاربران برتر', href: '/top-users', badge: true },
-    { label: 'مقالات', href: '/blog' },
-    { label: 'تماس با ما', href: '/Contact' },
+    { label: "خانه", href: "/" },
+    { label: "درباره ما", href: "/Aboutus" },
+    { label: "کاربران برتر", href: "/top-users", badge: true },
+    {
+      label: "چت زنده",
+      href: "/chat",
+      icon: MessageCircle,
+      badge: true,
+      notification: true,
+    },
+    { label: "مقالات", href: "/blog" },
+    { label: "تماس با ما", href: "/Contact" },
   ];
 
   return (
     <section dir="ltr" className="py-4 sm:py-6 px-4 flex justify-center">
       <header className="relative w-full max-w-7xl bg-[#0e121c]/90 backdrop-blur-3xl rounded-2xl overflow-hidden py-3 sm:py-4 border border-[#dbb91e]/50 shadow-2xl">
-        
-        <div className="absolute inset-0 bg-gradient-to-r from-[#dbb91e]/5 via-transparent to-[#dbb91e]/5 opacity-30" aria-hidden="true" />
-        
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-[#dbb91e]/5 via-transparent to-[#dbb91e]/5 opacity-30"
+          aria-hidden="true"
+        />
+
         <div className="relative container mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between">
-            
             <div className="flex-shrink-0">
               <Link href="/" onClick={() => setIsMenuOpen(false)}>
                 <Image
@@ -53,26 +62,42 @@ function Header() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="منوی ناوبری"
             >
-              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}></span>
-              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}></span>
+              <span
+                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${
+                  isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                }`}
+              ></span>
+              <span
+                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${
+                  isMenuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              ></span>
+              <span
+                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${
+                  isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
+              ></span>
             </button>
 
-            {/* منوی دسکتاپ — با گرادیان طلایی برای "کاربران برتر" */}
+            {/* منوی دسکتاپ — با گرادیان طلایی برای "کاربران برتر" و "چت زنده" */}
             <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-4 lg:px-5 py-2.5 text-sm lg:text-base font-medium rounded-xl transition-all duration-300 hover:bg-[#dbb91e]/20 active:scale-95 group ${
-                    item.label === 'کاربران برتر'
-                      ? 'bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent hover:text-transparent'
-                      : 'text-gray-200 hover:text-[#dbb91e]'
+                  className={`relative px-4 lg:px-5 py-2.5 text-sm lg:text-base font-medium rounded-xl transition-all duration-300 hover:bg-[#dbb91e]/20 active:scale-95 group flex items-center gap-2 ${
+                    item.label === "کاربران برتر" || item.label === "چت زنده"
+                      ? "bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent hover:text-transparent"
+                      : "text-gray-200 hover:text-[#dbb91e]"
                   }`}
                 >
+                  {item.icon && <item.icon className="w-5 h-5" />}
                   {item.label}
                   {item.badge && (
                     <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  )}
+                  {item.notification && (
+                    <span className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-full animate-ping"></span>
                   )}
                   <span className="absolute inset-x-0 bottom-0 h-0.5 bg-[#dbb91e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
                 </Link>
@@ -80,7 +105,7 @@ function Header() {
             </nav>
           </div>
 
-          {/* منوی موبایل — هم گرادیان طلایی */}
+          {/* منوی موبایل — با گرادیان طلایی و آیکون */}
           {isMenuOpen && (
             <nav
               ref={menuRef}
@@ -90,16 +115,20 @@ function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`relative px-4 py-3 text-center font-font-medium rounded-lg transition-all duration-200 hover:bg-[#dbb91e]/20 active:scale-95 flex items-center justify-center gap-2 ${
-                    item.label === 'کاربران برتر'
-                      ? 'bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent'
-                      : 'text-gray-200 hover:text-[#dbb91e]'
+                  className={`relative px-4 py-3 text-center font-medium rounded-lg transition-all duration-200 hover:bg-[#dbb91e]/20 active:scale-95 flex items-center justify-center gap-2 ${
+                    item.label === "کاربران برتر" || item.label === "چت زنده"
+                      ? "bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent"
+                      : "text-gray-200 hover:text-[#dbb91e]"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
+                  {item.icon && <item.icon className="w-5 h-5" />}
                   {item.label}
                   {item.badge && (
                     <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                  )}
+                  {item.notification && (
+                    <span className="w-3 h-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-full animate-ping"></span>
                   )}
                 </Link>
               ))}

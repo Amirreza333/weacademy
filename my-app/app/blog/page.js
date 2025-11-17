@@ -86,7 +86,7 @@ export default function Blog() {
 
   return (
     <>
-      <section className="min-h-screen bg-black text-white py-16 px-4 sm:px-6 lg:px-8">
+      <section className="min-h-screen  text-white py-16 px-4 sm:px-6 lg:px-8">
         {/* پس‌زمینه طلایی نرم */}
         <div className="fixed inset-0 -z-10 overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 bg-gradient-to-b from-[#dbb91e]/10 to-transparent blur-3xl"></div>
