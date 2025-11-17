@@ -1,0 +1,14 @@
+{
+  "topArtists": [
+    { "id": 1, "name": "سارا احمدی", "score": 19.8, "avatar": "/images/artist1.webp", "city": "تهران", "specialty": "میکاپ عروس" },
+    { "id": 2, "name": "نازنین کریمی", "score": 19.5, "avatar": "/images/artist2.webp", "city": "اصفهان", "specialty": "کاشت ناخن" },
+    { "id": 3, "name": "مهسا رضایی", "score": 19.2, "avatar": "/images/artist3.webp", "city": "شیراز", "specialty": "رنگ مو" },
+    { "id": 4, "name": "پریسا محمدی", "score": 18.9, "avatar": "/images/artist4.webp", "city": "مشهد", "specialty": "اکستنشن مژه" },
+    { "id": 5, "name": "لیلا حسینی", "score": 18.7, "avatar": "/images/artist5.webp", "city": "تبریز", "specialty": "میکاپ حرفه‌ای" },
+    { "id": 6, "name": "فاطمه علیپور", "score": 18.4, "avatar": "/images/artist6.webp", "city": "کرج", "specialty": "طراحی ابرو" },
+    { "id": 7, "name": "زهرا شریفی", "score": 18.1, "avatar": "/images/artist7.webp", "city": "قم", "specialty": "لیفت مژه" },
+    { "id": 8, "name": "مریم نوری", "score": 17.8, "avatar": "/images/artist8.webp", "city": "اهواز", "specialty": "کاشت مو" },
+    { "id": 9, "name": "الناز یوسفی", "score": 17.5, "avatar": "/images/artist9.webp", "city": "رشت", "specialty": "تتو خط لب" },
+    { "id": 10, "name": "شیدا رضوی", "score": 17.2, "avatar": "/images/artist10.webp", "city": "کرمان", "specialty": "میکاپ دائم" }
+  ]
+}
