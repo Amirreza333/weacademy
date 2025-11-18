@@ -31,7 +31,7 @@ export default function About() {
 
         {/* کارت مرکزی با محتوا */}
         <div className="relative max-w-6xl mx-auto">
-          <div className="bg-gradient-to-br from-[#1a1a1a]/90 to-[#0a0a0a]/90 backdrop-blur-2xl rounded-3xl p-12 md:p-16 border border-[#D4AF37]/20 shadow-2xl">
+          <div className="bg-gradient-to-br backdrop-blur-2xl rounded-3xl p-12 md:p-16 border border-[#D4AF37]/20 shadow-2xl">
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
               {/* تصویر اصلی */}
               <div className="relative group">

@@ -66,15 +66,7 @@ export default function DashboardHeader({ phone }) {
         { className: "flex items-center gap-4" },
 
         // دکمه لیست آرایشگران (جدید — کاملاً طلایی و خفن)
-        React.createElement(
-          Link,
-          {
-            href: "/BeautySalonFinder",
-            className:
-              "bg-gradient-to-r from-[#dbb91e]/20 to-yellow-600/20 hover:from-[#dbb91e]/30 hover:to-yellow-600/30 border border-[#dbb91e]/50 text-[#dbb91e] px-7 py-2.5 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg backdrop-blur-md flex items-center gap-2",
-          },
-          React.createElement("span", null, "لیست آرایشگران")
-        ),
+        
 
         // دکمه خروج
         React.createElement(

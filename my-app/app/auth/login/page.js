@@ -1,147 +1,280 @@
 // app/auth/login/page.js
-'use client';
-import React from 'react';
-import { useState } from 'react';
-import { Phone, Send, Sparkles } from 'lucide-react';
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { Phone, Send, Sparkles, Scissors, User, RefreshCw } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
-  const [phone, setPhone] = useState('');
+  const [role, setRole] = useState(null); // null | "stylist" | "client"
+  const [phone, setPhone] = useState("");
+  const [captcha, setCaptcha] = useState({ a: 0, b: 0, answer: "" });
+  const [userAnswer, setUserAnswer] = useState("");
+  const [captchaValid, setCaptchaValid] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // تولید کپچای ضد ربات
+  const generateCaptcha = () => {
+    const a = Math.floor(Math.random() * 89) + 10;
+    const b = Math.floor(Math.random() * 89) + 10;
+    setCaptcha({ a, b, answer: (a + b).toString() });
+    setUserAnswer("");
+    setCaptchaValid(false);
+  };
+
+  useEffect(() => {
+    if (role) generateCaptcha();
+  }, [role]);
+
+  useEffect(() => {
+    if (userAnswer && parseInt(userAnswer) === parseInt(captcha.answer)) {
+      setCaptchaValid(true);
+    } else {
+      setCaptchaValid(false);
+    }
+  }, [userAnswer, captcha.answer]);
 
   const validatePhone = (num) => /^09[0-9]{9}$/.test(num);
 
   const handleSendOTP = () => {
     if (!validatePhone(phone)) {
-      alert('شماره نامعتبر! مثلاً: 09123456789');
+      alert("شماره نامعتبر! مثلاً: 09123456789");
+      return;
+    }
+    if (!captchaValid) {
+      alert("لطفاً کپچا را درست حل کنید!");
       return;
     }
 
     setLoading(true);
     setTimeout(() => {
-      localStorage.setItem('pending_phone', phone);
+      localStorage.setItem("pending_phone", phone);
+      localStorage.setItem("user_role", role);
+
       alert(`کد تأیید برای ${phone} ارسال شد: 123456`);
-      window.location.href = `/auth/verify?phone=${phone}`;
+      window.location.href = "/auth/verify";
       setLoading(false);
-    }, 1000);
+    }, 1200);
   };
 
-  return React.createElement(
-    'div',
-    { className: 'min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center p-4 overflow-hidden relative' },
+  if (!role) {
+    return (
+      <>
+        <div className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
+          <div className="absolute inset-0 opacity-30">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage:
+                  "radial-gradient(circle at 20% 80%, #dbb91e 0%, transparent 40%), radial-gradient(circle at 80% 20%, #f59e0b 0%, transparent 40%)",
+                backgroundSize: "800px 800px",
+                animation: "float 25s ease-in-out infinite",
+              }}
+            />
+          </div>
 
-    // افکت‌های پس‌زمینه
-    React.createElement('div', {
-      className: 'absolute inset-0 opacity-20',
-      style: {
-        backgroundImage: 'radial-gradient(circle at 20% 80%, #dbb91e 0%, transparent 50%), radial-gradient(circle at 80% 20%, #dbb91e 0%, transparent 50%)',
-        backgroundSize: '600px 600px',
-        animation: 'float 20s ease-in-out infinite'
-      }
-    }),
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative z-10 text-center max-w-2xl"
+          >
+            <div className="w-28 h-28 mx-auto mb-8 bg-gradient-to-br from-[#dbb91e] to-yellow-600 rounded-full flex items-center justify-center shadow-2xl ring-8 ring-[#dbb91e]/20 animate-pulse">
+              <Sparkles className="w-14 h-14 text-black" />
+            </div>
 
-    React.createElement(
-      'div',
-      { className: 'relative bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 md:p-12 w-full max-w-md border border-white/20 overflow-hidden' },
+            <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-[#dbb91e] via-yellow-400 to-amber-600 bg-clip-text text-transparent mb-4">
+              WeAcademy
+            </h1>
+            <p className="text-xl text-white/80 mb-16">به دنیای زیبایی خوش آمدید</p>
 
-      // نوار طلایی
-      React.createElement('div', {
-        className: 'absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-yellow-400 via-[#dbb91e] to-yellow-600 rounded-t-3xl'
-      }),
+            <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setRole("stylist")}
+                className="group relative bg-white/10 backdrop-blur-xl border-2 border-[#dbb91e]/50 rounded-3xl p-10 overflow-hidden hover:border-[#dbb91e]"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-[#dbb91e]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Scissors className="w-16 h-16 mx-auto mb-6 text-[#dbb91e] group-hover:rotate-12 transition-transform" />
+                <h3 className="text-2xl font-bold text-white mb-2">آرایشگر</h3>
+                <p className="text-white/70">مدیریت نوبت‌ها و مشتریان</p>
+              </motion.button>
 
-      // لوگو
-      React.createElement(
-        'div',
-        { className: 'w-20 h-20 md:w-24 md:h-24 mx-auto mb-6 bg-gradient-to-br from-[#dbb91e] to-yellow-600 rounded-full flex items-center justify-center shadow-2xl ring-4 ring-[#dbb91e]/30 animate-pulse' },
-        React.createElement(Sparkles, { className: 'w-10 h-10 md:w-12 md:h-12 text-black' })
-      ),
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => setRole("client")}
+                className="group relative bg-white/10 backdrop-blur-xl border-2 border-white/20 rounded-3xl p-10 overflow-hidden hover:border-yellow-500"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                <User className="w-16 h-16 mx-auto mb-6 text-yellow-500 group-hover:scale-110 transition-transform" />
+                <h3 className="text-2xl font-bold text-white mb-2">کاربر</h3>
+                <p className="text-white/70">رزرو نوبت و پروفایل شخصی</p>
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
 
-      // عنوان
-      React.createElement('h1', {
-        className: 'text-3xl md:text-4xl font-bold text-center mb-3 text-[#dbb91e] drop-shadow-2xl'
-      }, 'WeAcademy'),
+        <style jsx>{`
+          @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-30px) rotate(2deg); }
+          }
+        `}</style>
+      </>
+    );
+  }
 
-      React.createElement('p', {
-        className: 'text-center text-white/80 mb-10 text-sm md:text-base'
-      }, 'به پنل مدیریت آرایشگران خوش آمدید'),
+  return (
+    <>
+      <div className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 30% 70%, #dbb91e 0%, transparent 50%), radial-gradient(circle at 70% 30%, #f59e0b 0%, transparent 50%)",
+              animation: "float 20s ease-in-out infinite",
+            }}
+          />
+        </div>
 
-      // فرم
-      React.createElement(
-        'div',
-        { className: 'relative mb-8' },
-        React.createElement(
-          'div',
-          { className: 'flex items-center bg-white/10 border border-[#dbb91e]/40 rounded-2xl shadow-lg overflow-hidden focus-within:border-[#dbb91e] focus-within:ring-2 focus-within:ring-[#dbb91e]/30 transition-all' },
-          React.createElement(Phone, { className: 'w-6 h-6 text-[#dbb91e] mx-4' }),
-          React.createElement('input', {
-            type: 'text',
-            value: phone,
-            onChange: (e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 11)),
-            placeholder: '09123456789',
-            className: 'w-full p-4 pr-2 bg-transparent text-white placeholder-white/50 focus:outline-none text-lg',
-            maxLength: '11'
-          }),
-          React.createElement('span', {
-            className: 'text-[#dbb91e] font-bold px-3'
-          }, 'IR')
-        )
-      ),
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl p-10 md:p-14 w-full max-w-md border border-white/20"
+        >
+          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#dbb91e] to-yellow-600 rounded-t-3xl" />
 
-      // دکمه ارسال
-      React.createElement(
-        'button',
-        {
-          onClick: handleSendOTP,
-          disabled: loading || !phone,
-          className: 'w-full bg-gradient-to-r from-[#dbb91e] to-yellow-500 text-black py-5 rounded-2xl font-bold text-lg md:text-xl shadow-xl hover:from-yellow-500 hover:to-orange-500 transform hover:scale-105 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-3 group'
-        },
-        loading
-          ? React.createElement(
-              'span',
-              { className: 'flex items-center gap-3' },
-              React.createElement('svg', {
-                className: 'animate-spin h-6 w-6',
-                viewBox: '0 0 24 24'
-              }, React.createElement('circle', {
-                className: 'opacity-25',
-                cx: '12', cy: '12', r: '10',
-                stroke: 'currentColor', strokeWidth: '4', fill: 'none'
-              }), React.createElement('path', {
-                className: 'opacity-75', fill: 'currentColor',
-                d: 'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-              })),
-              'در حال ارسال...'
-            )
-          : React.createElement(
-              'span',
-              { className: 'flex items-center gap-3' },
-              'ارسال کد تأیید',
-              React.createElement(Send, { className: 'w-5 h-5 group-hover:translate-x-1 transition-transform' })
-            )
-      ),
+          <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-br from-[#dbb91e] to-yellow-600 rounded-full flex items-center justify-center shadow-2xl ring-4 ring-[#dbb91e]/30">
+            {role === "stylist" ? <Scissors className="w-12 h-12 text-black" /> : <User className="w-12 h-12 text-black" />}
+          </div>
 
-      // راهنما
-      React.createElement('p', {
-        className: 'text-xs text-center text-white/60 mt-8 bg-white/10 px-4 py-3 rounded-xl backdrop-blur-sm'
-      }, 'دمو: کد تأیید همیشه ', React.createElement('span', {
-        className: 'font-bold text-[#dbb91e]'
-      }, '123456')),
+          <h2 className="text-3xl font-bold text-center text-[#dbb91e] mb-3">
+            {role === "stylist" ? "ورود آرایشگر" : "ورود کاربر"}
+          </h2>
+          <p className="text-center text-white/70 mb-8">شماره موبایل و کپچا را وارد کنید</p>
 
-      // افکت‌های طلایی
-      React.createElement('div', {
-        className: 'absolute -bottom-20 -left-20 w-64 h-64 bg-[#dbb91e]/20 rounded-full blur-3xl animate-pulse'
-      }),
-      React.createElement('div', {
-        className: 'absolute -top-20 -right-20 w-64 h-64 bg-yellow-500/20 rounded-full blur-3xl animate-pulse'
-      })
-    ),
+          {/* شماره موبایل */}
+          <div className="flex items-center bg-white/10 border-2 border-[#dbb91e]/40 rounded-2xl shadow-lg focus-within:border-[#dbb91e] focus-within:ring-4 focus-within:ring-[#dbb91e]/20 transition-all mb-6">
+            <Phone className="w-6 h-6 text-[#dbb91e] mx-4" />
+            <input
+              type="text"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 11))}
+              placeholder="09123456789"
+              className="w-full p-4 bg-transparent text-white placeholder-white/50 focus:outline-none text-lg"
+              maxLength="11"
+            />
+            <span className="text-[#dbb91e] font-bold px-4">IR</span>
+          </div>
 
-    // انیمیشن CSS
-    React.createElement('style', { jsx: true }, `
-      @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(1deg); }
-      }
-      .animate-float { animation: float 20s ease-in-out infinite; }
-    `)
+          {/* کپچای ضد ربات حرفه‌ای */}
+          <div className="relative bg-white/10 backdrop-blur-xl border border-[#dbb91e]/40 rounded-2xl p-6 mb-6 overflow-hidden">
+            <div className="absolute inset-0 opacity-30">
+              <svg className="w-full h-full">
+                {[...Array(15)].map((_, i) => (
+                  <line
+                    key={i}
+                    x1={Math.random() * 100 + "%"}
+                    y1={Math.random() * 100 + "%"}
+                    x2={Math.random() * 100 + "%"}
+                    y2={Math.random() * 100 + "%"}
+                    stroke="#dbb91e"
+                    strokeWidth="1.5"
+                    opacity="0.25"
+                  />
+                ))}
+              </svg>
+            </div>
+
+            <div className="relative flex items-center justify-center gap-5 mb-5 py-3">
+              <span className="text-5xl font-black text-[#dbb91e] tracking-wider"
+                    style={{ transform: `rotate(${Math.random() * 12 - 6}deg)`, textShadow: "2px 2px 8px rgba(0,0,0,0.5)" }}>
+                {captcha.a}
+              </span>
+              <span className="text-4xl font-bold text-yellow-400">+</span>
+              <span className="text-5xl font-black text-orange-400 tracking-wider"
+                    style={{ transform: `rotate(${Math.random() * 12 - 6}deg)`, textShadow: "2px 2px 8px rgba(0,0,0,0.5)" }}>
+                {captcha.b}
+              </span>
+              <span className="text-4xl font-bold text-yellow-500">=</span>
+              <div className="w-24 h-14 bg-white/20 rounded-xl border-2 border-dashed border-[#dbb91e]/70 flex items-center justify-center">
+                <span className="text-4xl font-bold text-white/80">؟</span>
+              </div>
+            </div>
+
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#dbb91e]/50 to-transparent transform -rotate-12" />
+              <div className="absolute top-1/3 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500/40 to-transparent transform rotate-8" />
+            </div>
+
+            <div className="relative mt-4">
+              <input
+                type="text"
+                value={userAnswer}
+                onChange={(e) => setUserAnswer(e.target.value.replace(/\D/g, ""))}
+                placeholder="جواب را اینجا بنویسید"
+                className="w-full px-6 py-5 bg-white/10 rounded-xl text-white placeholder-white/40 text-center text-2xl font-bold focus:outline-none focus:ring-4 focus:ring-[#dbb91e]/40 transition-all"
+                maxLength="3"
+              />
+              {captchaValid && (
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  className="absolute -top-4 -right-4 bg-green-500 text-white text-sm font-bold rounded-full px-4 py-2 shadow-2xl"
+                >
+                  درست است
+                </motion.div>
+              )}
+            </div>
+
+            <button
+              onClick={generateCaptcha}
+              className="absolute top-5 right-5 text-[#dbb91e] hover:text-yellow-400 transition-all hover:rotate-180 duration-700"
+            >
+              <RefreshCw className="w-7 h-7" />
+            </button>
+          </div>
+
+          {/* دکمه ارسال */}
+          <motion.button
+            whileHover={{ scale: captchaValid && phone.length === 11 ? 1.03 : 1 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleSendOTP}
+            disabled={loading || phone.length !== 11 || !captchaValid}
+            className={`w-full py-5 rounded-2xl font-bold text-xl shadow-2xl flex items-center justify-center gap-3 transition-all duration-300 ${
+              captchaValid && phone.length === 11
+                ? "bg-gradient-to-r from-[#dbb91e] to-yellow-500 text-black hover:from-yellow-500 hover:to-orange-500"
+                : "bg-gray-700 text-gray-500 cursor-not-allowed"
+            }`}
+          >
+            {loading ? "در حال ارسال..." : "ارسال کد تأیید"}
+            {!loading && <Send className="w-6 h-6" />}
+          </motion.button>
+
+          <button
+            onClick={() => setRole(null)}
+            className="mt-6 text-white/60 hover:text-white transition-colors text-sm block mx-auto"
+          >
+            تغییر نقش
+          </button>
+
+          <p className="text-xs text-center text-white/50 mt-8 bg-white/5 px-4 py-3 rounded-xl">
+            دمو: کد تأیید همیشه <span className="font-bold text-[#dbb919]">123456</span>
+          </p>
+
+          <div className="absolute -bottom-32 -left-32 w-80 h-80 bg-[#dbb91e]/20 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute -top-32 -right-32 w-80 h-80 bg-yellow-600/20 rounded-full blur-3xl animate-pulse" />
+        </motion.div>
+      </div>
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-25px) rotate(1.5deg); }
+        }
+      `}</style>
+    </>
   );
 }

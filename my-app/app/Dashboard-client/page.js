@@ -29,11 +29,11 @@ export default async function UserDashboard() {
 
   return (
     <div
-      className="min-h-screen bg-black/50 relative overflow-hidden"
+      className="min-h-screen  relative overflow-hidden"
       dir="rtl"
     >
       {/* بک‌گراند لوکس */}
-      <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/30 via-black/90 to-black pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br" />
 
       <div className="relative z-10 container mx-auto p-4 md:p-8 max-w-7xl">
         {/* هدر */}

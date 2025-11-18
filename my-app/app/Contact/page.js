@@ -1,100 +1,148 @@
+// app/contact/page.js
 "use client";
+
+import { motion } from "framer-motion";
+import { Mail, MessageCircle, Send, Home, Sparkles, Instagram } from "lucide-react";
 import { useState } from "react";
-import BubbleMenu from "../../public/Animation/BubbleMenu";
-import { motion, AnimatePresence } from "framer-motion";
-import { Home, Mail, MessageCircle, Send } from "lucide-react";
-import TextType from "../../public/Animation/TextType";
+export default function Contact() {
+  const [hovered, setHovered] = useState(null);
 
-
-function Contact() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const items = [
+  const contacts = [
     {
-      label: <Home className="w-7 h-7" />,
+      name: "خانه",
+      icon: <Home className="w-7 h-7" />,
       href: "/",
-      ariaLabel: "Home",
-      rotation: -8,
-      hoverStyles: { bgColor: "#3b82f6", textColor: "#ffffff" },
+      gradient: "from-amber-500 to-yellow-600",
+      glow: "shadow-amber-500/50",
     },
     {
-      label: <Mail className="w-7 h-7" />,
-      href: "mailto:hello@example.com",
-      ariaLabel: "Email",
-      rotation: -4,
-      hoverStyles: { bgColor: "#ef4444", textColor: "#ffffff" },
+      name: "اینستاگرام",
+      icon: <Instagram className="w-7 h-7" />,
+      href: "mailto:hello@yourdomain.com",
+      gradient: "from-pink-500 to-rose-600",
+      glow: "shadow-pink-500/50",
     },
     {
-      label: <MessageCircle className="w-7 h-7" />,
-      href: "https://wa.me/1234567890",
-      ariaLabel: "WhatsApp",
-      rotation: 4,
-      hoverStyles: { bgColor: "#10b981", textColor: "#ffffff" },
+      name: "واتس‌اپ",
+      icon: <MessageCircle className="w-7 h-7" />,
+      href: "https://wa.me/989123456789",
+      gradient: "from-emerald-500 to-teal-600",
+      glow: "shadow-emerald-500/50",
     },
     {
-      label: <Send className="w-7 h-7" />,
+      name: "تلگرام",
+      icon: <Send className="w-7 h-7" />,
       href: "https://t.me/yourusername",
-      ariaLabel: "Telegram",
-      rotation: 8,
-      hoverStyles: { bgColor: "#0ea5e9", textColor: "#ffffff" },
+      gradient: "from-cyan-500 to-blue-600",
+      glow: "shadow-cyan-500/50",
     },
   ];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
- 
-      <BubbleMenu
-        logo={
-          <motion.span
+    <>
+      {/* پس‌زمینه لوکس با گرادیانت متحرک */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-black" />
+        <motion.div
+          animate={{
+            background: [
+              "radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%)",
+              "radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.15) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.15) 0%, transparent 50%)",
+              "radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)",
+              "radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%)",
+            ],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute inset-0"
+        />
+      </div>
+
+      <div className="min-h-screen flex items-center justify-center px-6 relative">
+        <div className="text-center space-y-16">
+          {/* عنوان با افکت گلو طلایی */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-            className="text-2xl font-bold text-black"
+            transition={{ duration: 1.2, ease: "easeOut" }}
           >
-            ارتباط با ما
-          </motion.span>
-        }
-        items={items}
-        menuAriaLabel="Contact menu"
-        menuBg="#fff"
-        menuContentColor="#000"
-        useFixedPosition={false}
-        animationEase="back.out(1.5)"
-        animationDuration={0.5}
-        staggerDelay={0.12}
-        onToggle={(open) => setIsMenuOpen(open)}
-      />
-
-  
-      <AnimatePresence mode="wait">
-        {!isMenuOpen && (
-          <motion.div
-            key="unique-text-type-key"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute inset-0 flex items-center justify-center pointer-events-none z-0"
-          >
-            <div className="text-center md:hidden">
-              <TextType
-                key="reset-typing-animation"
-                text={[
-                  "با ما در ارتباط باشید",
-                  "از طریق ایمیل، اینستاگرام و...",
-                ]}
-                typingSpeed={75}
-                pauseDuration={1500}
-                showCursor={true}
-                cursorCharacter="|"
-                className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg"
-              />
-            </div>
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter">
+              <span className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent">
+                ارتباط با ما
+              </span>
+            </h1>
+            <motion.div
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 4, repeat: Infinity }}
+              className="absolute -inset-x-32 -inset-y-8 bg-amber-500/20 rounded-full blur-3xl -z-10 left-1/2 -translate-x-1/2"
+            />
+            <p className="mt-6 text-zinc-400 text-lg md:text-xl font-light tracking-wide">
+              هر زمان که آماده بودید، ما اینجاییم
+            </p>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+
+          {/* کارت‌های ارتباطی معلق با افکت شیشه‌ای و گلو */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-4xl mx-auto">
+            {contacts.map((item, i) => (
+              <motion.a
+                key={i}
+                href={item.href}
+                target={item.href.startsWith("http") ? "_blank" : undefined}
+                rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                initial={{ opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.15, duration: 0.8, ease: "easeOut" }}
+                onHoverStart={() => setHovered(i)}
+                onHoverEnd={() => setHovered(null)}
+                className="group relative"
+              >
+                {/* کارت اصلی با شیشه مات */}
+                <div className="relative p-10 md:p-12 rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500 group-hover:border-white/30">
+                  {/* گرادیانت هاور */}
+                  <motion.div
+                    className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-20 transition-opacity duration-700`}
+                  />
+
+                  {/* گلو هنگام هاور */}
+                  <motion.div
+                    animate={hovered === i ? { scale: 1.4, opacity: 0.6 } : { scale: 0, opacity: 0 }}
+                    className={`absolute inset-0 bg-gradient-to-br ${item.gradient} blur-3xl ${item.glow}`}
+                  />
+
+                  {/* آیکون */}
+                  <motion.div
+                    animate={hovered === i ? { scale: 1.2, rotate: 360 } : { scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="relative z-10 text-white"
+                  >
+                    {item.icon}
+                  </motion.div>
+
+                  {/* نام */}
+                  <p className="mt-6 text-zinc-300 text-sm md:text-base font-medium tracking-wider">
+                    {item.name}
+                  </p>
+                </div>
+
+                {/* اسپارکِل کوچک هنگام هاور */}
+                {hovered === i && (
+                  <Sparkles className="absolute -top-3 -right-3 w-8 h-8 text-amber-400 animate-pulse" />
+                )}
+              </motion.a>
+            ))}
+          </div>
+
+          {/* متن پایین صفحه (دسکتاپ) */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            className="hidden md:block text-zinc-500 text-sm tracking-widest"
+          >
+            © 2025 • با افتخار ساخته شده
+          </motion.p>
+        </div>
+      </div>
+    </>
   );
 }
-
-export default Contact;

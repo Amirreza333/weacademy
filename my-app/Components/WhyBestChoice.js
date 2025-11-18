@@ -51,7 +51,7 @@ export default function WhyBestChoice() {
 
   return (
     <section
-      className="py-24 md:py-32 px-4 relative overflow-hidden"
+      className=" py-24 md:py-32 px-4 relative overflow-hidden"
       style={{ backgroundColor: "#0a0a0a" }}
     >
       {/* پس‌زمینه طلایی ملایم */}
