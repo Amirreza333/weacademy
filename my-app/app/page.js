@@ -21,6 +21,8 @@ const galleryImages = [
 ];
 
 export default function Home() {
+
+  const apibackend=process.env.Ne
   return (
     <main className="relative overflow-x-hidden">
       <Header />
