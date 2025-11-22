@@ -9,6 +9,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
 
+  // بستن منو با کلیک بیرون
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -32,7 +33,7 @@ export default function Header() {
     },
     { label: "مقالات", href: "/blog" },
     { label: "تماس با ما", href: "/Contact" },
-    { label: "همکاری با ما", href: "/collaboration" }, // همین، ساده و شیک
+    { label: "همکاری با ما", href: "/collaboration" },
   ];
 
   return (
@@ -56,18 +57,30 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* همبرگر منو موبایل */}
+            {/* دکمه همبرگر - حالا هم باز می‌کنه هم می‌بنده! */}
             <button
               className="md:hidden flex flex-col justify-center items-center space-y-1 focus:outline-none z-50"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label="منوی ناوبری"
+              onClick={() => setIsMenuOpen(prev => !prev)}
+              aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
             >
-              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}></span>
-              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${isMenuOpen ? "opacity-0" : "opacity-100"}`}></span>
-              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}></span>
+              <span
+                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "rotate-45 translate-y-1.5" : ""
+                }`}
+              ></span>
+              <span
+                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "opacity-0" : "opacity-100"
+                }`}
+              ></span>
+              <span
+                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${
+                  isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
+                }`}
+              ></span>
             </button>
 
-            {/* منوی دسکتاپ - همه سفید، فقط دو تا گرادیان دارن */}
+            {/* منوی دسکتاپ */}
             <nav className="hidden md:flex items-center space-x-1 lg:space-x-2">
               {navItems.map((item) => (
                 <Link
@@ -82,7 +95,6 @@ export default function Header() {
                   {item.icon && <item.icon className="w-5 h-5" />}
                   {item.label}
 
-                  {/* بج‌ها */}
                   {item.badge && (
                     <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
                   )}
@@ -90,7 +102,6 @@ export default function Header() {
                     <span className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-full animate-ping"></span>
                   )}
 
-                  {/* خط طلایی زیر همه آیتم‌ها */}
                   <span className="absolute inset-x-0 bottom-0 h-0.5 bg-[#dbb91e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-right"></span>
                 </Link>
               ))}
@@ -101,7 +112,7 @@ export default function Header() {
           {isMenuOpen && (
             <nav
               ref={menuRef}
-              className="md:hidden mt-4 flex flex-col space-y-2 bg-black/90 backdrop-blur-xl p-4 rounded-xl border border-[#dbb91e]/30"
+              className="md:hidden mt-4 flex flex-col space-y-2 bg-black/90 backdrop-blur-xl p-4 rounded-xl border border-[#dbb91e]/30 transition-all duration-300"
             >
               {navItems.map((item) => (
                 <Link
@@ -112,12 +123,14 @@ export default function Header() {
                       ? "bg-clip-text text-transparent bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E]"
                       : "text-gray-200 hover:text-[#dbb91e]"
                   }`}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => requestAnimationFrame(() => setIsMenuOpen(false))}
                 >
                   {item.icon && <item.icon className="w-5 h-5" />}
                   {item.label}
                   {item.badge && <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>}
-                  {item.notification && <span className="w-3 h-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-full animate-ping"></span>}
+                  {item.notification && (
+                    <span className="w-3 h-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-full animate-ping"></span>
+                  )}
                 </Link>
               ))}
             </nav>
