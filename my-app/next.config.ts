@@ -1,6 +1,8 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  reactStrictMode: true,
+
   images: {
     remotePatterns: [
       {
@@ -9,13 +11,11 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/wp-content/uploads/**',
       },
-      
+   
     ],
   },
 
-  
-  reactStrictMode: true,
-  swcMinify: true,
+ 
 };
 
 export default nextConfig;
