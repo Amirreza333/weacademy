@@ -32,7 +32,7 @@ export default function Workshops() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gradient-to-b from-[#0a0d16] to-[#0e121c] text-white pt-32 pb-20">
+      <main className="min-h-screen bg-gradient-to-b  text-white pt-32 pb-20">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
             <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#dbb91e] via-[#E8C56A] to-[#dbb91e] mb-6">

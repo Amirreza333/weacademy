@@ -7,7 +7,7 @@ export default function Recruitment() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gradient-to-b from-[#0a0d16] to-[#0e121c] text-white pt-32 pb-20">
+      <main className="min-h-screen bg-gradient-to-b  text-white pt-32 pb-20">
         <div className="container mx-auto px-6 text-center max-w-5xl">
           <h1 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#dbb91e] to-[#E8C56A] mb-8">
             همکاری در جذب مدرس

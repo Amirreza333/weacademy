@@ -13,7 +13,7 @@ import {
 export default function ServicesPage() {
   const services = [
     {
-      title: "ورک‌شاپ و سمینار",
+      title: "ورک‌شاپ",
       description: "دوره‌های فشرده و تخصصی با حضور بهترین اساتید بین‌المللی",
       icon: Sparkles,
       href: "/services/workshops",
@@ -45,7 +45,7 @@ export default function ServicesPage() {
   return (
     <div
       dir="rtl"
-      className="min-h-screen bg-gradient-to-b from-black via-[#0a0d16] to-[#0e121c] text-white"
+      className="min-h-screen bg-gradient-to-b  text-white"
     >
       {/* هدر طلایی بزرگ */}
       <div className="relative overflow-hidden pt-32 pb-20">
@@ -53,7 +53,7 @@ export default function ServicesPage() {
         <div className="container mx-auto px-6 relative z-10">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#E8C56A] via-[#dbb91e] to-[#B8961E] mb-6">
-              خدمات آکادمی وی
+              خدمات وی آکادمی 
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
               بهترین مسیر برای حرفه‌ای شدن در دنیای آرایشگری

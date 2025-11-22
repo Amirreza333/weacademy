@@ -20,7 +20,7 @@ export default function About() {
         {/* عنوان لوکس */}
         <div className="text-center mb-24">
           <h2 className="text-6xl md:text-8xl font-black tracking-tighter">
-            <span className="inline انسان-block bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl animate-gradient">
+            <span className="inline-block bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl animate-gradient">
               WeAcademy
             </span>
           </h2>
@@ -29,11 +29,12 @@ export default function About() {
           </p>
         </div>
 
-        {/* کارت مرکزی با محتوا */}
+        {/* کارت مرکزی — فقط بک‌گراند شفاف شد، همه چیز همون شکلی موند */}
         <div className="relative max-w-6xl mx-auto">
-          <div className="bg-gradient-to-br backdrop-blur-2xl rounded-3xl p-12 md:p-16 border border-[#D4AF37]/20 shadow-2xl">
+          <div className="bg-black/20 backdrop-blur-3xl rounded-3xl p-12 md:p-16 border border-[#D4AF37]/30 shadow-2xl shadow-[#D4AF37]/20">
+            
+            {/* همه محتوای قبلی بدون تغییر */}
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-              {/* تصویر اصلی */}
               <div className="relative group">
                 <div className="absolute inset-0 bg-gradient-to-t from-[#D4AF37]/40 to-transparent rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                 <Image
@@ -52,7 +53,6 @@ export default function About() {
                 </div>
               </div>
 
-              {/* محتوا */}
               <div className="space-y-8 text-right">
                 <h3 className="text-3xl md:text-4xl font-bold text-white">
                   <span className="bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] bg-clip-text text-transparent">
@@ -69,7 +69,6 @@ export default function About() {
                   آینده را برای آرایشگران حرفه‌ای می‌سازیم.
                 </p>
 
-                {/* آمار لوکس */}
                 <div className="grid grid-cols-3 gap-6 mt-10">
                   {[
                     { icon: FaUsers, value: "۵۵۰K+", label: "هنرجو" },
@@ -89,7 +88,7 @@ export default function About() {
               </div>
             </div>
 
-            {/* بخش دوم: دستاوردها */}
+            {/* بقیه محتوا بدون تغییر */}
             <div className="mt-16 grid md:grid-cols-2 gap-10">
               <div>
                 <h4 className="text-2xl font-bold text-[#E8C56A] mb-6 flex items-center gap-3">
@@ -105,14 +104,12 @@ export default function About() {
                     "برگزاری ۳ دوره بین‌المللی در دبی، استانبول و باکو",
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3">
-                      <span className="text-[#D4AF37] mt-1">◆</span>
-                      <span>{item}</span>
+                      ◆ <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* تصویر دوم */}
               <div className="relative group">
                 <Image
                   src="/images/Grouppic5.webp"
@@ -122,13 +119,9 @@ export default function About() {
                   className="w-full rounded-2xl shadow-xl border border-[#D4AF37]/20 transition-all duration-500 group-hover:border-[#E8C56A] group-hover:shadow-[#D4AF37]/30"
                   quality={90}
                 />
-                <div className="absolute bottom-4 right-4 bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium">
-                  
-                </div>
               </div>
             </div>
 
-            {/* دکمه‌های CTA */}
             <div className="mt-16 flex flex-col sm:flex-row gap-6 justify-center">
               <button className="group relative px-10 py-5 bg-gradient-to-r from-[#D4AF37] to-[#B8961E] text-black font-bold rounded-full text-lg overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-[#D4AF37]/50">
                 <span className="relative z-10 flex items-center gap-3">
@@ -144,26 +137,15 @@ export default function About() {
             </div>
           </div>
 
-          {/* خط طلایی پایین */}
           <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent"></div>
         </div>
       </div>
 
-      {/* CSS انیمیشن سفارشی */}
       <style jsx>{`
-        @keyframes spin-slow {
-          from { transform: translate(-50%, -50%) rotate(0deg); }
-          to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
+        @keyframes spin-slow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+        @keyframes gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
         .animate-spin-slow { animation: spin-slow 35s linear infinite; }
-        .animate-gradient { 
-          background-size: 200% 200%;
-          animation: gradient 5s ease infinite;
-        }
+        .animate-gradient { background-size: 200% 200%; animation: gradient 5s ease infinite; }
       `}</style>
     </section>
   );
