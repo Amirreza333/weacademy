@@ -10,7 +10,6 @@ export default function Header() {
   const [openServicesMobile, setOpenServicesMobile] = useState(false);
   const menuRef = useRef(null);
 
-  // بستن منو با کلیک بیرون
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -30,6 +29,7 @@ export default function Header() {
   ];
 
   const navItems = [
+    // دکمه جدید اضافه شد — قبل از آموزش
     {
       label: "آموزش",
       href: "/courses",
@@ -38,6 +38,12 @@ export default function Header() {
     { label: "درباره ما", href: "/Aboutus" },
     { label: "خدمات", href: "/services" },
     { label: "مقالات", href: "/blog" },
+    {
+      label: "آموزشگاه",
+      href: "/academy",
+      badge: true,
+      notification: true,
+    },
     { label: "کاربران برتر", href: "/top-users", badge: true },
     {
       label: "چت زنده",
@@ -48,7 +54,6 @@ export default function Header() {
     },
     { label: "تماس با ما", href: "/Contact" },
     { label: "همکاری با ما", href: "/collaboration" },
-    
     { label: "خانه", href: "/" },
   ];
 
@@ -76,27 +81,15 @@ export default function Header() {
               </Link>
             </div>
 
-            {/* دکمه همبرگر موبایل */}
+            {/* همبرگر موبایل */}
             <button
               className="md:hidden flex flex-col justify-center items-center space-y-1 focus:outline-none z-50"
               onClick={() => setIsMenuOpen((prev) => !prev)}
               aria-label={isMenuOpen ? "بستن منو" : "باز کردن منو"}
             >
-              <span
-                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${
-                  isMenuOpen ? "rotate-45 translate-y-1.5" : ""
-                }`}
-              ></span>
-              <span
-                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${
-                  isMenuOpen ? "opacity-0" : "opacity-100"
-                }`}
-              ></span>
-              <span
-                className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${
-                  isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""
-                }`}
-              ></span>
+              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${isMenuOpen ? "rotate-45 translate-y-1.5" : ""}`}></span>
+              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${isMenuOpen ? "opacity-0" : "opacity-100"}`}></span>
+              <span className={`block w-6 h-0.5 bg-[#dbb91e] transition-all duration-300 ease-in-out ${isMenuOpen ? "-rotate-45 -translate-y-1.5" : ""}`}></span>
             </button>
 
             {/* منوی دسکتاپ */}
@@ -108,7 +101,9 @@ export default function Header() {
                   className={`relative px-4 lg:px-5 py-2.5 text-sm lg:text-base font-medium rounded-xl transition-all duration-300 active:scale-95 group flex items-center gap-2 ${
                     item.highlight
                       ? "bg-gradient-to-r from-[#dbb91e] to-[#b8961e] text-black font-bold shadow-lg shadow-[#dbb91e]/30 hover:shadow-xl hover:shadow-[#dbb91e]/50 hover:scale-105"
-                      : item.label === "کاربران برتر" || item.label === "چت زنده"
+                      : item.label === "کاربران برتر" || 
+                        item.label === "چت زنده" || 
+                        item.label === "آموزشگاه وی آکادمی"
                       ? "bg-clip-text text-transparent bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E]"
                       : "text-gray-200 hover:text-[#dbb91e] hover:bg-[#dbb91e]/20"
                   }`}
@@ -116,7 +111,7 @@ export default function Header() {
                   {item.icon && <item.icon className="w-5 h-5" />}
                   {item.label}
 
-                  {/* فقط برای آیتم‌های غیر طلایی بج و خط زیرین */}
+                  {/* بج و نوتیفیکیشن فقط برای آیتم‌های غیر highlight */}
                   {!item.highlight && (
                     <>
                       {item.badge && (
@@ -133,7 +128,7 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* منوی موبایل با زیرمنوی خدمات */}
+          {/* منوی موبایل */}
           {isMenuOpen && (
             <nav
               ref={menuRef}
@@ -142,18 +137,14 @@ export default function Header() {
               {navItems.map((item) => (
                 <div key={item.label}>
                   {item.label === "خدمات" ? (
+                    /* همون کد قبلی خدمات بدون تغییر */
                     <>
                       <button
                         onClick={() => setOpenServicesMobile(!openServicesMobile)}
                         className="w-full px-4 py-3 text-center font-medium rounded-lg transition-all duration-200 hover:bg-[#dbb91e]/20 flex items-center justify-center gap-2 text-gray-200 hover:text-[#dbb91e]"
                       >
                         خدمات
-                        <svg
-                          className={`w-4 h-4 transition-transform ${openServicesMobile ? "rotate-180" : ""}`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
+                        <svg className={`w-4 h-4 transition-transform ${openServicesMobile ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                         </svg>
                       </button>
@@ -182,14 +173,13 @@ export default function Header() {
                       className={`relative px-4 py-3 text-center font-medium rounded-lg transition-all duration-200 hover:bg-[#dbb91e]/20 active:scale-95 flex items-center justify-center gap-2 ${
                         item.highlight
                           ? "bg-gradient-to-r from-[#dbb91e] to-[#b8961e] text-black font-bold shadow-lg"
-                          : item.label === "کاربران برتر" || item.label === "چت زنده"
+                          : item.label === "کاربران برتر" || 
+                            item.label === "چت زنده" || 
+                            item.label === "آموزشگاه وی آکادمی"
                           ? "bg-clip-text text-transparent bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E]"
                           : "text-gray-200 hover:text-[#dbb91e]"
                       }`}
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        if (item.label === "خدمات") setOpenServicesMobile(false);
-                      }}
+                      onClick={() => setIsMenuOpen(false)}
                     >
                       {item.icon && <item.icon className="w-5 h-5" />}
                       {item.label}
