@@ -84,10 +84,7 @@ export default function Hero() {
           </div>
 
           {/* برچسب دوره جدید */}
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 md:top-8 md:left-auto md:right-4 lg:right-8 md:translate-x-0 bg-black/90 backdrop-blur-md border border-[#dbb91e] text-[#dbb91e] px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-bold flex items-center gap-2 shadow-2xl animate-pulse">
-            <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-400 rounded-full"></div>
-            دوره جدید شروع شد!
-          </div>
+          
         </div>
       </div>
 

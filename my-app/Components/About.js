@@ -29,25 +29,29 @@ export default function About() {
           </p>
         </div>
 
-        {/* کارت مرکزی — فقط بک‌گراند شفاف شد، همه چیز همون شکلی موند */}
+        {/* کارت مرکزی */}
         <div className="relative max-w-6xl mx-auto">
           <div className="bg-black/20 backdrop-blur-3xl rounded-3xl p-12 md:p-16 border border-[#D4AF37]/30 shadow-2xl shadow-[#D4AF37]/20">
             
-            {/* همه محتوای قبلی بدون تغییر */}
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+              {/* عکس بنیانگذاران — حالا ۱۰۰٪ ثابت در موبایل */}
               <div className="relative group">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#D4AF37]/40 to-transparent rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
+                {/* لایه طلایی زیر عکس — فقط در دسکتاپ */}
+                <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-[#D4AF37]/40 to-transparent rounded-3xl blur-3xl opacity-0 lg:group-hover:opacity-100 transition-opacity duration-1000 -z-10"></div>
+                
                 <Image
                   src="/images/Couplepic.webp"
                   alt="بنیانگذاران WeAcademy"
                   width={800}
                   height={600}
-                  className="w-full rounded-3xl shadow-xl border-2 border-[#D4AF37]/30 transition-all duration-700 group-hover:border-[#E8C56A] group-hover:shadow-2xl group-hover:shadow-[#D4AF37]/40"
+                  className="w-full rounded-3xl shadow-xl border-2 border-[#D4AF37]/30 transition-all duration-700 lg:group-hover:border-[#E8C56A] lg:group-hover:shadow-2xl lg:group-hover:shadow-[#D4AF37]/40"
                   priority
                   quality={95}
                 />
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <div className="w-20 h-20 bg-[#D4AF37]/90 rounded-full flex items-center justify-center backdrop-blur-sm">
+
+                {/* دکمه پلی — ثابت بدون انیمیشن در موبایل */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-20 h-20 bg-[#D4AF37]/90 rounded-full flex items-center justify-center backdrop-blur-sm shadow-2xl opacity-0 scale-90 lg:group-hover:opacity-100 lg:group-hover:scale-110 transition-all duration-500 pointer-events-auto cursor-pointer">
                     <FaPlay className="text-black text-2xl ml-1" />
                   </div>
                 </div>
@@ -79,7 +83,7 @@ export default function About() {
                     { icon: FaCertificate, value: "ISO", label: "گواهی" },
                   ].map((stat, i) => (
                     <div key={i} className="text-center group">
-                      <stat.icon className="mx-auto text-3xl text-[#D4AF37] mb-2 group-hover:text-[#E8C56A] transition-colors" />
+                      <stat.icon className="mx-auto text-3xl text-[#D4AF37] mb-2 lg:group-hover:text-[#E8C56A] transition-colors" />
                       <div className="text-2xl font-bold text-white">{stat.value}</div>
                       <div className="text-sm text-gray-400">{stat.label}</div>
                     </div>
@@ -116,7 +120,7 @@ export default function About() {
                   alt="تیم WeAcademy"
                   width={600}
                   height={400}
-                  className="w-full rounded-2xl shadow-xl border border-[#D4AF37]/20 transition-all duration-500 group-hover:border-[#E8C56A] group-hover:shadow-[#D4AF37]/30"
+                  className="w-full rounded-2xl shadow-xl border border-[#D4AF37]/20 transition-all duration-500 lg:group-hover:border-[#E8C56A] lg:group-hover:shadow-[#D4AF37]/30"
                   quality={90}
                 />
               </div>
@@ -142,8 +146,14 @@ export default function About() {
       </div>
 
       <style jsx>{`
-        @keyframes spin-slow { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-        @keyframes gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+        @keyframes spin-slow { 
+          from { transform: translate(-50%, -50%) rotate(0deg); } 
+          to { transform: translate(-50%, -50%) rotate(360deg); } 
+        }
+        @keyframes gradient { 
+          0%, 100% { background-position: 0% 50%; } 
+          50% { background-position: 100% 50%; } 
+        }
         .animate-spin-slow { animation: spin-slow 35s linear infinite; }
         .animate-gradient { background-size: 200% 200%; animation: gradient 5s ease infinite; }
       `}</style>

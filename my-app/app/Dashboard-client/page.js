@@ -1,12 +1,12 @@
 // app/dashboard/page.js — داشبورد کامل کاربر WeAcademy
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import DashboardHeader from "../../Components/DashboardHeader2.js";
-import ProfileCard from "../../Components/ProfileCard.js";
-import BookingSection from "../../Components/BookingSection.js";
-import UpcomingAppointments from "../../Components/UpcomingAppointments.js";
-import QuickActions from "../../Components/QuickActions.js";
-import ReferralSection from "../../Components/ReferralSection.js";
+import DashboardHeader from "../../components/DashboardHeader2.js";
+import ProfileCard from "../../components/ProfileCard.js";
+import BookingSection from "../../components/BookingSection.js";
+import UpcomingAppointments from "../../components/UpcomingAppointments.js";
+import QuickActions from "../../components/QuickActions.js";
+import ReferralSection from "../../components/ReferralSection.js";
 import Link from "next/link";
 import { CheckCircle, PlayCircle, BookOpen } from "lucide-react";
 

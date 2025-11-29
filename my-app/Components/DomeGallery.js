@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useMemo, useCallback } from "react";
+import { useEffect, useRef, useMemo, useCallback, useState } from "react";
 import { useGesture } from "@use-gesture/react";
 import Image from "next/image";
 
@@ -75,7 +75,7 @@ function buildItems(images, segments) {
 
 export default function DomeGallery({
   images = [],
-  fit = 0.45,
+  fit: propFit = 0.45,
   minRadius = 500,
   maxRadius = 1200,
   fitBasis = "auto",
@@ -84,7 +84,7 @@ export default function DomeGallery({
   maxVerticalRotationDeg = CONFIG.maxVerticalRotationDeg,
   dragSensitivity = CONFIG.dragSensitivity,
   enlargeTransitionMs = 300,
-  segments = CONFIG.segments,
+  segments: propSegments = CONFIG.segments,
   dragDampening = 0.6,
   openedImageWidth = "500px",
   openedImageHeight = "650px",
@@ -110,6 +110,23 @@ export default function DomeGallery({
   const movedRef = useRef(false);
   const lastDragEndAt = useRef(0);
   const lockedRadiusRef = useRef(600);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // موبایل زیر 768px
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const segments = isMobile ? 15 : propSegments; // کمتر در موبایل برای خلوت‌تر و کمتر لگ
+  const imageScale = isMobile ? 2.8 : CONFIG.imageScale; // بزرگ‌تر در موبایل
+  const minImageSize = isMobile ? 120 : CONFIG.minImageSize; // حداقل اندازه بزرگ‌تر
+  const fit = isMobile ? 0.6 : propFit; // بزرگ‌تر در موبایل برای سایز مناسب گوشی
 
   const items = useMemo(() => buildItems(images, segments), [images, segments]);
 
@@ -416,8 +433,8 @@ export default function DomeGallery({
 
   const itemStyle = useMemo(() => {
     const baseSize = 100 / segments;
-    const scaled = baseSize * CONFIG.imageScale;
-    const minPx = CONFIG.minImageSize;
+    const scaled = baseSize * imageScale;
+    const minPx = minImageSize;
 
     return {
       width: `calc(${scaled}% * var(--scale-factor, 1))`,
@@ -427,7 +444,7 @@ export default function DomeGallery({
       marginLeft: `calc(-${scaled}% * var(--scale-factor, 1) / 2)`,
       marginTop: `calc(-${scaled}% * var(--scale-factor, 1) / 2)`,
     };
-  }, [segments]);
+  }, [segments, imageScale, minImageSize]);
 
   return (
     <div
@@ -489,7 +506,7 @@ export default function DomeGallery({
                       filter: "var(--image-filter)",
                       borderRadius: "var(--tile-radius)",
                     }}
-                    sizes="(max-width: 640px) 80px, (max-width: 1024px) 120px, 150px"
+                    sizes={isMobile ? "(max-width: 768px) 120px, 150px" : "(max-width: 640px) 80px, (max-width: 1024px) 120px, 150px"}
                     priority
                     quality={95}
                     unoptimized={false}
