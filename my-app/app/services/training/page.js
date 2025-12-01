@@ -39,7 +39,7 @@ export default function Training() {
                   {course.price}
                 </p>
                 <Link
-                  href="/contact"
+                  href="/course-register"
                   className="block w-full py-4 bg-gradient-to-r from-[#dbb91e] to-[#B8961E] text-black font-bold rounded-2xl hover:scale-105 transition"
                 >
                   ثبت‌نام و مشاوره

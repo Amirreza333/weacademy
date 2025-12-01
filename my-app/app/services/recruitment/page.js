@@ -30,7 +30,7 @@ export default function Recruitment() {
             </ul>
 
             <Link
-              href="/contact"
+              href="/joinus"
               className="inline-block px-16 py-6 text-black text-xl font-bold bg-gradient-to-r from-[#dbb91e] to-[#B8961E] rounded-3xl hover:scale-110 transition-all shadow-2xl"
             >
               ارسال رزومه و نمونه کار

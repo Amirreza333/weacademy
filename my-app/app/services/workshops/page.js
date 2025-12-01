@@ -76,7 +76,7 @@ export default function Workshops() {
                       {ws.price}
                     </span>
                     <Link
-                      href="/contact"
+                      href="/workshop-reserve"
                       className="px-6 py-3 bg-gradient-to-r from-[#dbb91e] to-[#B8961E] text-black font-bold rounded-xl hover:scale-105 transition"
                     >
                       رزرو صندلی

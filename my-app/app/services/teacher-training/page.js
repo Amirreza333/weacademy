@@ -47,7 +47,7 @@ export default function TeacherTraining() {
 
               <div className="pt-8">
                 <Link
-                  href="/contact"
+                  href="/signup"
                   className="inline-block px-12 py-6 text-black font-bold text-xl bg-gradient-to-r from-[#dbb91e] to-[#B8961E] rounded-3xl hover:scale-110 transition-all shadow-2xl"
                 >
                   مشاوره رایگان + ثبت‌نام

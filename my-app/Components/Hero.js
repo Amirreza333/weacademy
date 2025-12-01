@@ -1,95 +1,89 @@
 import Image from "next/image";
-import { ArrowRight, Star, Users, Award } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Star, Users, Award, MessageCircle } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
-      
-      {/* پس‌زمینه تمام‌صفحه */}
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
+
       <div className="absolute inset-0">
         <Image
           src="/images/Logo.webp"
-          alt="مربی WeAcademy - تحول در صنعت زیبایی"
+          alt="WeAcademy - بزرگترین آکادمی زیبایی ایران"
           fill
-          className="object-cover object-center"
-          quality={75}
+          priority
+          quality={95}
+          className="object-cover object-center md:object-center max-md:object-top md:scale-110 max-md:scale-150 px-8 sm:px-12 pt-20 pb-32 sm:pt-0"
           sizes="100vw"
         />
-        {/* لایه تیره */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30"></div>
-        <div className="absolute inset-0 bg-black/40"></div>
+
+        <div className="absolute inset-0 bg-black/70 md:bg-black/50" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </div>
 
-      {/* افکت‌های نورانی طلایی (ریسپانسیو) */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(100vw,1000px)] h-[min(100vw,1000px)] bg-gradient-radial from-[#dbb91e]/20 via-[#dbb91e]/5 to-transparent rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-16 right-8 sm:top-20 sm:right-20 w-[min(60vw,600px)] h-[min(60vw,600px)] bg-gradient-to-bl from-amber-600/20 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute bottom-16 left-8 sm:bottom-20 sm:left-20 w-[min(50vw,500px)] h-[min(50vw,500px)] bg-gradient-to-tr from-yellow-600/20 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-[#dbb91e]/20 via-[#dbb91e]/5 to-transparent rounded-full blur-3xl animate-pulse" />
       </div>
 
-      {/* محتوا */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 text-center md:text-right z-10">
-        <div className="max-w-4xl mx-auto md:ml-auto">
+      <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-[#dbb91e]">
+          <span className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full">
+            <Star className="w-5 h-5 fill-current" /> ۵ از ۵
+          </span>
+          <span className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full">
+            <Users className="w-5 h-5" /> بیش از ۵۰۰۰ هنرجو
+          </span>
+        </div>
 
-          {/* رتبه و آمار */}
-          <div className="flex flex-wrap justify-center md:justify-end gap-3 sm:gap-4 mb-6 text-xs sm:text-sm text-[#dbb91e]">
-            <span className="flex items-center gap-1 backdrop-blur-sm bg-white/5 px-2.5 sm:px-3 py-1 rounded-full">
-              <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" />
-              ۵ از ۵
-            </span>
-            <span className="text-gray-400 hidden sm:inline">|</span>
-            <span className="flex items-center gap-1 backdrop-blur-sm bg-white/5 px-2.5 sm:px-3 py-1 rounded-full">
-              <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              بیش از ۵۰۰۰ هنرجو
-            </span>
+        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold leading-tight">
+          <span className="block text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] bg-gradient-to-br from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl">
+            WeAcademy
+          </span>
+        </h1>
+
+        <p className="text-2xl sm:text-4xl font-medium text-amber-300 mt-4 drop-shadow-lg">
+          بزرگترین کوچ بانوان
+        </p>
+
+        <p className="text-lg sm:text-xl text-gray-200 mt-6 max-w-2xl mx-auto bg-black/40 backdrop-blur-md px-8 py-5 rounded-3xl">
+          تخصصی‌ترین مرکز مشاوره، کوچینگ و آموزش حرفه‌ای در صنعت زیبایی ایران
+        </p>
+
+        {/* دکمه‌ها */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
+
+          {/* دکمه شروع تحول — لینک واقعی + کامنت درست */}
+          <Link
+            href="/auth/login"  
+            className="group bg-gradient-to-r from-[#dbb91e] to-amber-500 text-black font-bold text-lg sm:text-xl px-10 py-5 rounded-full flex items-center justify-center gap-3 hover:shadow-2xl hover:shadow-amber-500/60 transform hover:scale-105 transition-all duration-300"
+          >
+            شروع تحول
+            <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition" />
+          </Link>
+
+          {/* دکمه مشاوره رایگان */}
+          <Link
+            href="/free-consult"
+            className="border-2 border-[#dbb91e] text-[#dbb91e] px-10 py-5 rounded-full text-lg sm:text-xl hover:bg-[#dbb91e] hover:text-black transition-all duration-300 font-medium flex items-center justify-center gap-3 group"
+          >
+            مشاوره رایگان
+            <MessageCircle className="w-6 h-6 group-hover:scale-110 transition" />
+          </Link>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-6 mt-12 text-gray-300">
+          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full">
+            <Award className="w-6 h-6 text-[#dbb91e]" />
+            <span className="font-medium">گواهی معتبر بین‌المللی</span>
           </div>
-
-          {/* عنوان اصلی */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-tight">
-            <span className="block text-white drop-shadow-2xl"></span>
-            <span className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl bg-gradient-to-br from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl">
-              WeAcademy
-            </span>
-          </h1>
-
-          <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium text-amber-300 mt-3 sm:mt-4 drop-shadow-lg">
-            بزرگترین کوچ بانوان
-          </p>
-
-          <p className="text-base sm:text-lg md:text-xl text-gray-200 max-w-2xl mx-auto md:mx-0 mt-4 sm:mt-6 backdrop-blur-sm bg-black/30 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl">
-            تخصصی‌ترین مرکز مشاوره، کوچینگ و آموزش حرفه‌ای در صنعت زیبایی ایران
-          </p>
-
-          {/* دکمه‌ها */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start mt-8 sm:mt-10">
-            <button className="group bg-gradient-to-r from-[#dbb91e] to-amber-500 text-black font-bold px-6 sm:px-10 py-4 sm:py-5 rounded-full text-base sm:text-lg flex items-center justify-center gap-2.5 hover:shadow-2xl hover:shadow-amber-500/60 transform hover:scale-105 transition-all duration-300 backdrop-blur-sm">
-              شروع تحول
-              <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-2 transition" />
-            </button>
-            <button className="border-2 border-[#dbb91e] text-[#dbb91e] px-6 sm:px-10 py-4 sm:py-5 rounded-full text-base sm:text-lg hover:bg-[#dbb91e] hover:text-black transition-all duration-300 font-medium backdrop-blur-sm">
-              مشاوره رایگان
-            </button>
+          <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md px-6 py-3 rounded-full">
+            <Users className="w-6 h-6 text-[#dbb91e]" />
+            <span className="font-medium">اساتید حرفه‌ای و باتجربه</span>
           </div>
-
-          {/* ویژگی‌ها */}
-          <div className="flex flex-wrap justify-center md:justify-start gap-4 sm:gap-8 pt-8 sm:pt-10 text-gray-300 text-sm sm:text-base">
-            <div className="flex items-center gap-2 backdrop-blur-sm bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
-              <Award className="w-5 h-5 sm:w-6 sm:h-6 text-[#dbb91e]" />
-              <span>گواهی معتبر</span>
-            </div>
-            <div className="flex items-center gap-2 backdrop-blur-sm bg-white/5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full">
-              <Users className="w-5 h-5 sm:w-6 sm:h-6 text-[#dbb91e]" />
-              <span>اساتید حرفه‌ای</span>
-            </div>
-          </div>
-
-          {/* برچسب دوره جدید */}
-          
         </div>
       </div>
 
-      {/* خط طلایی پایین */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent"></div>
+      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent" />
     </section>
   );
 }
