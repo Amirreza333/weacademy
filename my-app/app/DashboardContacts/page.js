@@ -69,7 +69,7 @@ export default function UsersPage() {
         </div>
         <div className="flex gap-3">
           <Link 
-            href="/Dashboard"
+            href="/Dashboard-Admin"
             className="px-4 py-2.5 bg-white/10 backdrop-blur-md rounded-xl text-white hover:bg-white/20 transition-all flex items-center gap-2 text-sm"
           >
             بازگشت به داشبورد

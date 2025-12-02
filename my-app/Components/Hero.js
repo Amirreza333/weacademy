@@ -6,6 +6,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
 
+      {/* بک‌گراند + عکس لوگو (کاملاً اصلاح‌شده) */}
       <div className="absolute inset-0">
         <Image
           src="/images/Logo.webp"
@@ -13,18 +14,28 @@ export default function Hero() {
           fill
           priority
           quality={95}
-          className="object-cover object-center md:object-center max-md:object-top md:scale-110 max-md:scale-150 px-8 sm:px-12 pt-20 pb-32 sm:pt-0"
+          className="object-cover object-center 
+                     md:object-center 
+                     max-md:object-[center_65%]   /* مهم: صورت‌ها دقیقاً وسط باشن */
+                     md:scale-105 
+                     max-md:scale-125 
+                     px-4 sm:px-8 
+                     pt-16 max-md:pt-24 
+                     pb-20 sm:pb-0"
           sizes="100vw"
         />
 
+        {/* لایه تیره */}
         <div className="absolute inset-0 bg-black/70 md:bg-black/50" />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
       </div>
 
+      {/* افکت طلایی درخشان */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-radial from-[#dbb91e]/20 via-[#dbb91e]/5 to-transparent rounded-full blur-3xl animate-pulse" />
       </div>
 
+      {/* محتوا */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
         <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm text-[#dbb91e]">
           <span className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full">
@@ -51,17 +62,14 @@ export default function Hero() {
 
         {/* دکمه‌ها */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10">
-
-          {/* دکمه شروع تحول — لینک واقعی + کامنت درست */}
           <Link
-            href="/auth/login"  
+            href="/auth/login"
             className="group bg-gradient-to-r from-[#dbb91e] to-amber-500 text-black font-bold text-lg sm:text-xl px-10 py-5 rounded-full flex items-center justify-center gap-3 hover:shadow-2xl hover:shadow-amber-500/60 transform hover:scale-105 transition-all duration-300"
           >
             شروع تحول
             <ArrowRight className="w-6 h-6 group-hover:translate-x-3 transition" />
           </Link>
 
-          {/* دکمه مشاوره رایگان */}
           <Link
             href="/free-consult"
             className="border-2 border-[#dbb91e] text-[#dbb91e] px-10 py-5 rounded-full text-lg sm:text-xl hover:bg-[#dbb91e] hover:text-black transition-all duration-300 font-medium flex items-center justify-center gap-3 group"
@@ -83,6 +91,7 @@ export default function Hero() {
         </div>
       </div>
 
+      {/* خط طلایی پایین */}
       <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent" />
     </section>
   );

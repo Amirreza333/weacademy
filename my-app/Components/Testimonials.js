@@ -1,33 +1,36 @@
 // components/Testimonials.tsx
 "use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { MdFormatQuote, MdStar } from "react-icons/md";
 
 export default function Testimonials() {
   const router = useRouter();
 
   const handleBookNow = () => {
-    router.push('/auth/login');
+    router.push("/auth/login");
   };
 
   const testimonials = [
     {
       name: "سارا محمدی",
       role: "مشتری وفادار",
-      comment: "اولین بار بود که قبل از رنگ مو، پیش‌نمایش روی صورتم دیدم! نتیجه دقیقاً همون چیزی بود که می‌خواستم. عاشق WeAcademy شدم!",
+      comment:
+        "اولین بار بود که قبل از رنگ مو، پیش‌نمایش روی صورتم دیدم! نتیجه دقیقاً همون چیزی بود که می‌خواستم. عاشق WeAcademy شدم!",
       rating: 5,
     },
     {
       name: "نازنین احمدی",
       role: "عروس خوشحال",
-      comment: "آرایش عروسی من رو با دقت و عشق انجام دادن. همه گفتن بهترین عروس سال بودم! ممنون از تیم حرفه‌ای شما.",
+      comment:
+        "آرایش عروسی من رو با دقت و عشق انجام دادن. همه گفتن بهترین عروس سال بودم! ممنون از تیم حرفه‌ای شما.",
       rating: 5,
     },
     {
       name: "مریم رضایی",
       role: "مشتری جدید",
-      comment: "رزرو در ۱۰ ثانیه؟ واقعیه! دیگه هیچوقت جایی دیگه نمی‌رم. بهداشت، سرعت، زیبایی — همه چیز عالی.",
+      comment:
+        "رزرو در ۱۰ ثانیه؟ واقعیه! دیگه هیچوقت جایی دیگه نمی‌رم. بهداشت، سرعت، زیبایی — همه چیز عالی.",
       rating: 5,
     },
   ];
@@ -48,7 +51,8 @@ export default function Testimonials() {
             </span>
           </h2>
           <p className="mt-6 text-xl md:text-2xl text-gray-300 font-light max-w-4xl mx-auto leading-relaxed">
-            بیش از <span className="text-[#E8C56A] font-bold">۵۵۰,۰۰۰ نفر</span> با اطمینان به ما اعتماد کردن
+            بیش از <span className="text-[#E8C56A] font-bold">۵۵۰,۰۰۰ نفر</span>{" "}
+            با اطمینان به ما اعتماد کردن
           </p>
         </div>
 
@@ -69,7 +73,10 @@ export default function Testimonials() {
               {/* ستاره‌ها */}
               <div className="flex justify-center mb-6">
                 {[...Array(item.rating)].map((_, i) => (
-                  <MdStar key={i} className="text-3xl text-yellow-400 fill-current drop-shadow-md" />
+                  <MdStar
+                    key={i}
+                    className="text-3xl text-yellow-400 fill-current drop-shadow-md"
+                  />
                 ))}
               </div>
 
@@ -88,24 +95,28 @@ export default function Testimonials() {
                 </div>
                 <div className="text-center">
                   <h4 className="font-bold text-white text-lg">{item.name}</h4>
-                  <p className="text-[#E8C56A] text-sm font-medium">{item.role}</p>
+                  <p className="text-[#E8C56A] text-sm font-medium">
+                    {item.role}
+                  </p>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* دکمه CTA طلایی و درخشان */}
+        {/* دکمه CTA — مینیمال، شیک، جمع‌وجور و طلایی خالص */}
         <div className="text-center mt-20">
           <button
             onClick={handleBookNow}
-            className="group relative px-12 py-6 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold text-xl rounded-full overflow-hidden shadow-2xl hover:shadow-2xl hover:shadow-[#E8C56A]/70 transform hover:scale-110 transition-all duration-500"
+            className="group relative px-10 py-4 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold text-lg rounded-full overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-[#E8C56A]/50 transform hover:scale-105 transition-all duration-400"
           >
-            <span className="relative z-10 flex items-center gap-4">
-              همین حالا نوبت بگیر و بپیوند به خانواده WeAcademy
-              <MdStar className="text-2xl group-hover:rotate-180 transition-transform duration-700" />
+            <span className="relative z-10 flex items-center gap-3">
+              همین حالا نوبت بگیر
+              <MdStar className="text-xl group-hover:rotate-180 transition-transform duration-700" />
             </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-[#D4AF37] to-[#E8C56A] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+            {/* افکت براق داخل دکمه */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
           </button>
         </div>
 

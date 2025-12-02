@@ -1,94 +1,121 @@
 import Link from "next/link";
-import { RiPhoneFill } from "react-icons/ri";
-import { FaMapMarkedAlt } from "react-icons/fa";
+import { RiPhoneFill, RiWhatsappFill } from "react-icons/ri";
+import { FaMapMarkedAlt, FaInstagram, FaTelegram } from "react-icons/fa";
 
 export default function Footer() {
   const quickLinks = [
     { label: "خانه", href: "/" },
-    { label: "درباره ما", href: "/about" },
-    { label: "تماس با ما", href: "/contact" },
+    { label: "درباره ما", href: "/Aboutus" },
+    { label: "دوره‌های آموزشی", href: "/courses" },
+    { label: "مشاوره رایگان", href: "/free-consult" },
+    { label: "تماس با ما", href: "/Contact" },
   ];
 
   return (
-    <footer className=" bg-gray-900/60 backdrop-blur-3xl text-amber-50 py-12 px-4 rounded-2xl border-2 border-[#dbb91e] ">
-      <div className="container mx-auto max-w-6xl border-">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-          {/* === بخش ارتباط با ما === */}
-          <div className="flex flex-col space-y-4 text-center md:text-right">
-            <h3 className="text-3xl font-bold py-2 text-[#dbb91e]">ارتباط با ما</h3>
-            <div className="flex gap-2  ">
-              <p className=" text-2xl ">
-                <FaMapMarkedAlt />
-              </p>{" "}
-              <p className="text-white flex ">
-                تهران، لوروم یپسوم متن ساختگی برای تولید محتوا به صورت تستی{" "}
-              </p>
-            </div>
+    <footer className="relative mt-32 overflow-hidden">
+      {/* افکت طلایی پشت فوتر */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-gradient-radial from-[#E8C56A]/30 to-transparent rounded-full blur-3xl"></div>
+      </div>
 
-            <div className=" flex">
-              {" "}
-              <p className=" text-2xl  pb-[20] ">
-                {" "}
-                <RiPhoneFill />
-              </p>{" "}
-              <p className="text-xl font-medium text-white gap-2 px-4   ">
-                {" "}
-                09353619549{" "}
-              </p>
-            </div>
+      <div className="relative z-10 bg-black/40 backdrop-blur-3xl border-t-4 border-[#E8C56A] py-16 px-6">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
 
-            <div className="flex">
-              <p className=" text-2xl  pb-[20] ">
-                {" "}
-                <RiPhoneFill />
-              </p>{" "}
-              <p className="text-xl font-medium text-white gap-2 px-4   ">
-                {" "}
-                09353619549{" "}
-              </p>
-            </div>
-          </div>
+            {/* ارتباط با ما — شماره‌ها قابل کلیک! */}
+            <div className="text-center md:text-right">
+              <h3 className="text-4xl font-black text-[#E8C56A] mb-8 tracking-tight">
+                ارتباط با ما
+              </h3>
 
-          {/* === دسترسی سریع === */}
-          <div className="flex flex-col items-center md:items-start space-y-4 px-[100]">
-            <h4 className="text-2xl font-semibold text-[#dbb91e] py-2">
-              دسترسی سریع
-            </h4>
-            <nav className="space-y-2 px-[20] md:px-[20] text-center">
-              {quickLinks.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="block text-white hover:text-black hover:bg-gray-300/60 px-4 py-2 rounded-lg transition-all duration-200 text-lg"
+              <div className="space-y-6">
+                {/* آدرس */}
+                <div className="flex items-center justify-center md:justify-end gap-4 group">
+                  <FaMapMarkedAlt className="text-2xl text-[#E8C56A] group-hover:scale-110 transition" />
+                  <p className="text-gray-200 text-lg">
+                    البرز , کرج 
+                  </p>
+                </div>
+
+                {/* تلفن ۱ — کلیک = زنگ زدن */}
+                <a
+                  href="tel:09353619549"
+                  className="flex items-center justify-center md:justify-end gap-4 group text-white hover:text-[#E8C56A] transition"
                 >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
+                  <RiPhoneFill className="text-3xl text-green-500 group-hover:scale-110 transition" />
+                  <span className="text-xl font-bold">0935-361-9549</span>
+                </a>
+
+                {/* تلفن ۲ + واتساپ */}
+                <a
+                  href="https://wa.me/989353619549"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center md:justify-end gap-4 text-white group hover:text-[#25D366] transition"
+                >
+                  <RiWhatsappFill className="text-3xl text-[#25D366] group-hover:scale-110 transition" />
+                  <span className="text-xl font-bold">0935-361-9549 (واتساپ)</span>
+                </a>
+              </div>
+
+              {/* شبکه‌های اجتماعی */}
+              <div className="flex justify-center md:justify-end gap-6 mt-10">
+                <a href="https://instagram.com/weacademy.ir" target="_blank" className="text-3xl hover:text-pink-500 text-white transition">
+                  <FaInstagram />
+                </a>
+                <a href="https://t.me/weacademy" target="_blank" className="text-3xl hover:text-sky-400 text-white transition">
+                  <FaTelegram />
+                </a>
+              </div>
+            </div>
+
+            {/* دسترسی سریع */}
+            <div className="flex flex-col items-center">
+              <h4 className="text-3xl font-bold text-[#E8C56A] mb-8">دسترسی سریع</h4>
+              <nav className="space-y-4">
+                {quickLinks.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="block text-gray-300 hover:text-[#E8C56A] text-lg font-medium transition-all duration-300 hover:translate-x-2 md:hover:translate-x-0 md:hover:-translate-x-2"
+                  >
+                    → {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            {/* درباره وی آکادمی — متن جدید و حرفه‌ای */}
+            <div className="text-center md:text-right">
+              <h3 className="text-4xl font-black text-[#E8C56A] mb-8 tracking-tight">
+                وی آکادمی
+              </h3>
+              <p className="text-gray-200 text-lg leading-8 font-light">
+                ما فقط یک آموزشگاه نیستیم — ما <span className="text-[#E8C56A] font-bold">آینده‌ی شما</span> هستیم.
+              </p>
+              <p className="text-gray-300 mt-4 leading-relaxed">
+                از سال ۱۳۹۸ تا امروز، بیش از <strong className="text-[#E8C56A]">۵۵۰,۰۰۰ هنرجو</strong> را به درآمدهای میلیونی رسانده‌ایم.
+                <br />
+                با <strong className="text-[#E8C56A]">مدارک بین‌المللی</strong>، <strong className="text-[#E8C56A]">اساتید حرفه‌ای</strong> و
+                <strong className="text-[#E8C56A]"> پشتیبانی مادام‌العمر</strong>،
+                <br />
+                تضمین می‌کنیم شما هم به قله صنعت زیبایی برسید.
+              </p>
+            </div>
           </div>
 
-          {/* === معرفی وی آکادمی === */}
-          <div className="space-y-4 text-center md:text-right">
-            <h3 className="text-3xl font-bold text-[#dbb91e] pb-2 ">وی آکادمی</h3>
-            <p className="text-white leading-relaxed">
-              وی آکادمی یک مرکز مشاوره و آموزش تخصصی برای آرایشگران است که به
-              آن‌ها کمک می‌کند در سالن، فضای مجازی و آموزش بهتر عمل کنند، بیشتر
-              دیده شوند و درآمدشان را افزایش دهند.
+          {/* خط طلایی جداکننده */}
+          <div className="h-px bg-gradient-to-r from-transparent via-[#E8C56A] to-transparent my-10"></div>
+
+          {/* کپی‌رایت لوکس */}
+          <div className="text-center">
+            <p className="text-gray-400 text-sm">
+              © ۱۴۰۴ وی آکادمی — تمام حقوق محفوظ است
             </p>
-            <p className="text-white">
-              اگر صاحب کسب‌وکار آرایشگری هستید و می‌خواهید رشد کنید، وی آکادمی
-              با مشاوران و مربیان حرفه‌ای، تمام نیازهای شما را در بالاترین سطح
-              پوشش می‌دهد تا به اهدافتان برسید.
+            <p className="text-gray-500 text-xs mt-2">
+              با عشق و طلا ساخته شده توسط تیم oyek
             </p>
           </div>
-        </div>
-
-        {/* خط جداکننده */}
-        <hr className="border-[#dbb91e] mb-6" />
-
-        {/* کپی‌رایت */}
-        <div className="text-center text-white text-sm">
-          <p>طراحی شده توسط نرم‌افزار oyek</p>
         </div>
       </div>
     </footer>

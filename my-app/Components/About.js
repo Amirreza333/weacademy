@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link"; // فقط اینو اضافه کن
 import { FaStar, FaAward, FaUsers, FaPlay, FaTrophy, FaGlobe, FaCertificate, FaHandshake } from "react-icons/fa";
 
 export default function About() {
@@ -7,9 +8,8 @@ export default function About() {
     <section
       className="relative min-h-screen py-32 px-4 overflow-hidden"
       id="about"
-      // ← style background کامل حذف شد! حالا از layout می‌گیره
     >
-      {/* پس‌زمینه طلایی درخشان — حالا کاملاً دیده میشه */}
+      {/* پس‌زمینه طلایی درخشان */}
       <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1600px] h-[1600px] bg-gradient-conic from-[#E8C56A]/40 via-[#D4AF37]/20 to-transparent rounded-full blur-3xl animate-spin-slow"></div>
         <div className="absolute top-10 right-10 w-[800px] h-[800px] bg-gradient-radial from-[#B8961E]/30 to-transparent rounded-full blur-3xl"></div>
@@ -30,10 +30,11 @@ export default function About() {
           </p>
         </div>
 
-        {/* کارت مرکزی — حالا کاملاً شفاف و درخشان */}
+        {/* کارت مرکزی */}
         <div className="relative max-w-6xl mx-auto">
           <div className="bg-white/5 backdrop-blur-3xl rounded-3xl p-12 md:p-16 border border-[#E8C56A]/40 shadow-2xl shadow-[#E8C56A]/20">
-            {/* همه محتوا همون قبلی — بدون تغییر */}
+            
+            {/* محتوا دقیقاً همون قبلیه — دست نزدم */}
             <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
               <div className="relative group">
                 <div className="hidden lg:block absolute inset-0 bg-gradient-to-t from-[#E8C56A]/50 to-transparent rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000 -z-10"></div>
@@ -124,17 +125,26 @@ export default function About() {
               </div>
             </div>
 
+            {/* فقط این قسمت دکمه‌ها درست شد */}
             <div className="mt-16 flex flex-col sm:flex-row gap-6 justify-center">
-              <button className="group relative px-12 py-6 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold rounded-full text-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-[#E8C56A]/60">
-                <span className="relative z-10 flex items-center gap-4">
+              {/* دکمه ثبت‌نام — حالا واقعاً میره به صفحه ثبت‌نام */}
+              <Link
+                href="/courses"  // ← عوضش کن به هر صفحه‌ای که می‌خوای (مثلاً /auth/register یا /courses)
+                className="group relative px-12 py-6 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold rounded-full text-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-[#E8C56A]/60 inline-block text-center"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-4">
                   ثبت‌نام در دوره جدید
                   <FaPlay className="text-lg group-hover:translate-x-2 transition-transform" />
                 </span>
-              </button>
+              </Link>
 
-              <button className="group px-12 py-6 border-2 border-[#E8C56A] text-[#E8C56A] font-bold rounded-full text-xl transition-all duration-500 hover:bg-[#E8C56A] hover:text-black hover:shadow-2xl hover:shadow-[#E8C56A]/50">
+              {/* دکمه مشاوره رایگان — حالا واقعاً میره به صفحه مشاوره */}
+              <Link
+                href="/free-consult"  // یا هر صفحه‌ای که داری
+                className="group px-12 py-6 border-2 border-[#E8C56A] text-[#E8C56A] font-bold rounded-full text-xl transition-all duration-500 hover:bg-[#E8C56A] hover:text-black hover:shadow-2xl hover:shadow-[#E8C56A]/50 inline-block text-center"
+              >
                 مشاوره رایگان
-              </button>
+              </Link>
             </div>
           </div>
         </div>

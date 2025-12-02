@@ -1,8 +1,7 @@
-// app/consultation/page.js  یا  app/free-consult/page.js
+// app/free-consult/page.tsx   یا   app/consultation/page.tsx
 
-import Header from "@/components/Header";
 import Image from "next/image";
-import { Phone, User, Check, Clock, Star } from "lucide-react";
+import { Phone, Check, Clock, Star } from "lucide-react";
 
 export const metadata = {
   title: "مشاوره رایگان | وی آکادمی",
@@ -12,7 +11,7 @@ export const metadata = {
 export default function FreeConsultation() {
   return (
     <>
-      <Header />
+      {/* هدر و فوتر از layout.js میان — اینجا دیگه نیازی نیست بذاری! */}
 
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
         {/* بک‌گراند */}
@@ -22,7 +21,7 @@ export default function FreeConsultation() {
           fill
           priority
           quality={95}
-          className="object-cover object-center md:scale-110 max-md:scale-150 max-md:object-top"
+          className="object-cover object-center md:scale-110 max-md:scale-125 max-md:object-[center_65%]"
         />
 
         {/* لایه‌های تیره */}
@@ -35,19 +34,15 @@ export default function FreeConsultation() {
         </div>
 
         {/* محتوا */}
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          {/* نوار زنده */}
-          
-
-          {/* عنوان */}
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto pt-20 md:pt-24">
           <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold mb-6">
             <span className="block bg-gradient-to-br from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl">
-              مشاوره رایگان
+            
             </span>
           </h1>
 
           <p className="text-3xl sm:text-5xl font-bold text-amber-300 mb-8">
-            با مشاور ارشد وی آکادمی
+            مشاوره رایگان با مشاور ارشد وی آکادمی
           </p>
 
           {/* مزایا */}
@@ -98,7 +93,6 @@ export default function FreeConsultation() {
               </button>
             </form>
 
-            {/* اطلاعات پایین فرم */}
             <div className="mt-10 space-y-6 text-center">
               <p className="flex items-center justify-center gap-3 text-green-400 font-bold text-lg">
                 <Clock className="w-6 h-6" />
@@ -109,15 +103,12 @@ export default function FreeConsultation() {
                 بیش از <span className="text-[#E8C56A] font-bold">۴۸۰ نفر</span> فقط این ماه مشاوره گرفتن
               </p>
 
-              {/* ستاره‌ها — کاملاً درست */}
               <div>
                 <p className="text-5xl font-bold text-[#E8C56A] mb-3">۴.۹</p>
                 <div className="flex justify-center gap-1">
-                  {Array(5)
-                    .fill(null)
-                    .map((_, i) => (
-                      <Star key={i} className="w-7 h-7 text-yellow-400 fill-current" />
-                    ))}
+                  {Array(5).fill(null).map((_, i) => (
+                    <Star key={i} className="w-7 h-7 text-yellow-400 fill-current" />
+                  ))}
                 </div>
                 <p className="text-gray-400 mt-2">از ۱۲۰۰ نظر واقعی</p>
               </div>
@@ -125,7 +116,6 @@ export default function FreeConsultation() {
           </div>
         </div>
 
-        {/* خط طلایی پایین — بدون خط خالی و بدون کامنت اشتباه */}
         <div className="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-transparent via-[#dbb91e] to-transparent" />
       </section>
     </>

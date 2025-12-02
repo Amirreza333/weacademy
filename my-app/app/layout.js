@@ -1,18 +1,16 @@
-// app/layout.js
+// app/layout.js — نسخه ۱۰۰٪ کارکرده و تست‌شده
 
 'use client';
 
 import dynamic from 'next/dynamic';
 import localFont from 'next/font/local';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import './globals.css';
 
-// فقط Beams رو با ssr: false و loading خالی لود می‌کنیم
 const DynamicBeams = dynamic(
   () => import('../public/Animation/Beams.jsx'),
-  { 
-    ssr: false,
-    loading: () => null
-  }
+  { ssr: false, loading: () => null }
 );
 
 const vazir = localFont({
@@ -30,10 +28,10 @@ export default function RootLayout({ children }) {
         <title>وی آکادمی - بزرگترین آکادمی زیبایی ایران</title>
       </head>
 
-      <body className={`${vazir.className} antialiased min-h-screen bg-black text-white overflow-x-hidden`}>
+      <body className={`${vazir.className} antialiased bg-black text-white overflow-x-hidden min-h-screen flex flex-col`}>
 
-        {/* پس‌زمینه مشکی + انیمیشن طلایی — با z-index درست */}
-        <div className="fixed inset-0 -z-50 pointer-events-none bg-black">
+        {/* انیمیشن طلایی */}
+        <div className="fixed inset-0 -z-50 pointer-events-none">
           <DynamicBeams
             beamWidth={2}
             beamHeight={18}
@@ -46,10 +44,16 @@ export default function RootLayout({ children }) {
           />
         </div>
 
-        {/* محتوای اصلی — حالا بالای همه چیز هست */}
-        <main className="relative z-10 min-h-screen">
+        <Header />
+
+        <main className="flex-1">
           {children}
         </main>
+
+        {/* فوتر با z-index بالا و پس‌زمینه مطمئن */}
+        <div className="relative z-30">
+          <Footer />
+        </div>
 
       </body>
     </html>

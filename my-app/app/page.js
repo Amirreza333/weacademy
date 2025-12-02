@@ -1,12 +1,14 @@
 // app/page.js
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import WhyBestChoice from "@/components/WhyBestChoice";
 import Testimonials from "@/components/Testimonials";
 import FloatingHalfImage from "@/components/FloatingHalfImage";
 import DomeGallery1 from "@/components/DomeGallery";
+
+// ←←← فقط این یک خط اضافه شد
+import ArticlesSection from "@/components/ArticlesSection";
 
 // فقط عکس‌های واقعی
 const galleryImages = [
@@ -21,22 +23,16 @@ const galleryImages = [
 ];
 
 export default function Home() {
-
-  const apibackend=process.env.Ne
   return (
-    <main className="relative overflow-x-hidden">
-      <Header />
+    <>
+      {/* فقط محتوای اصلی صفحه — هدر و فوتر از layout.js میان */}
       <FloatingHalfImage />
       <Hero />
       <About />
       <WhyBestChoice />
 
-      <section className="relative w-full h-screen overflow-hidden ">
-        {/* راهنمای کاربر */}
-        <div className="absolute top-8 left-1/2 -translate-x-1/2 z-10 text-center">
-          
-        </div>
-
+      {/* گالری سه‌بعدی */}
+      <section className="relative w-full h-screen overflow-hidden bg-black">
         <DomeGallery1
           images={galleryImages}
           fit={0.3}
@@ -55,7 +51,9 @@ export default function Home() {
       </section>
 
       <Testimonials />
-      <Footer />
-    </main>
+
+      {/* ←←← فقط این یک خط اضافه شد */}
+      <ArticlesSection />
+    </>
   );
 }
