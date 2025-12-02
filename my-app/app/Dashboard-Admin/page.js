@@ -67,7 +67,7 @@ export default function Dashboard() {
             { icon: Home, label: 'خانه', href: '/' },
             { icon: LayoutDashboard, label: 'داشبورد', active: true },
             { icon: Users, label: 'کاربران', href: '/DashboardContacts' },
-            
+            { icon: List, label: 'مقالات', href: '/admin/articles' },
             { icon: DollarSign, label: 'مالی' , href: '/finance'},
             { icon: TrendingUp, label: 'تحلیل', href: '/analytics' },
             
