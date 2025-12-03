@@ -134,7 +134,7 @@ export default function ArticlesSection() {
         {/* دکمه جدید: مشاهده تمامی مقالات — همونی که خواستی */}
         <div className="text-center mt-20">
           <Link
-            href="#" // خودت بعداً عوض کن → مثلاً "/blog" یا "/articles"
+            href="articles"
             className="group relative inline-flex items-center gap-4 px-12 py-5 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold text-xl rounded-full overflow-hidden shadow-2xl hover:shadow-2xl hover:shadow-[#E8C56A]/60 transform hover:scale-105 transition-all duration-400"
           >
             <span className="relative z-10 flex items-center gap-3">

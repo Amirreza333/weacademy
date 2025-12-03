@@ -32,7 +32,7 @@ export default function Header() {
     { label: "آموزش", href: "/courses", highlight: true },
     { label: "درباره ما", href: "/Aboutus" },
     { label: "خدمات", href: "/services" },
-    { label: "مقالات", href: "/blog" },
+    { label: "سمینار ها", href: "/blog" },
     { label: "آموزشگاه", href: "/academy", badge: true, notification: true },
     { label: "کاربران برتر", href: "/top-users", badge: true },
     { label: "چت زنده", href: "/chat", icon: MessageCircle, badge: true, notification: true },

@@ -1,11 +1,10 @@
-// app/dashboard/page.js
+// app/Dashboard-Admin/page.js   (یا هر اسمی که داری)
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import AdminSidebar from "@/components/AdminSidebar";
-import { Search, Bell, Home, Menu } from "lucide-react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Search, Bell, Home, Menu, LayoutDashboard, Users, List, DollarSign, TrendingUp } from "lucide-react";
 
 const chartData = [
   { name: "فروردین", value: 4000 },
@@ -21,26 +20,25 @@ export default function Dashboard() {
 
   return (
     <div className="flex h-screen bg-black/50">
-      <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+      {/* فقط این یه <aside> اضافه شد + nav رو داخلش بردیم */}
+      <aside className={`transition-all duration-300 ${sidebarOpen ? 'w-64' : 'w-0 lg:w-16'} bg-black/80 backdrop-blur-xl border-r border-white/10 flex flex-col`}>
+        <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
-<<<<<<< HEAD
-=======
-        <nav className="p-4 space-y-2">
+        <nav className="p-4 space-y-2 flex-1">
           {[
             { icon: Home, label: 'خانه', href: '/' },
             { icon: LayoutDashboard, label: 'داشبورد', active: true },
             { icon: Users, label: 'کاربران', href: '/DashboardContacts' },
             { icon: List, label: 'مقالات', href: '/admin/articles' },
-            { icon: DollarSign, label: 'مالی' , href: '/finance'},
+            { icon: DollarSign, label: 'مالی', href: '/finance' },
             { icon: TrendingUp, label: 'تحلیل', href: '/analytics' },
-            
           ].map((item, i) => {
             const Icon = item.icon;
             return item.href ? (
               <Link 
                 key={i}
                 href={item.href}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/10 transition-all "
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/10 transition-all"
               >
                 <Icon className="w-5 h-5 flex-shrink-0" />
                 <span className={`${!sidebarOpen && 'lg:hidden'} text-sm`}>{item.label}</span>
@@ -64,16 +62,16 @@ export default function Dashboard() {
         </nav>
       </aside>
 
-      
->>>>>>> 6b4c0422624bfd4fac7efd18037f212d770a188b
+      {/* حالا این div در جای درستشه */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* هدر */}
         <header className="bg-black/40 backdrop-blur-xl border-b border-white/10 px-4 py-3">
+          {/* ... تمام کد هدر همون قبلی ... */}
           <div className="flex items-center justify-between">
             <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg hover:bg-white/10 hidden lg:block text-white">
               <Menu className="w-5 h-5" />
             </button>
-            <div className="flex items-center gap-3 flex-1 max-w-md mx-4">
+            <div className="flex items-center gap-3 flex-1 max-w-md mx-4 relative">
               <Search className="w-5 h-5 text-white/50 absolute mr-3 pointer-events-none" />
               <input type="text" placeholder="جستجو در داشبورد..." className="w-full bg-white/10 backdrop-blur-md rounded-xl pl-11 pr-4 py-2.5 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow-500/50" />
             </div>
@@ -87,8 +85,9 @@ export default function Dashboard() {
           </div>
         </header>
 
-        {/* محتوای اصلی — این قسمت قبلاً خالی بود! */}
+        {/* محتوای اصلی */}
         <main className="flex-1 p-4 md:p-6 space-y-6 overflow-y-auto">
+          {/* ... بقیه کد کارت‌ها و چارت و ... همش همونه */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">خلاصه عملکرد</h1>
@@ -121,8 +120,6 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-
-          {/* چارت و بقیه محتوا... (اگه داشتی کپی کن) */}
         </main>
       </div>
     </div>

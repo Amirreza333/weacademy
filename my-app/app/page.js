@@ -1,5 +1,5 @@
 // app/page.js
-'use client';
+'use client'; // این خط خیلی مهمه!
 
 import { useState, useEffect } from 'react';
 import Header from "@/components/Header";
@@ -27,11 +27,28 @@ const galleryImages = [
 export default function Home() {
   const [articles, setArticles] = useState([]);
 
+  // فقط تو مرورگر اجرا میشه → localStorage در دسترسه
   useEffect(() => {
-    const saved = localStorage.getItem('weacademy_articles');
-    if (saved) {
-      setArticles(JSON.parse(saved));
-    }
+    const loadArticles = () => {
+      const saved = localStorage.getItem('weacademy_articles');
+      if (saved) {
+        setArticles(JSON.parse(saved));
+      }
+    };
+
+    loadArticles(); // اول لود کن
+
+    const handleStorageChange = (event) => {
+      if (event.key === 'weacademy_articles') {
+        loadArticles();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const latestArticles = articles
@@ -40,6 +57,7 @@ export default function Home() {
 
   return (
     <>
+      {/* فقط محتوای اصلی صفحه — هدر و فوتر از layout.js میان */}
       <FloatingHalfImage />
       <Hero />
       <About />
@@ -65,8 +83,8 @@ export default function Home() {
 
       <Testimonials />
 
-      {/* بخش مقالات */}
-      <section className="py-20 px-6 bg-black relative overflow-hidden">
+      {/* بخش مقالات — حالا واقعاً کار می‌کنه! */}
+      <section className="py-20 px-6 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-gradient-radial from-[#E8C56A]/30 to-transparent rounded-full blur-3xl" />
         </div>
@@ -108,7 +126,7 @@ export default function Home() {
                       <div className="mt-5 flex items-center justify-between text-xs text-gray-500">
                         <span>{article.author}</span>
                         <span className="text-[#E8C56A] font-medium group-hover:translate-x-1 transition-transform">
-                          بیشتر →
+                          بیشتر
                         </span>
                       </div>
                     </div>
@@ -131,6 +149,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </>
+
+      <Footer />
+    </>   
   );
 }

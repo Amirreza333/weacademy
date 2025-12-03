@@ -16,13 +16,7 @@ import {
 } from "lucide-react";
 
 const menuItems = [
-  { icon: Home, label: "خانه", href: "/" },
-  { icon: LayoutDashboard, label: "داشبورد", href: "/Dashboard-Admin" },
-  { icon: Users, label: "کاربران", href: "/DashboardContacts" },
-  { icon: DollarSign, label: "مالی", href: "/finance" },
-  { icon: TrendingUp, label: "تحلیل", href: "/analytics" },
-  { icon: List, label: "تمامی مقالات", href: "/articles" },
-  { icon: FilePlus, label: "مقاله جدید", href: "/articles/new" },
+
 ];
 
 export default function AdminSidebar({ sidebarOpen, setSidebarOpen }) {

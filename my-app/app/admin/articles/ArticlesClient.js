@@ -17,12 +17,28 @@ export default function ArticlesClient({ defaultArticles }) {
 
   // لود مقالات از localStorage یا دیتای پیش‌فرض
   useEffect(() => {
-    const saved = localStorage.getItem('weacademy_articles');
-    if (saved) {
-      setArticles(JSON.parse(saved));
-    } else {
-      setArticles(defaultArticles);
-    }
+    const loadArticles = () => {
+      const saved = localStorage.getItem('weacademy_articles');
+      if (saved) {
+        setArticles(JSON.parse(saved));
+      } else {
+        setArticles(defaultArticles);
+      }
+    };
+
+    loadArticles();
+
+    const handleStorageChange = (event) => {
+      if (event.key === 'weacademy_articles') {
+        loadArticles();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, [defaultArticles]);
 
   // ذخیره خودکار

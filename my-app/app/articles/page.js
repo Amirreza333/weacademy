@@ -1,224 +1,148 @@
-// app/admin/articles/page.js
-"use client";
+// app/blog/page.js
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import AdminSidebar from "@/components/AdminSidebar";
-import { 
-  Search, 
-  Bell, 
-  Menu, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  ExternalLink 
-} from "lucide-react";
-import Image from "next/image";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Clock, ArrowLeft, Calendar, User } from 'lucide-react';
 
-export default function ArticlesList() {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+export default function BlogPage() {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem("blogArticles");
-    if (saved) {
-      setArticles(JSON.parse(saved));
-    } else {
-      const initial = [
-        {
-          id: 1,
-          title: "چطور در ۶ ماه آرایشگر حرفه‌ای شدم؟",
-          excerpt: "داستان واقعی یکی از شاگردای من که با متد اختصاصی کوچینگ من از صفر به درآمد بالای ۱۰۰ میلیون رسید...",
-          author: "نرگس احمدی",
-          date: "۱۴۰۴/۰۹/۱۰",
-          readTime: "۷ دقیقه",
-          image: "/images/articles/makeup1.webp",
-          slug: "how-i-became-professional-makeup-artist-in-6-months",
-        },
-        {
-          id: 2,
-          title: "۵ اشتباه مرگبار آرایشگرا که مشتری رو فراری می‌کنه",
-          excerpt: "اگر این اشتباهات رو انجام بدی، حتی با بهترین تکنیک هم مشتریات دیگه برنمی‌گردن!",
-          author: "شیما رضایی",
-          date: "۱۴۰۴/۰۹/۰۷",
-          readTime: "۶ دقیقه",
-          image: "/images/articles/makeup2.webp",
-          slug: "5-deadly-mistakes-makeup-artists",
-        },
-        {
-          id: 3,
-          title: "چرا سالن‌های معمولی دیگه جواب نمی‌دن؟",
-          excerpt: "تجربه ۱۲۰۰ آرایشگر نشون می‌ده چرا روش قدیمی کار نمی‌کنه و راه موفقیت چیه...",
-          author: "مهسا کرمی",
-          date: "۱۴۰۴/۰۹/۰۳",
-          readTime: "۸ دقیقه",
-          image: "/images/articles/makeup3.webp",
-          slug: "why-traditional-salons-fail",
-        },
-        {
-          id: 4,
-          title: "از صفر تا درآمد ۱۵۰ میلیون با آرایش دائم",
-          excerpt: "چطور با یادگیری میکروبلیدینگ و شیدینگ، فقط در ۴ ماه به درآمد رویایی رسیدم...",
-          author: "فاطمه حسینی",
-          date: "۱۴۰۴/۰۸/۲۹",
-          readTime: "۹ دقیقه",
-          image: "/images/articles/makeup4.webp",
-          slug: "from-zero-to-150m-with-permanent-makeup",
-        },
-        {
-          id: 5,
-          title: "راز جذب مشتری VIP در آرایشگاه زنانه",
-          excerpt: "این ۳ تکنیک کوچینگ باعث شد ۸۰٪ مشتری‌هام VIP بشن و نوبت‌هام تا ۳ ماه جلوتر پر بشه!",
-          author: "نرگس احمدی",
-          date: "۱۴۰۴/۰۸/۲۵",
-          readTime: "۵ دقیقه",
-          image: "/images/articles/makeup5.webp",
-          slug: "how-to-attract-vip-clients",
-        },
-      ];
-      setArticles(initial);
-      localStorage.setItem("blogArticles", JSON.stringify(initial));
-    }
+    const loadArticles = () => {
+      // اینجا عوض شد → از همون کلید اصلی استفاده می‌کنیم
+      const saved = localStorage.getItem('weacademy_articles');
+      if (saved) {
+        setArticles(JSON.parse(saved));
+      }
+    };
+
+    loadArticles();
+
+    const handleChange = (e) => {
+      if (e.key === 'weacademy_articles') {
+        loadArticles();
+      }
+    };
+
+    window.addEventListener('storage', handleChange);
+    return () => window.removeEventListener('storage', handleChange);
   }, []);
 
-  const deleteArticle = (id) => {
-    if (confirm("مطمئنی می‌خوای این مقاله رو حذف کنی؟")) {
-      const updated = articles.filter((a) => a.id !== id);
-      setArticles(updated);
-      localStorage.setItem("blogArticles", JSON.stringify(updated));
-    }
-  };
+  // جدیدترین اول
+  const sortedArticles = [...articles].sort((a, b) => b.id - a.id);
 
   return (
-    <div className="flex h-screen bg-black/50">
-      <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+    <>
+      {/* Hero طلایی لوکس */}
+      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 ">
+          <div className="absolute inset-0 bg-gradient-to-br  opacity-90" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] bg-gradient-radial from-[#E8C56A]/30 via-transparent to-transparent rounded-full blur-3xl animate-pulse" />
+        </div>
 
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-black/40 backdrop-blur-xl border-b border-white/10 px-4 py-3">
-          <div className="flex items-center justify-between">
-            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 rounded-lg hover:bg-white/10 hidden lg:block text-white">
-              <Menu className="w-5 h-5" />
-            </button>
+        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black leading-tight mb-6">
+            <span className="bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl">
+              مقالات طلایی آرایشگری
+            </span>
+          </h1>
+          <p className="text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto leading-relaxed">
+            تجربه‌های واقعی، رازهای موفقیت و راهنمای حرفه‌ای شدن در دنیای زیبایی
+          </p>
 
-            <div className="flex items-center gap-3 flex-1 max-w-md mx-4">
-              <Search className="w-5 h-5 text-white/50 absolute mr-3 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="جستجو در مقالات آرایشگری..."
-                className="w-full bg-white/10 backdrop-blur-md rounded-xl pl-11 pr-9 py-2.5 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-yellow-500/50  transition-all"
-              />
-            </div>
-
-            <div className="flex items-center gap-3">
-              <button className="p-2 rounded-lg hover:bg-white/10 relative text-white">
-                <Bell className="w-5 h-5" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-              </button>
-              <div className="w-9 h-9 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center text-white font-bold text-sm shadow-lg">
-                ن
-              </div>
-            </div>
+          <div className="mt-12 flex justify-center">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold text-lg rounded-full hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-[#E8C56A]/60"
+            >
+              بازگشت به صفحه اصلی
+            </Link>
           </div>
-        </header>
+        </div>
+      </section>
 
-        <main className="flex-1 p-6 overflow-y-auto">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
-              <div>
-                <h1 className="text-4xl font-bold text-white">
-                  مقالات آرایشگری و کوچینگ بانوان
-                </h1>
-                <p className="text-white/60 mt-2 text-lg">
-                  تجربه‌های واقعی، نکات طلایی و راه موفقیت در آرایشگری حرفه‌ای
-                </p>
-              </div>
+      {/* لیست مقالات */}
+      <section className="py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1400px] h-[1400px] bg-gradient-radial from-[#E8C56A]/20 via-transparent to-transparent rounded-full blur-3xl" />
+        </div>
 
-              <div className="flex gap-4 w-full sm:w-auto">
-                <Link
-                  href="/blog"
-                  className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold rounded-2xl hover:scale-105 transition-all shadow-xl hover:shadow-pink-500/40"
-                >
-                  مشاهده در سایت
-                  <ExternalLink className="w-5 h-5" />
-                </Link>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tight">
+              <span className="bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl">
+                همه مقالات
+              </span>
+            </h2>
+            <p className="mt-6 text-xl text-gray-400 font-light">
+              {articles.length} مقاله حرفه‌ای برای رشد و موفقیت شما در آرایشگری
+            </p>
+          </div>
 
-                <Link
-                  href="/admin/articles/new"
-                  className="flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold rounded-2xl hover:scale-105 transition-all shadow-xl"
-                >
-                  مقاله جدید
-                  <Plus className="w-5 h-5" />
-                </Link>
-              </div>
+          {articles.length === 0 ? (
+            <div className="text-center py-32">
+              <p className="text-3xl text-gray-500 mb-8">هنوز مقاله‌ای منتشر نشده</p>
+              <div className="text-8xl animate-pulse">در حال بارگذاری...</div>
             </div>
-
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {articles.map((article) => (
-                <div
+          ) : (
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
+              {sortedArticles.map((article) => (
+                <Link
                   key={article.id}
-                  className="bg-white/5 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/10 hover:border-pink-500/40 transition-all duration-300 group shadow-2xl"
+                  href={`/articles/${encodeURIComponent(article.slug)}`}
+                  className="group relative bg-white/5 backdrop-blur-2xl rounded-3xl overflow-hidden border border-[#E8C56A]/20 shadow-2xl transition-all duration-700 hover:shadow-2xl hover:shadow-[#E8C56A]/40 hover:border-[#E8C56A] hover:-translate-y-6"
                 >
-                  <div className="relative h-56 overflow-hidden">
+                  <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] opacity-0 group-hover:opacity-30 blur-2xl transition-opacity duration-700 -z-10" />
+
+                  <div className="relative h-64 overflow-hidden">
                     <Image
                       src={article.image}
                       alt={article.title}
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
-                    <div className="absolute top-4 right-4 bg-gradient-to-r from-pink-500 to-rose-600 text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-lg">
-                      {article.readTime}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                    
+                    <div className="absolute top-4 right-4 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black text-xs font-bold px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      {article.readTime || '۷ دقیقه'}
                     </div>
                   </div>
 
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-white mb-3 line-clamp-2">
+                  <div className="p-8">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-[#E8C56A] transition-colors duration-500 line-clamp-2">
                       {article.title}
                     </h3>
-                    <p className="text-white/70 text-sm mb-5 line-clamp-3">
+                    <p className="text-gray-300 text-lg leading-relaxed line-clamp-3 mb-6">
                       {article.excerpt}
                     </p>
 
-                    <div className="flex items-center justify-between">
-                      <div className="text-sm text-white/50">
-                        <span>{article.author}</span>
-                        <span className="mx-2">•</span>
-                        <span>{article.date}</span>
+                    <div className="flex items-center justify-between text-sm text-gray-400">
+                      <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-2">
+                          <User className="w-4 h-4 text-[#E8C56A]" />
+                          <span>{article.author}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-[#E8C56A]" />
+                          <span>{article.date}</span>
+                        </div>
                       </div>
-
-                      <div className="flex gap-3">
-                        <button className="p-2.5 bg-pink-500/20 rounded-xl hover:bg-pink-500/40 transition-all">
-                          <Edit className="w-4 h-4 text-pink-400" />
-                        </button>
-                        <button
-                          onClick={() => deleteArticle(article.id)}
-                          className="p-2.5 bg-red-500/20 rounded-xl hover:bg-red-500/40 transition-all"
-                        >
-                          <Trash2 className="w-4 h-4 text-red-400" />
-                        </button>
-                      </div>
+                      <span className="text-[#E8C56A] font-bold group-hover:translate-x-3 transition-transform duration-500">
+                        مطالعه
+                      </span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
+          )}
 
-            {articles.length === 0 && (
-              <div className="text-center py-24">
-                <div className="text-8xl mb-6">No articles yet</div>
-                <p className="text-white/60 text-xl mb-10">هنوز هیچ مقاله‌ای منتشر نشده</p>
-                <Link
-                  href="/admin/articles/new"
-                  className="inline-flex items-center gap-3 px-12 py-6 bg-gradient-to-r from-pink-500 to-rose-600 text-white font-bold text-xl rounded-3xl hover:scale-110 transition-all shadow-2xl"
-                >
-                  اولین مقاله آرایشگری رو بنویس
-                  <Plus className="w-7 h-7" />
-                </Link>
-              </div>
-            )}
-          </div>
-        </main>
-      </div>
-    </div>
+          <div className="mt-20 h-1 bg-gradient-to-r from-transparent via-[#E8C56A]/80 to-transparent" />
+        </div>
+      </section>
+    </>
   );
 }

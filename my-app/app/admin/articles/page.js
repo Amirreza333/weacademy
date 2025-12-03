@@ -1,35 +1,35 @@
 // app/admin/articles/page.js
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { MdEdit, MdDelete, MdClose } from 'react-icons/md';
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import { MdEdit, MdDelete, MdClose } from "react-icons/md";
 
 export default function AdminArticles() {
   const [articles, setArticles] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingArticle, setEditingArticle] = useState(null);
-  const [previewImage, setPreviewImage] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
 
   const [formData, setFormData] = useState({
-    title: '',
-    excerpt: '',
-    author: '',
-    image: '/images/blog-default.jpg',
+    title: "",
+    excerpt: "",
+    author: "",
+    image: "/images/blog-default.jpg",
   });
 
   // لود مقالات
   useEffect(() => {
-    const saved = localStorage.getItem('weacademy_articles');
+    const saved = localStorage.getItem("weacademy_articles");
     if (saved) {
       setArticles(JSON.parse(saved));
     }
   }, []);
 
-  // ذخیره خودکار
+  // ذخیره خودکار + تریگر آپدیت برای بقیه صفحات
   useEffect(() => {
     if (articles.length > 0) {
-      localStorage.setItem('weacademy_articles', JSON.stringify(articles));
+      localStorage.setItem("weacademy_articles", JSON.stringify(articles));
     }
   }, [articles]);
 
@@ -52,31 +52,38 @@ export default function AdminArticles() {
 
     const slug = formData.title
       .toLowerCase()
-      .replace(/[^ا-یa-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
+      .replace(/[^ا-یa-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
 
     const newArticle = {
       id: editingArticle?.id || Date.now().toString(),
-      slug: editingArticle?.slug || slug || 'article-' + Date.now(),
+      slug: editingArticle?.slug || slug || "article-" + Date.now(),
       title: formData.title,
-      excerpt: formData.excerpt || formData.title.slice(0, 120) + '...',
-      author: formData.author || 'ادمین WeAcademy',
-      date: new Date().toISOString().split('T')[0],
+      excerpt: formData.excerpt || formData.title.slice(0, 120) + "...",
+      author: formData.author || "ادمین WeAcademy",
+      date: new Date().toISOString().split("T")[0],
       image: formData.image,
     };
 
     if (editingArticle) {
-      setArticles(prev => prev.map(a => a.id === editingArticle.id ? newArticle : a));
+      setArticles((prev) =>
+        prev.map((a) => (a.id === editingArticle.id ? newArticle : a))
+      );
     } else {
-      setArticles(prev => [newArticle, ...prev]);
+      setArticles((prev) => [newArticle, ...prev]);
     }
 
     resetForm();
   };
 
   const resetForm = () => {
-    setFormData({ title: '', excerpt: '', author: '', image: '/images/blog-default.jpg' });
-    setPreviewImage('');
+    setFormData({
+      title: "",
+      excerpt: "",
+      author: "",
+      image: "/images/blog-default.jpg",
+    });
+    setPreviewImage("");
     setEditingArticle(null);
     setShowModal(false);
   };
@@ -94,13 +101,17 @@ export default function AdminArticles() {
   };
 
   const handleDelete = (id) => {
-    if (confirm('مطمئنی می‌خوای این مقاله رو حذف کنی؟')) {
-      setArticles(prev => prev.filter(a => a.id !== id));
+    if (confirm("مطمئنی می‌خوای این مقاله رو حذف کنی؟")) {
+      setArticles((prev) => {
+        const updated = prev.filter((a) => a.id !== id);
+        localStorage.setItem("weacademy_articles", JSON.stringify(updated));
+        return updated;
+      });
     }
   };
 
   return (
-    <div className="min-h-screen bg-black text-white py-12 px-6">
+    <div className="min-h-screen text-white py-12 px-6">
       <div className="max-w-7xl mx-auto">
         {/* عنوان و دکمه */}
         <div className="flex justify-between items-center mb-12">
@@ -141,7 +152,9 @@ export default function AdminArticles() {
                 </p>
                 <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
                   <span>{article.author}</span>
-                  <span>{new Date(article.date).toLocaleDateString('fa-IR')}</span>
+                  <span>
+                    {new Date(article.date).toLocaleDateString("fa-IR")}
+                  </span>
                 </div>
 
                 <div className="flex gap-3">
@@ -166,7 +179,9 @@ export default function AdminArticles() {
         {/* پیام وقتی مقاله‌ای نیست */}
         {articles.length === 0 && (
           <div className="text-center py-20">
-            <p className="text-2xl text-gray-500 mb-8">هنوز هیچ مقاله‌ای منتشر نشده</p>
+            <p className="text-2xl text-gray-500 mb-8">
+              هنوز هیچ مقاله‌ای منتشر نشده
+            </p>
             <button
               onClick={() => setShowModal(true)}
               className="px-10 py-4 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold rounded-full hover:scale-105 transition shadow-xl"
@@ -183,9 +198,12 @@ export default function AdminArticles() {
           <div className="bg-gray-900 border border-[#E8C56A]/40 rounded-3xl p-8 max-w-3xl w-full shadow-2xl">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-3xl font-black text-[#E8C56A]">
-                {editingArticle ? 'ویرایش مقاله' : 'مقاله جدید'}
+                {editingArticle ? "ویرایش مقاله" : "مقاله جدید"}
               </h2>
-              <button onClick={resetForm} className="text-gray-400 hover:text-white">
+              <button
+                onClick={resetForm}
+                className="text-gray-400 hover:text-white"
+              >
                 <MdClose className="text-3xl" />
               </button>
             </div>
@@ -193,10 +211,17 @@ export default function AdminArticles() {
             <form onSubmit={handleSubmit}>
               {/* آپلود عکس */}
               <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-300 mb-3">عکس مقاله</label>
+                <label className="block text-sm font-medium text-gray-300 mb-3">
+                  عکس مقاله
+                </label>
                 <div className="relative h-64 bg-gray-800 rounded-2xl border-2 border-dashed border-gray-600 overflow-hidden cursor-pointer">
                   {previewImage ? (
-                    <Image src={previewImage} alt="preview" fill className="object-cover" />
+                    <Image
+                      src={previewImage}
+                      alt="preview"
+                      fill
+                      className="object-cover"
+                    />
                   ) : (
                     <div className="flex items-center justify-center h-full text-gray-500">
                       کلیک کنید و عکس آپلود کنید
@@ -215,7 +240,9 @@ export default function AdminArticles() {
                 type="text"
                 placeholder="عنوان مقاله"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 className="w-full mb-6 px-6 py-4 bg-white/10 border border-[#E8C56A]/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#E8C56A]"
                 required
               />
@@ -224,7 +251,9 @@ export default function AdminArticles() {
                 placeholder="خلاصه مقاله"
                 rows="5"
                 value={formData.excerpt}
-                onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, excerpt: e.target.value })
+                }
                 className="w-full mb-6 px-6 py-4 bg-white/10 border border-[#E8C56A]/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#E8C56A]"
               />
 
@@ -232,7 +261,9 @@ export default function AdminArticles() {
                 type="text"
                 placeholder="نام نویسنده"
                 value={formData.author}
-                onChange={(e) => setFormData({ ...formData, author: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, author: e.target.value })
+                }
                 className="w-full mb-8 px-6 py-4 bg-white/10 border border-[#E8C56A]/30 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-[#E8C56A]"
               />
 
@@ -248,7 +279,7 @@ export default function AdminArticles() {
                   type="submit"
                   className="px-10 py-4 bg-gradient-to-r from-[#E8C56A] to-[#D4AF37] text-black font-bold rounded-full hover:scale-105 transition shadow-xl"
                 >
-                  {editingArticle ? 'به‌روزرسانی' : 'انتشار مقاله'}
+                  {editingArticle ? "به‌روزرسانی" : "انتشار مقاله"}
                 </button>
               </div>
             </form>
