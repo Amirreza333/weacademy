@@ -47,7 +47,7 @@ export default function Testimonials() {
         <div className="text-center mb-20">
           <h2 className="text-5xl md:text-7xl font-black tracking-tight">
             <span className="bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] bg-clip-text text-transparent drop-shadow-2xl">
-              نظرات طلایی مشتریان ما
+              نظرات مشتریان ما
             </span>
           </h2>
           <p className="mt-6 text-xl md:text-2xl text-gray-300 font-light max-w-4xl mx-auto leading-relaxed">

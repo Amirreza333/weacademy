@@ -23,6 +23,49 @@ export default function Dashboard() {
     <div className="flex h-screen bg-black/50">
       <AdminSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
+<<<<<<< HEAD
+=======
+        <nav className="p-4 space-y-2">
+          {[
+            { icon: Home, label: 'خانه', href: '/' },
+            { icon: LayoutDashboard, label: 'داشبورد', active: true },
+            { icon: Users, label: 'کاربران', href: '/DashboardContacts' },
+            { icon: List, label: 'مقالات', href: '/admin/articles' },
+            { icon: DollarSign, label: 'مالی' , href: '/finance'},
+            { icon: TrendingUp, label: 'تحلیل', href: '/analytics' },
+            
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return item.href ? (
+              <Link 
+                key={i}
+                href={item.href}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:bg-white/10 transition-all "
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span className={`${!sidebarOpen && 'lg:hidden'} text-sm`}>{item.label}</span>
+              </Link>
+            ) : (
+              <button 
+                key={i}
+                className={`
+                  w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all
+                  ${item.active 
+                    ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' 
+                    : 'text-white/70 hover:bg-white/10'
+                  }
+                `}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span className={`${!sidebarOpen && 'lg:hidden'} text-sm`}>{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </aside>
+
+      
+>>>>>>> 6b4c0422624bfd4fac7efd18037f212d770a188b
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* هدر */}
         <header className="bg-black/40 backdrop-blur-xl border-b border-white/10 px-4 py-3">

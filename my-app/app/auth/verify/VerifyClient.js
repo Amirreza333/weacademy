@@ -40,26 +40,25 @@ export default function VerifyClient() {
     setLoading(true);
 
     setTimeout(() => {
+      const phone = localStorage.getItem("pending_phone");
+      const role = localStorage.getItem("user_role") || "client";
+
+      // بررسی وجود کاربر
       const existingUser = localStorage.getItem(`user_${phone}`);
-      const token = btoa(phone + Date.now());
-      document.cookie = `auth_token=${token}; path=/; max-age=${
-        30 * 24 * 60 * 60
-      }; Secure; SameSite=Strict`;
+
+      // همیشه توکن بده
+      document.cookie = `auth_token=${btoa(
+        phone + Date.now()
+      )}; path=/; max-age=2592000; Secure; SameSite=Strict`;
+      localStorage.setItem("user_role", role);
       localStorage.removeItem("pending_phone");
 
-      const role = userRole || "client";
-      localStorage.setItem("user_role", role);
-
       if (existingUser) {
-        alert("ورود موفق! خوش آمدید");
-        if (role === "stylist") {
-          window.location.href = "/Dashboard";
-        } else {
-          window.location.href = "/Dashboard-client";
-        }
+        alert("خوش آمدید!");
+        window.location.href =
+          role === "stylist" ? "/Dashboard" : "/Dashboard-client";
       } else {
         localStorage.setItem("temp_phone", phone);
-        localStorage.setItem("user_role", role);
         alert("خوش آمدید! لطفاً اطلاعات خود را تکمیل کنید");
         window.location.href = "/auth/register-info";
       }
@@ -233,15 +232,22 @@ export default function VerifyClient() {
 
       <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0) rotate(0deg); }
-          50% { transform: translateY(-30px) rotate(2deg); }
+          0%,
+          100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          50% {
+            transform: translateY(-30px) rotate(2deg);
+          }
         }
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
           -webkit-appearance: none;
           margin: 0;
         }
-        input[type="number"] { -moz-appearance: textfield; }
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
       `}</style>
     </>
   );
