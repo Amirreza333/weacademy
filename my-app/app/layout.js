@@ -1,4 +1,4 @@
-// app/layout.js — نسخه ۱۰۰٪ کارکرده و تست‌شده
+// app/layout.js — نسخه نهایی بدون ارور
 
 'use client';
 
@@ -28,7 +28,11 @@ export default function RootLayout({ children }) {
         <title>وی آکادمی - بزرگترین آکادمی زیبایی ایران</title>
       </head>
 
-      <body className={`${vazir.className} antialiased bg-black text-white overflow-x-hidden min-h-screen flex flex-col`}>
+      {/* فقط این خط style اضافه شده — فاصله خطوط یکسان و تمیز در کل سایت */}
+      <body 
+        className={`${vazir.className} antialiased bg-black text-white overflow-x-hidden min-h-screen flex flex-col`}
+        style={{ lineHeight: '1.8' }}
+      >
 
         {/* انیمیشن طلایی */}
         <div className="fixed inset-0 -z-50 pointer-events-none">
@@ -50,7 +54,6 @@ export default function RootLayout({ children }) {
           {children}
         </main>
 
-        {/* فوتر با z-index بالا و پس‌زمینه مطمئن */}
         <div className="relative z-30">
           <Footer />
         </div>

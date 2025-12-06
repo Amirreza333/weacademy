@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Scissors, User, Send } from "lucide-react";
 import { motion } from "framer-motion";
 
-// تبدیل عدد انگلیسی به فارسی
+// تبدیل اعداد انگلیسی به فارسی
 const toPersianDigits = (str) => {
   const persian = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
   return str.replace(/[0-9]/g, (w) => persian[+w]);
@@ -15,18 +15,46 @@ const toPersianDigits = (str) => {
 export default function VerifyClient() {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
+  const [mounted, setMounted] = useState(false); // برای حل Hydration Error
   const inputRefs = useRef([]);
 
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const phone =
-    searchParams.get("phone") || localStorage.getItem("pending_phone") || "";
-  const userRole = localStorage.getItem("user_role") || "client";
-
+  // فقط بعد از mount شدن در مرورگر اجرا بشه
   useEffect(() => {
-    if (!phone) router.push("/auth/login");
-  }, [phone, router]);
+    setMounted(true);
+  }, []);
+
+  // فقط وقتی مرورگر لود شده باشه، phone و role رو بخون
+  const phone = mounted
+    ? searchParams.get("phone") || (typeof window !== "undefined" && localStorage.getItem("pending_phone")) || ""
+    : "";
+
+  const userRole = mounted
+    ? (typeof window !== "undefined" && localStorage.getItem("user_role")) || "client"
+    : "client";
+
+  // هدایت به لاگین اگه شماره نباشه
+  useEffect(() => {
+    if (mounted && !phone) {
+      router.push("/auth/login");
+    }
+  }, [mounted, phone, router]);
+
+  // لودینگ تا وقتی کامپوننت mount نشده
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin w-16 h-16 border-8 border-[#dbb91e]/30 border-t-[#dbb91e] rounded-full" />
+          <p className="mt-6 text-gray-400 text-lg">در حال بارگذاری...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!phone) return null;
 
   const handleVerify = () => {
     const code = otp.join("");
@@ -40,25 +68,20 @@ export default function VerifyClient() {
     setLoading(true);
 
     setTimeout(() => {
-      const phone = localStorage.getItem("pending_phone");
+      const savedPhone = localStorage.getItem("pending_phone");
       const role = localStorage.getItem("user_role") || "client";
 
-      // بررسی وجود کاربر
-      const existingUser = localStorage.getItem(`user_${phone}`);
-
-      // همیشه توکن بده
-      document.cookie = `auth_token=${btoa(
-        phone + Date.now()
-      )}; path=/; max-age=2592000; Secure; SameSite=Strict`;
+      document.cookie = `auth_token=${btoa(savedPhone + Date.now())}; path=/; max-age=2592000; Secure; SameSite=Strict`;
       localStorage.setItem("user_role", role);
       localStorage.removeItem("pending_phone");
 
+      const existingUser = localStorage.getItem(`user_${savedPhone}`);
+
       if (existingUser) {
         alert("خوش آمدید!");
-        window.location.href =
-          role === "stylist" ? "/Dashboard" : "/Dashboard-client";
+        window.location.href = role === "stylist" ? "/Dashboard" : "/Dashboard-client";
       } else {
-        localStorage.setItem("temp_phone", phone);
+        localStorage.setItem("temp_phone", savedPhone);
         alert("خوش آمدید! لطفاً اطلاعات خود را تکمیل کنید");
         window.location.href = "/auth/register-info";
       }
@@ -69,49 +92,38 @@ export default function VerifyClient() {
 
   const handleChange = (index, value) => {
     if (!/^\d$/.test(value) && value !== "") return;
-
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-
-    if (value && index < 5) {
-      inputRefs.current[index + 1].focus();
-    }
+    if (value && index > 0) inputRefs.current[index - 1].focus();
   };
 
   const handleKeyDown = (e, index) => {
-    if (e.key === "Backspace" && !otp[index] && index > 0) {
-      inputRefs.current[index - 1].focus();
+    if (e.key === "Backspace" && !otp[index] && index < 5) {
+      inputRefs.current[index + 1].focus();
     }
-    if (e.key === "ArrowLeft" && index > 0) {
-      e.preventDefault();
-      inputRefs.current[index - 1].focus();
-    }
-    if (e.key === "ArrowRight" && index < 5) {
+    if (e.key === "ArrowLeft" && index < 5) {
       e.preventDefault();
       inputRefs.current[index + 1].focus();
+    }
+    if (e.key === "ArrowRight" && index > 0) {
+      e.preventDefault();
+      inputRefs.current[index - 1].focus();
     }
   };
 
   const handlePaste = (e) => {
     e.preventDefault();
-    const pasted = e.clipboardData
-      .getData("text")
-      .replace(/\D/g, "")
-      .slice(0, 6);
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, 6);
     if (!pasted) return;
-
     const newOtp = [...otp];
     pasted.split("").forEach((char, i) => {
       if (i < 6) newOtp[i] = char;
     });
     setOtp(newOtp);
-
-    const next = pasted.length < 6 ? pasted.length : 5;
+    const next = pasted.length < 6 ? pasted.length - 1 : 0;
     inputRefs.current[next]?.focus();
   };
-
-  if (!phone) return null;
 
   return (
     <>
@@ -141,11 +153,7 @@ export default function VerifyClient() {
             transition={{ type: "spring", stiffness: 200 }}
             className="w-24 h-24 mx-auto mb-8 bg-gradient-to-br from-[#dbb91e] to-yellow-600 rounded-full flex items-center justify-center shadow-2xl ring-8 ring-[#dbb91e]/30"
           >
-            {userRole === "stylist" ? (
-              <Scissors className="w-12 h-12 text-black" />
-            ) : (
-              <User className="w-12 h-12 text-black" />
-            )}
+            {userRole === "stylist" ? <Scissors className="w-12 h-12 text-black" /> : <User className="w-12 h-12 text-black" />}
           </motion.div>
 
           <h1 className="text-4xl md:text-5xl font-black text-center bg-gradient-to-r from-[#dbb91e] via-yellow-400 to-amber-600 bg-clip-text text-transparent mb-4">
@@ -177,16 +185,13 @@ export default function VerifyClient() {
                     onPaste={index === 0 ? handlePaste : undefined}
                     onFocus={(e) => e.target.select()}
                     className="absolute inset-0 w-full h-full bg-transparent text-center outline-none opacity-0 z-10 caret-transparent"
-                    style={{ direction: "ltr" }}
                     autoComplete="off"
                   />
-
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <span className="text-3xl md:text-4xl font-bold text-white">
                       {digit ? toPersianDigits(digit) : ""}
                     </span>
                   </div>
-
                   {digit && (
                     <motion.div
                       className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#dbb91e] to-yellow-500 rounded-b-2xl"
@@ -215,12 +220,7 @@ export default function VerifyClient() {
             {!loading && <Send className="w-6 h-6" />}
           </motion.button>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="text-center text-white/60 mt-10 text-sm bg-white/10 px-6 py-4 rounded-2xl backdrop-blur-sm"
-          >
+          <motion.p className="text-center text-white/60 mt-10 text-sm bg-white/10 px-6 py-4 rounded-2xl backdrop-blur-sm">
             دمو: کد تأیید همیشه{" "}
             <span className="font-bold text-[#dbb91e] text-lg">۱۲۳۴۵۶</span>
           </motion.p>
@@ -232,22 +232,12 @@ export default function VerifyClient() {
 
       <style jsx>{`
         @keyframes float {
-          0%,
-          100% {
-            transform: translateY(0) rotate(0deg);
-          }
-          50% {
-            transform: translateY(-30px) rotate(2deg);
-          }
+          0%, 100% { transform: translateY(0) rotate(0deg); }
+          50% { transform: translateY(-30px) rotate(2deg); }
         }
         input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        input[type="number"] {
-          -moz-appearance: textfield;
-        }
+        input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        input[type="number"] { -moz-appearance: textfield; }
       `}</style>
     </>
   );

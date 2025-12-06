@@ -97,7 +97,7 @@ export default function WhyBestChoice() {
         </div>
 
         {/* خط طلایی پایین */}
-        <div className="mt-20 h-px bg-gradient-to-r from-transparent via-[#E8C56A]/70 to-transparent"></div>
+         <div className="mt-40 h-1 bg-gradient-to-r from-transparent via-[#E8C56A]/80 to-transparent"></div>
       </div>
     </section>
   );

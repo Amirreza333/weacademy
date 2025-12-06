@@ -43,15 +43,10 @@ export default function Header() {
 
   return (
     <>
-      {/* منوی موبایل - کاملاً جدا از هدر و بالای همه چیز */}
+      {/* منوی موبایل - فول‌اسکرین (همون قبلی) */}
       {isMenuOpen && (
-        <div 
-          ref={menuRef}
-          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-xl"
-          dir="rtl"
-        >
+        <div ref={menuRef} className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-xl" dir="rtl">
           <div className="flex flex-col h-full">
-            {/* دکمه بستن در بالا */}
             <div className="flex justify-between items-center p-6 border-b border-[#dbb91e]/30">
               <div />
               <button
@@ -64,7 +59,6 @@ export default function Header() {
               </button>
             </div>
 
-            {/* لیست منو با اسکرول */}
             <nav className="flex-1 overflow-y-auto px-6 py-8">
               <div className="space-y-4">
                 {navItems.map((item) => (
@@ -128,75 +122,80 @@ export default function Header() {
         </div>
       )}
 
-      {/* هدر اصلی - بدون تغییر */}
-      <section dir="ltr" className="py-4 sm:py-6 px-4 flex justify-center">
-        <header className="relative w-full max-w-7xl bg-[#0e121c]/90 backdrop-blur-3xl rounded-2xl overflow-hidden py-3 sm:py-4 border border-[#dbb91e]/50 shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#dbb91e]/5 via-transparent to-[#dbb91e]/5 opacity-30" aria-hidden="true" />
+      {/* هدر اصلی — حالا همیشه همراه اسکرول میاد (Sticky) */}
+      <div className="fixed top-0 left-0 right-0 z-[999] px-4 pt-4 pb-2 pointer-events-none">
+        <div className="pointer-events-auto max-w-7xl mx-auto">
+          <header className="w-full bg-[#0e121c]/95 backdrop-blur-3xl rounded-2xl overflow-hidden border border-[#dbb91e]/50 shadow-2xl transition-all duration-300">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#dbb91e]/5 via-transparent to-[#dbb91e]/5 opacity-30" aria-hidden="true" />
 
-          <div className="relative container mx-auto px-4 sm:px-6">
-            <div className="flex items-center justify-between">
-              {/* لوگو */}
-              <div className="flex-shrink-0">
-                <Link href="/" onClick={() => setIsMenuOpen(false)}>
-                  <Image
-                    src="/logo1.png"
-                    width={140}
-                    height={48}
-                    alt="WeAcademy - آکادمی تخصصی آرایشگری"
-                    className="object-contain w-28 sm:w-32 lg:w-36"
-                    priority
-                  />
-                </Link>
-              </div>
-
-              {/* دکمه همبرگر موبایل */}
-              <button
-                onClick={() => setIsMenuOpen(true)}
-                className="md:hidden flex flex-col justify-center items-center space-y-1 focus:outline-none z-50 p-2"
-                aria-label="باز کردن منو"
-              >
-                <span className="block w-7 h-0.5 bg-[#dbb91e] transition-all duration-300"></span>
-                <span className="block w-7 h-0.5 bg-[#dbb91e] transition-all duration-300"></span>
-                <span className="block w-7 h-0.5 bg-[#dbb91e] transition-all duration-300"></span>
-              </button>
-
-              {/* منوی دسکتاپ - بدون تغییر */}
-              <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 rtl:space-x-reverse">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className={`relative px-4 lg:px-5 py-2.5 text-sm lg:text-base font-medium rounded-xl transition-all duration-300 active:scale-95 group flex items-center gap-2 ${
-                      item.highlight
-                        ? "bg-gradient-to-r from-[#dbb91e] to-[#b8961e] text-black font-bold shadow-lg shadow-[#dbb91e]/30 hover:shadow-xl hover:shadow-[#dbb91e]/50 hover:scale-105"
-                        : item.label === "کاربران برتر" || 
-                          item.label === "چت زنده" || 
-                          item.label === "آموزشگاه"
-                        ? "bg-clip-text text-transparent bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] font-semibold"
-                        : "text-gray-200 hover:text-[#dbb91e] hover:bg-[#dbb91e]/20"
-                    }`}
-                  >
-                    {item.icon && <item.icon className="w-5 h-5" />}
-                    {item.label}
-
-                    {!item.highlight && (
-                      <>
-                        {item.badge && (
-                          <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                        )}
-                        {item.notification && (
-                          <span className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-full animate-ping"></span>
-                        )}
-                        <span className="absolute inset-x-0 bottom-0 h-0.5 bg-[#dbb91e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-right"></span>
-                      </>
-                    )}
+            <div className="relative container mx-auto px-4 sm:px-6">
+              <div className="flex items-center justify-between py-3 sm:py-4">
+                {/* لوگو */}
+                <div className="flex-shrink-0">
+                  <Link href="/" onClick={() => setIsMenuOpen(false)}>
+                    <Image
+                      src="/logo1.png"
+                      width={140}
+                      height={48}
+                      alt="WeAcademy"
+                      className="object-contain w-28 sm:w-32 lg:w-36"
+                      priority
+                    />
                   </Link>
-                ))}
-              </nav>
+                </div>
+
+                {/* دکمه همبرگر موبایل */}
+                <button
+                  onClick={() => setIsMenuOpen(true)}
+                  className="md:hidden flex flex-col justify-center items-center space-y-1 focus:outline-none z-50 p-2"
+                  aria-label="باز کردن منو"
+                >
+                  <span className="block w-7 h-0.5 bg-[#dbb91e] transition-all duration-300"></span>
+                  <span className="block w-7 h-0.5 bg-[#dbb91e] transition-all duration-300"></span>
+                  <span className="block w-7 h-0.5 bg-[#dbb91e] transition-all duration-300"></span>
+                </button>
+
+                {/* منوی دسکتاپ */}
+                <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 rtl:space-x-reverse">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className={`relative px-4 lg:px-5 py-2.5 text-sm lg:text-base font-medium rounded-xl transition-all duration-300 active:scale-95 group flex items-center gap-2 ${
+                        item.highlight
+                          ? "bg-gradient-to-r from-[#dbb91e] to-[#b8961e] text-black font-bold shadow-lg shadow-[#dbb91e]/30 hover:shadow-xl hover:shadow-[#dbb91e]/50 hover:scale-105"
+                          : item.label === "کاربران برتر" || 
+                            item.label === "چت زنده" || 
+                            item.label === "آموزشگاه"
+                          ? "bg-clip-text text-transparent bg-gradient-to-r from-[#E8C56A] via-[#D4AF37] to-[#B8961E] font-semibold"
+                          : "text-gray-200 hover:text-[#dbb91e] hover:bg-[#dbb91e]/20"
+                      }`}
+                    >
+                      {item.icon && <item.icon className="w-5 h-5" />}
+                      {item.label}
+
+                      {!item.highlight && (
+                        <>
+                          {item.badge && (
+                            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                          )}
+                          {item.notification && (
+                            <span className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-br from-red-500 to-pink-500 rounded-full animate-ping"></span>
+                          )}
+                          <span className="absolute inset-x-0 bottom-0 h-0.5 bg-[#dbb91e] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-right"></span>
+                        </>
+                      )}
+                    </Link>
+                  ))}
+                </nav>
+              </div>
             </div>
-          </div>
-        </header>
-      </section>
+          </header>
+        </div>
+      </div>
+
+      {/* اسپیسر برای اینکه محتوا زیر هدر نیاد (خیلی مهم!) */}
+      <div className="h-28 md:h-32" aria-hidden="true" />
     </>
   );
 }
